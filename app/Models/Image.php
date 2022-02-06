@@ -14,4 +14,10 @@ class Image extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }

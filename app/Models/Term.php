@@ -14,4 +14,13 @@ class Term extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Year(){
+        return $this->belongsTo(Year::class, 'year_id');
+    }
+
+    public function Subjects(){
+        return $this->hasMany(Subject::class, 'term_id');
+    }
 }

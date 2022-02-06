@@ -14,4 +14,14 @@ class Material extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
 }

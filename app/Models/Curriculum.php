@@ -15,4 +15,14 @@ class Curriculum extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Country(){
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+    
+    public function Levels(){
+        return $this->hasMany(Level::class, 'curriculum_id');
+    }
+
 }

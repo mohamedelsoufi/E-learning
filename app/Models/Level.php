@@ -14,4 +14,12 @@ class Level extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Curriculum(){
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
+    public function Years(){
+        return $this->hasMany(Year::class, 'year_id');
+    }
 }

@@ -14,4 +14,21 @@ class Subject extends Model
 
     protected $casts = [
     ];
+    
+    //relations
+    public function Term(){
+        return $this->belongsTo(Term::class, 'term_id');
+    }
+
+    public function Subject_teachers(){
+        return $this->hasMany(Subject_teacher::class, 'subject_id');
+    }
+
+    public function Available_classes(){
+        return $this->hasMany(Available_class::class, 'subject_id');
+    }
+
+    public function Student_classes(){
+        return $this->hasMany(Student_class::class, 'student_id');
+    }
 }

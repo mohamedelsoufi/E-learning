@@ -28,7 +28,7 @@ class Questions extends Migration
             $table->bigInteger('answerable_id')->nullable()->comment('student or teacher');
             $table->string('answerable_type')->nullable();
             $table->unsignedBigInteger('question_id');
-            $table->text('text')->nullable();
+            $table->text('answer')->nullable();
             $table->boolean('recommendation')->default(0)->comment('1-> rocommend');
             $table->timestamps();
 

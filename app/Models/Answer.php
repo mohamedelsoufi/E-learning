@@ -14,4 +14,14 @@ class Answer extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Question(){
+        return $this->belongsTo(Question::class, 'question_id');
+    }
+
+    public function answerable()
+    {
+        return $this->morphTo();
+    }
 }

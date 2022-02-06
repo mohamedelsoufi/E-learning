@@ -14,4 +14,13 @@ class Class_type extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Country(){
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function Available_classes(){
+        return $this->hasMany(Available_class::class, 'class_type_id');
+    }
 }

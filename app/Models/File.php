@@ -14,4 +14,10 @@ class File extends Model
 
     protected $casts = [
     ];
+    //relations
+    //relations
+    public function fileable()
+    {
+        return $this->morphTo();
+    }
 }

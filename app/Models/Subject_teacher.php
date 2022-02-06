@@ -14,4 +14,12 @@ class Subject_teacher extends Model
 
     protected $casts = [
     ];
+    //relations
+    public function Subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function Teacher(){
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
 }

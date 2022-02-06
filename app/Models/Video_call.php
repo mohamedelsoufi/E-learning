@@ -14,4 +14,9 @@ class Video_call extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Available_class(){
+        return $this->belongsTo(Available_class::class, 'available_classes_id');
+    }
 }

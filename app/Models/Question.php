@@ -14,4 +14,13 @@ class Question extends Model
 
     protected $casts = [
     ];
+
+    //relations
+    public function Student(){
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function Answers(){
+        return $this->hasMany(Answer::class, 'question_id');
+    }
 }
