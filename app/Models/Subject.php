@@ -13,6 +13,9 @@ class Subject extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'term_id'       => 'integer',
+        'parent'        => 'integer',
     ];
     
     //relations

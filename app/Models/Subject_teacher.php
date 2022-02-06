@@ -13,6 +13,8 @@ class Subject_teacher extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'subject_id'    => 'integer',
+        'teacher_id'    => 'integer',
     ];
     //relations
     public function Subject(){

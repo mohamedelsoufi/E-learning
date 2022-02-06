@@ -13,6 +13,7 @@ class Material extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
     ];
 
     //relations

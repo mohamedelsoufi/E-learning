@@ -13,6 +13,9 @@ class Term extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'year_id'       => 'integer',
+        'parent'        => 'integer',
     ];
 
     //relations

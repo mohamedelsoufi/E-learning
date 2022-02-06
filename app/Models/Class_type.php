@@ -13,6 +13,14 @@ class Class_type extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'                    => 'integer',
+        'country_id'            => 'integer',
+        'cost'                  => 'float',
+        'students_number'       => 'integer',
+        'company_percentage'    => 'integer',
+        'max_students_number'   => 'integer',
+        'min_students_number'   => 'integer',
+        'long'                  => 'integer',
     ];
 
     //relations

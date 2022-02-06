@@ -13,6 +13,9 @@ class Year extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'level_id'      => 'integer',
+        'parent'        => 'integer',
     ];
 
     //relations

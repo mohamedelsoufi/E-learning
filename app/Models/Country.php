@@ -13,6 +13,10 @@ class Country extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'        => 'integer',
+        'parent'    => 'integer',
+        'status'    => 'integer',
+
     ];
 
     //relations

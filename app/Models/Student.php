@@ -13,6 +13,13 @@ class Student extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'country_id'    => 'integer',
+        'year_id'       => 'integer',
+        'balance'       => 'float',
+        'verified'      => 'integer',
+        'online'        => 'integer',
+        'gender'        => 'integer',
     ];
 
     //relations

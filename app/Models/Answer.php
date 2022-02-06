@@ -13,6 +13,11 @@ class Answer extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'                   => 'integer',
+        'answerable_id'        => 'integer',
+        'answerable_type'      => 'integer',
+        'question_id'          => 'integer',
+        'recommendation'       => 'integer'
     ];
 
     //relations

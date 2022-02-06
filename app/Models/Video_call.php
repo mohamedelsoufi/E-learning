@@ -13,6 +13,9 @@ class Video_call extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'                    => 'integer',
+        'available_classes_id'  => 'integer',
+        'status'                => 'integer',
     ];
 
     //relations

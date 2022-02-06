@@ -13,6 +13,8 @@ class Student_class extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'student_id'            => 'integer',
+        'available_class_id'    => 'integer',
     ];
 
     //relations

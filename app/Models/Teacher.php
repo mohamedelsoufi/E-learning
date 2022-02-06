@@ -13,6 +13,13 @@ class Teacher extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'country_id'    => 'integer',
+        'balance'       => 'float',
+        'verified'      => 'integer',
+        'status'        => 'integer',
+        'online'        => 'integer',
+        'gender'        => 'integer',
     ];
 
     //relations

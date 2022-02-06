@@ -14,6 +14,9 @@ class Curriculum extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'country_id'    => 'integer',
+        'parent'        => 'integer',
     ];
 
     //relations

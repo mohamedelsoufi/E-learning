@@ -13,6 +13,9 @@ class Level extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'curriculum_id' => 'integer',
+        'parent'        => 'integer',
     ];
 
     //relations
