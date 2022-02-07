@@ -17,6 +17,11 @@ Route::group(['prefix' => 'students'], function(){
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
 
+    Route::group(['prefix' => 'verification'], function(){
+        Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
+        Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
+    });
+
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });

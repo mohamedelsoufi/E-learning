@@ -48,10 +48,9 @@ class auth extends Controller
         if($student['status'] == 0)
             return $this->faild('you are blocked', 402, 'E02');
         
-        //check if user not active
-        // if($student['email_verified_at'] == null){
-        //     return 'You must verify your email';
-        // }
+        // check if student not active
+        if($student['verified'] == 0)
+            return $this->faild('You must verify your acount', 405, 'E05');
         
         return response()->json([
             'successful'=> true,

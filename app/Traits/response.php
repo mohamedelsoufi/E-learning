@@ -42,7 +42,8 @@ trait response
             return 'not found';
 
         else if ($input == "E05")
-            return 'not active';
+            return 'not verified';
+            
         else if ($input == "E06")
             return 'expired';
         else
