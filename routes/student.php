@@ -22,6 +22,12 @@ Route::group(['prefix' => 'students'], function(){
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
     });
 
+    Route::group(['prefix' => 'passwordReset'], function(){
+        Route::post('/', 'App\Http\Controllers\site\student\authentication\resetPasswored@passwordResetProcess');
+        Route::post('checkCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@checkCode');
+        Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
+    });
+
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });

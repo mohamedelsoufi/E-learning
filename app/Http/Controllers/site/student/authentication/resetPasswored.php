@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class verification extends Controller
+class resetPasswored extends Controller
 {
     use response;
-    ////////sent email /////////////
+    ////////sent code /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
         if (!$this->validateUsername($request->username)) {  // this is validate to fail send mail or true
@@ -23,12 +23,11 @@ class verification extends Controller
         $code = $this->createCode($request->username);
         // Mail::to($request->email)->send(new MailVerification($code, $request->email));
 
-        return $this::success('send verify code success, please check your phone.', 200);
+        return $this::success('send reset password code success, please check your phone.', 200);
     }
 
     public function createCode($username){  // this is a function to get your request email that there are or not to send mail
-
-        $oldCode = DB::table('student_verified')->where('username', $username)->first();
+        $oldCode = DB::table('student_password_resets')->where('username', $username)->first();
 
         //if user already has code
         if ($oldCode)
@@ -40,7 +39,7 @@ class verification extends Controller
     }
 
     public function saveCode($code, $username){  // this function save new password
-        DB::table('student_verified')->insert([
+        DB::table('student_password_resets')->insert([
             'username'      => $username,
             'code'          => $code,
             'created_at'    => Carbon::now()
@@ -62,7 +61,7 @@ class verification extends Controller
 
     //////////////////////// verification ////////////
 
-    public function verificationProcess(Request $request){
+    public function changePasswordProcess(Request $request){
         $validator = Validator::make($request->all(), [
             'username'             => 'required',
             'code'                 => 'required',
@@ -72,27 +71,44 @@ class verification extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
     }
   
     // Verify if code is valid
-    private function verificationRow($request){
-        return DB::table('student_verified')->where([
+    public function passwordResetProcess(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username'          => 'required',
+            'code'              => 'required',
+            'password'          => 'required|string|min:6',
+            'confirmPassword'   => 'required|string|same:password',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403, 'E03');
+        }
+
+        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
+    }
+  
+    // Verify if code is valid
+    private function updatePasswordRow($request){
+        return DB::table('student_password_resets')->where([
             'username'  => $request->username,
             'code'      => $request->code
         ]);
     }
 
-    private function verification($request) {
-        // update students
+    // Reset password
+    private function resetPassword($request) {
+        // update password
         DB::table('students')
         ->where('username', $request->username)
-        ->update(['verified' => 1]);
+        ->update(['password' => bcrypt($request->password)]);
 
         // remove verification data from db
-        $this->verificationRow($request)->delete();
+        $this->updatePasswordRow($request)->delete();
 
         // reset password response
-        return response::success('acount verification success', 200);
+        return response::success('Password has been updated.', 200);
     } 
 }
