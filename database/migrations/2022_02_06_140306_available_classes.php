@@ -24,6 +24,7 @@ class AvailableClasses extends Migration
             $table->integer('long')->comment('in minutes');
             $table->integer('max_student_number');
             $table->float('cost');
+            $table->text('note');
             $table->timestamps();
 
             //relations

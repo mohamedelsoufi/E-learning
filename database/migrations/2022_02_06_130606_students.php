@@ -24,9 +24,9 @@ class Students extends Migration
             $table->unsignedBigInteger('year_id')->nullable();
             $table->float('balance')->default(0);
             $table->boolean('verified')->comment('0 ->not verified, 1 -> verified')->default(0);
-            $table->boolean('status')->comment('1->active, 0->bloked')->default(0);
+            $table->boolean('status')->comment('1->active, 0->bloked')->default(1);
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
-            $table->tinyInteger('gender')->comment('1->online, 0 ->not')->nullable();
+            $table->tinyInteger('gender')->comment('1->male, 0 ->female')->default(0);
             $table->date('birth')->nullable();
             $table->timestamps();
 
