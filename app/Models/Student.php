@@ -35,8 +35,8 @@ class Student extends Authenticatable implements JWTSubject
         return $this->belongsTo(Year::class, 'year_id');
     }
 
-    public function Materials(){
-        return $this->hasMany(Material::class, 'subject_id');
+    public function Student_calls(){
+        return $this->hasMany(Student_call::class, 'student_id');
     }
 
     public function Questions(){

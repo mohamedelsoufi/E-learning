@@ -39,6 +39,14 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->hasMany(Available_class::class, 'teacher_id');
     }
 
+    public function Rating(){
+        return $this->hasMany(Rating::class, 'teacher_id');
+    }
+
+    public function Tags(){
+        return $this->hasMany(Tag::class, 'teacher_id');
+    }
+
     public function images()
     {
         return $this->morphOne(Image::class, 'imageable');

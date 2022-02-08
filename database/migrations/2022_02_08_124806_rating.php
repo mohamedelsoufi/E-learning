@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Countries extends Migration
+class Rating extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class Countries extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('rating', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('dialing_code');
-            $table->string('locale');
-            $table->bigInteger('parent');
-            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
+            $table->unsignedBigInteger('teacher_id');
+            $table->integer('stars')->comment('from 0 to 5');
             $table->timestamps();
+
+            //relations
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ class Countries extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('rating');
     }
 }

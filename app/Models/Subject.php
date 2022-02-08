@@ -31,6 +31,10 @@ class Subject extends Model
         return $this->hasMany(Available_class::class, 'subject_id');
     }
 
+    public function Materials(){
+        return $this->hasMany(Material::class, 'subject_id');
+    }
+
     public function Student_classes(){
         return $this->hasMany(Student_class::class, 'student_id');
     }

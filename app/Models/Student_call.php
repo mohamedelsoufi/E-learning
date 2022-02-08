@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student_class extends Model
+class Student_call extends Model
 {
     use HasFactory;
     protected $table = 'student_class';
@@ -14,7 +14,7 @@ class Student_class extends Model
 
     protected $casts = [
         'student_id'            => 'integer',
-        'available_class_id'    => 'integer',
+        'video_call_id'         => 'integer',
     ];
 
     //relations
@@ -22,7 +22,7 @@ class Student_class extends Model
         return $this->belongsTo(Student::class, 'student_id');
     }
 
-    public function Available_classes(){
-        return $this->belongsTo(Available_class::class, 'available_class_id');
+    public function Video_calls(){
+        return $this->belongsTo(Video_call::class, 'video_call_id');
     }
 }

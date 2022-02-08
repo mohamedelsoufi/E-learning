@@ -24,7 +24,9 @@ class AvailableClasses extends Migration
             $table->integer('long')->comment('in minutes');
             $table->integer('max_student_number');
             $table->float('cost');
+            $table->int('promoCode_percentage');
             $table->text('note');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -36,6 +38,8 @@ class AvailableClasses extends Migration
         Schema::create('student_class', function (Blueprint $table) {
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('available_class_id');
+            $table->dateTime('from');
+            $table->dateTime('to');
 
             //relations
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');

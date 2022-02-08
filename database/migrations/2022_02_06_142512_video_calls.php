@@ -17,12 +17,21 @@ class VideoCalls extends Migration
             $table->id();
             $table->unsignedBigInteger('available_classes_id');
             $table->date('date');
-            $table->tinyInteger('status')->comment('');
             $table->string('agora_token');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
             $table->foreign('available_classes_id')->references('id')->on('available_classes')->onDelete('cascade');
+        });
+
+        Schema::create('student_call', function (Blueprint $table) {
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('video_call_id');
+
+            //relations
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('video_call_id')->references('id')->on('video_calls')->onDelete('cascade');
         });
     }
 
@@ -34,5 +43,6 @@ class VideoCalls extends Migration
     public function down()
     {
         Schema::dropIfExists('video_calls');
+        Schema::dropIfExists('student_call');
     }
 }

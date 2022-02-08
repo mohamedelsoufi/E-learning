@@ -19,6 +19,7 @@ class Curriculums extends Migration
             $table->string('locale')->nullable();
             $table->bigInteger('parent');
             $table->unsignedBigInteger('country_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -31,6 +32,7 @@ class Curriculums extends Migration
             $table->string('locale')->nullable();
             $table->bigInteger('parent');
             $table->unsignedBigInteger('curriculum_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -43,6 +45,7 @@ class Curriculums extends Migration
             $table->string('locale')->nullable();
             $table->bigInteger('parent');
             $table->unsignedBigInteger('level_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -55,6 +58,7 @@ class Curriculums extends Migration
             $table->string('locale')->nullable();
             $table->bigInteger('parent');
             $table->unsignedBigInteger('year_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -67,6 +71,7 @@ class Curriculums extends Migration
             $table->string('locale')->nullable();
             $table->bigInteger('parent');
             $table->unsignedBigInteger('term_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
@@ -77,6 +82,7 @@ class Curriculums extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('subject_id');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
