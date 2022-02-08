@@ -29,8 +29,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('checkCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@checkCode');
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
+    
+    Route::get('profile', 'App\Http\Controllers\site\student\authentication\profile@index');
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
+        Route::post('myProfile', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
 });

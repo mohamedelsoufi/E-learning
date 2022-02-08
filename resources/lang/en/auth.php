@@ -34,7 +34,7 @@ return [
     'Either your username or code is wrong.'=> 'Either your username or code is wrong.',
     'Password has been updated.'            => 'Password has been updated.',
     'send verify code success, please check your phone.'        => 'send verify code success, please check your phone.',
-    'acount verification success'        => 'acount verification success',
+    'acount verification success'           => 'acount verification success',
     ''        => '',
     ''        => '',
     ''        => '',

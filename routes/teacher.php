@@ -29,7 +29,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@sendCode');
     });
 
+    Route::get('profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
+
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
+        Route::post('myProfile', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });
 });
