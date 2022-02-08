@@ -70,15 +70,13 @@ class auth extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'username'         => 'required|string|unique:students|min:3|max:255',
-            'email'            => 'required|string|email|max:255|unique:students',
             'dialing_code'     => 'required|string',
             'phone'            => 'required|string',
             'password'         => 'required|string|min:6',
             'confirm_password' => 'required|string|same:password',
             'country_id'       => 'required|exists:countries,id',
-            'year_id'          => 'required|exists:years,id',
+            'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
-            'birth'            => 'required|date',
         ]);
 
         if($validator->fails()){
@@ -88,14 +86,12 @@ class auth extends Controller
         //create student
         $student = Student::create([
             'username'          => $request->get('username'),
-            'email'             => $request->get('email'),
             'dialing_code'      => $request->get('dialing_code'),
             'phone'             => $request->get('phone'),
             'password'          => Hash::make($request->get('password')),
             'country_id'        => $request->get('country_id'),
-            'year_id'           => $request->get('year_id'),
+            'curriculum_id'     => $request->get('curriculum_id'),
             'gender'            => $request->get('gender'),
-            'birth'             => $request->get('birth'),
         ]);
 
         //create token

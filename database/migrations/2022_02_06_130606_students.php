@@ -16,11 +16,12 @@ class Students extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->string('dialing_code')->nullable();
             $table->string('phone')->unique();
             $table->string('password');
             $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->unsignedBigInteger('year_id')->nullable();
             $table->float('balance')->default(0);
             $table->boolean('verified')->comment('0 ->not verified, 1 -> verified')->default(0);
@@ -34,6 +35,7 @@ class Students extends Migration
             //relations
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade');
+            $table->foreign('curriculum_id')->references('id')->on('curriculums')->onDelete('cascade');
         });
 
         Schema::create('student_verified', function (Blueprint $table) {
