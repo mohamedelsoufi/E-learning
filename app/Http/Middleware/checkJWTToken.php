@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Traits\response;
 use Closure;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -12,6 +13,7 @@ use Exception;
 
 class checkJWTToken
 {
+    use response;
     /**
      * Handle an incoming request.
      *
@@ -29,16 +31,16 @@ class checkJWTToken
             $payload = JWTAuth::getPayload($token)->toArray();
             
             if ($payload['type'] != $guard) {
-                return response()->json('Not authorized', 200);
+                return $this->faild(trans('auth.Not authorized'), 401, 'E01');
             }
 
         } catch (Exception $e) {
             if ($e instanceof TokenInvalidException) {
-                return response()->json('Token is Invalid', 200);
+                return $this->faild(trans('auth.Token is Invalid'), 401, 'E01');
             } else if ($e instanceof TokenExpiredException) {
-                return response()->json('Token is Expired', 200);
+                return $this->faild(trans('auth.Token is Expired'), 401, 'E01');
             } else {
-                return response()->json('Authorization Token not found', 404);
+                return $this->faild(trans('auth.Authorization Token not found'), 404, 'E04');
             }
         }
 

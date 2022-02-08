@@ -34,23 +34,23 @@ class auth extends Controller
         
         try {
             if (! $token = auth($guard)->attempt($credentials)) { //login
-                return $this->faild('passwored or username is wrong', 404, 'E04');
+                return $this->faild(trans('auth.passwored or username is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
-            return $this->faild('login faild', 400, 'E00');
+            return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
 
         //get teacher data
         if (! $teacher = auth($guard)->user())
-            return $this->faild('user not found', 404, 'E04');
+            return $this->faild(trans('auth.teacher not found'), 404, 'E04');
 
         //check if user blocked
         if($teacher['status'] == 0)
-            return $this->faild('you are blocked', 402, 'E02');
+            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
         // check if student not active
         if($teacher['verified'] == 0)
-            return $this->faild('You must verify your acount', 405, 'E05');
+            return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
         
         return response()->json([
             'successful'=> true,
@@ -63,7 +63,7 @@ class auth extends Controller
     public function logout(){
         FacadesAuth::guard('teacher')->logout();
 
-        return response::success('logout success', 200);
+        return response::success(trans('auth.logout success'), 200);
     }
 
     public function register(Request $request){
@@ -102,7 +102,7 @@ class auth extends Controller
         //response
         return response()->json([
             "successful"=> true,
-            'message'   => 'register success',
+            'message'   => trans('auth.register success'),
             'teacher'   => $teacher,
             'token'     => $token,
         ], 200);

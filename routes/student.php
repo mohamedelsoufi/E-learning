@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['prefix' => 'students'], function(){
+
+Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(){
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
 
@@ -32,6 +34,7 @@ Route::group(['prefix' => 'students'], function(){
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
 });
+
 
 
 

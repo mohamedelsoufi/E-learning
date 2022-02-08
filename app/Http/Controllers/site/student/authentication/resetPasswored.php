@@ -16,14 +16,14 @@ class resetPasswored extends Controller
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
         if (!$this->validateUsername($request->username)) {  // this is validate to fail send mail or true
-            return $this::faild('username not found', 404, 'E04');
+            return $this::faild(trans('auth.username not found'), 404, 'E04');
         }
         
         // code is important in send mail 
         $code = $this->createCode($request->username);
         // Mail::to($request->email)->send(new MailVerification($code, $request->email));
 
-        return $this::success('send reset password code success, please check your phone.', 200);
+        return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }
 
     public function createCode($username){  // this is a function to get your request email that there are or not to send mail
@@ -53,9 +53,9 @@ class resetPasswored extends Controller
 
     public function checkCode(Request $request){
         if($this->updatePasswordRow($request)->count() > 0){
-            return $this::success('success', 200);
+            return $this::success(trans('auth.success'), 200);
         } else {
-            return $this::faild('Either your username or code is wrong.', 404, 'E04');
+            return $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
         }
     }
 
@@ -71,7 +71,7 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
@@ -87,7 +87,7 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
+        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
@@ -109,6 +109,6 @@ class resetPasswored extends Controller
         $this->updatePasswordRow($request)->delete();
 
         // reset password response
-        return response::success('Password has been updated.', 200);
+        return response::success(trans('auth.Password has been updated.'), 200);
     } 
 }

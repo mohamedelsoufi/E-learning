@@ -16,14 +16,14 @@ class verification extends Controller
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
         if (!$this->validateUsername($request->username)) {  // this is validate to fail send mail or true
-            return $this::faild('username not found', 404, 'E04');
+            return $this::faild(trans('auth.username not found'), 404, 'E04');
         }
         
         // code is important in send mail 
         $code = $this->createCode($request->username);
         // Mail::to($request->email)->send(new MailVerification($code, $request->email));
 
-        return $this::success('send verify code success, please check your phone.', 200);
+        return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }
 
     public function createCode($username){  // this is a function to get your request email that there are or not to send mail
@@ -57,7 +57,7 @@ class verification extends Controller
         if($this->updatePasswordRow($request)->count() > 0){
             return $this::success('success', 200);
         } else {
-            return $this::faild('Either your username or code is wrong.', 404, 'E04');
+            return $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
         }
     }
 
@@ -73,9 +73,8 @@ class verification extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild('Either your username or code is wrong.', 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
     }
-  
     // Verify if code is valid
     private function verificationRow($request){
         return DB::table('teacher_verified')->where([
@@ -94,6 +93,6 @@ class verification extends Controller
         $this->verificationRow($request)->delete();
 
         // reset password response
-        return response::success('acount verification success', 200);
+        return response::success(trans('auth.acount verification success'), 200);
     } 
 }

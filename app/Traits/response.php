@@ -9,13 +9,13 @@ trait response
             return response()->json([
                 'successful' => true,
                 'message' => $message,
-            ], $statusCode)->getData();
+            ], $statusCode);
         } else {
             return response()->json([
                 'successful' => true,
                 'message' => $message,
                 $dataName => $data,
-            ], $statusCode)->getData();
+            ], $statusCode);
         }
     }
 
@@ -24,11 +24,10 @@ trait response
             'successful' => false,
             'status'     => $status,
             'message'    => $message,
-        ], $statusCode)->getData();
+        ], $statusCode);
     }
 
-    public function getError($input)
-    {
+    public function getError($input){
         if ($input == "E01")
             return 'authentication';
 
