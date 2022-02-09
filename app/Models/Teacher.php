@@ -30,6 +30,10 @@ class Teacher extends Authenticatable implements JWTSubject
     public function Country(){
         return $this->belongsTo(Country::class, 'country_id');
     }
+
+    public function Curriculum(){
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
     
     public function Subject_teachers(){
         return $this->hasMany(Subject_teacher::class, 'teacher_id');
@@ -47,7 +51,7 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->hasMany(Tag::class, 'teacher_id');
     }
 
-    public function images()
+    public function Image()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
@@ -56,7 +60,39 @@ class Teacher extends Authenticatable implements JWTSubject
     {
         return $this->morphOne(Answer::class, 'answerable');
     }
+    //
+    public function getGender(){
+        if($this->gender == 0){
+            return trans('auth.female');
+        } else {
+            return trans('auth.male');
+        }
+    }
 
+    public function getCurriculum(){
+        if($this->Curriculum != null){
+            return $this->Curriculum->name;
+        } else {
+            return null;
+        }
+    }
+
+    public function getImage(){
+        if($this->Image != null){
+            return url('public/uploads/teachers/' . $this->Image->src);
+        } else {
+            return url('public/uploads/teachers/default.jpg');
+        }
+    }
+
+    public function getRating(){
+        if(count($this->Rating) > 0){
+            return $this->Rating->sum('stars') / count($this->Rating);
+        } else {
+            return 0;
+        }
+    }
+    
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

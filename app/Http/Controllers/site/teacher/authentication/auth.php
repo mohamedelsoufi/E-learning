@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\teacher\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\teacherResource;
 use App\Models\Teacher;
 use App\Traits\response;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class auth extends Controller
         return response()->json([
             'successful'=> true,
             'message'   => 'success',
-            'teacher'   => $teacher,
+            'teacher'   => new teacherResource($teacher),
             'token'     => $token,
         ], 200);
     }
@@ -70,12 +71,10 @@ class auth extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'username'         => 'required|string|unique:teachers|min:3|max:255',
-            'email'            => 'required|string|email|max:255|unique:teachers',
             'dialing_code'     => 'required|string',
-            'phone'            => 'required|string',
+            'phone'            => 'required|string|unique:teachers,phone',
             'password'         => 'required|string|min:6',
             'confirm_password' => 'required|string|same:password',
-            'birth'            => 'required|date',
             'country_id'       => 'required|exists:countries,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
         ]);
@@ -87,13 +86,11 @@ class auth extends Controller
         //create teacher
         $teacher = Teacher::create([
             'username'          => $request->get('username'),
-            'email'             => $request->get('email'),
             'dialing_code'      => $request->get('dialing_code'),
             'phone'             => $request->get('phone'),
             'password'          => Hash::make($request->get('password')),
             'country_id'        => $request->get('country_id'),
             'gender'            => $request->get('gender'),
-            'birth'             => $request->get('birth'),
         ]);
 
         //create token
@@ -103,7 +100,7 @@ class auth extends Controller
         return response()->json([
             "successful"=> true,
             'message'   => trans('auth.register success'),
-            'teacher'   => $teacher,
+            'teacher'   => new teacherResource($teacher),
             'token'     => $token,
         ], 200);
     }

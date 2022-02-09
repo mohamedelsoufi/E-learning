@@ -34,6 +34,9 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::post('myProfile', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
+        Route::post('myProfile/changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
+        Route::post('myProfile/changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
+
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
 });

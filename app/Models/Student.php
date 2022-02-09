@@ -43,7 +43,7 @@ class Student extends Authenticatable implements JWTSubject
         return $this->hasMany(Question::class, 'student_id');
     }
     
-    public function images()
+    public function Image()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
@@ -51,6 +51,38 @@ class Student extends Authenticatable implements JWTSubject
     public function Answer()
     {
         return $this->morphOne(Answer::class, 'answerable');
+    }
+    //
+    public function getGender(){
+        if($this->gender == 0){
+            return trans('auth.female');
+        } else {
+            return trans('auth.male');
+        }
+    }
+
+    public function getYear(){
+        if($this->Year != null){
+            return $this->Year->name;
+        } else {
+            return null;
+        }
+    }
+
+    public function getCurriculum(){
+        if($this->Curriculum != null){
+            return $this->Curriculum->name;
+        } else {
+            return null;
+        }
+    }
+
+    public function getImage(){
+        if($this->Image != null){
+            return url('public/uploads/students/' . $this->Image->src);
+        } else {
+            return url('public/uploads/students/default.jpg');
+        }
     }
 
     /**

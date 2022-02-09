@@ -16,7 +16,7 @@ class Teachers extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('dialing_code')->nullable();
             $table->string('phone')->unique();
             $table->string('password');
@@ -25,12 +25,14 @@ class Teachers extends Migration
             $table->tinyInteger('gender')->comment('1->male, 0 ->female')->default(0);
             $table->date('birth')->nullable();
             $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->float('balance')->default(0);
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
             $table->timestamps();
 
             //relations
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('curriculum_id')->references('id')->on('curriculums')->onDelete('cascade');
         });
 
         Schema::create('teacher_verified', function (Blueprint $table) {

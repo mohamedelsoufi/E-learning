@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\student\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\studentResource;
 use App\Models\Student;
 use App\Traits\response;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class auth extends Controller
         return response()->json([
             'successful'=> true,
             'message'   => 'success',
-            'student'   => $student,
+            'student'   => new studentResource($student),
             'token'     => $token,
         ], 200);
     }
@@ -75,7 +76,7 @@ class auth extends Controller
             'password'         => 'required|string|min:6',
             'confirm_password' => 'required|string|same:password',
             'country_id'       => 'required|exists:countries,id',
-            'curriculum_id'    => 'required|exists:curriculums,id',
+            'curriculum_id'    => 'nullable|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
         ]);
 
@@ -101,7 +102,7 @@ class auth extends Controller
         return response()->json([
             "successful"=> true,
             'message'   => trans('auth.register success'),
-            'student'   => $student,
+            'student'   => new studentResource($student),
             'token'     => $token,
         ], 200);
     }

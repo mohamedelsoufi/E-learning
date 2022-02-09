@@ -23,9 +23,9 @@ class AvailableClasses extends Migration
             $table->time('to');
             $table->integer('long')->comment('in minutes');
             $table->integer('max_student_number');
-            $table->float('cost');
-            $table->int('promoCode_percentage');
-            $table->text('note');
+            $table->float('cost')->nullable();
+            $table->integer('promoCode_percentage')->nullable();
+            $table->text('note')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 

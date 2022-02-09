@@ -31,8 +31,16 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
 
     Route::get('profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
 
+    //auth
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
         Route::post('myProfile', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
+        Route::post('myProfile/changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
+        Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
+
+
+        Route::post('tag/add', 'App\Http\Controllers\site\teacher\authentication\profile@add_tags');
+        Route::post('tag/remove', 'App\Http\Controllers\site\teacher\authentication\profile@remove_tags');
+
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });
 });

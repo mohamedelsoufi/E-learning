@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\site\teacher\authentication;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Http\Resources\teacherResource;
+use App\Models\Image;
+use App\Models\Tag;
 use App\Models\Teacher;
+use App\Traits\response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class profile extends Controller
 {
+    use response;
     public function index(Request $request){
         // validate registeration request
         $validator = Validator::make($request->all(), [
@@ -27,7 +34,7 @@ class profile extends Controller
         if($teacher == null)
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
 
-        return $this->success(trans('auth.success'), 200, 'teacher', $teacher);
+        return $this->success(trans('auth.success'), 200, 'teacher', new teacherResource($teacher));
     }
 
     public function myProfile(){
@@ -36,6 +43,140 @@ class profile extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
-        return $this->success(trans('auth.success'), 200, 'teacher', $teacher);
+        return $this->success(trans('auth.success'), 200, 'teacher', new teacherResource($teacher));
+    }
+
+    public function add_tags(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'tag'                => 'required|string|min:2|max:25',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors(), 403, 'E03');
+        }
+
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //add tag to teacher
+        Tag::create([
+            'teacher_id'    => $teacher->id,
+            'tag'           => $request->get('tag'),
+        ]);
+        
+        return $this->success(
+            trans('auth.add tag success'),
+            200,
+        );
+    }
+
+    public function remove_tags(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'tag_id'        => 'required|string|exists:tags,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors(), 403, 'E03');
+        }
+
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //remove tag from teacher
+        $tag = Tag::where('teacher_id', $teacher->id)->find($request->get('tag_id'));
+
+        if($tag == null)
+            return $this::faild(trans('auth.this tag not found'), 404, 'E04');
+
+        $tag->delete();
+
+        return $this->success(
+            trans('auth.remove tag success'),
+            200,
+        );
+    }
+
+    public function changePassword(Request $request){
+        // validate registeration request
+        $validator = Validator::make($request->all(), [
+            'oldPassword'       => 'required|string',
+            'password'          => 'required|string|min:6',
+            'confirm_password'  => 'required|string|same:password',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+
+        //get teacher or vender
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('user.teacher not found'), 404, 'E04');
+        }        
+        
+        //update teacher pass
+        if(Hash::check($request->oldPassword, $teacher->password)){
+            $teacher->password  = Hash::make($request->get('password'));
+        } else {
+            return $this::faild(trans('auth.old password is wrong'), 400);
+        }
+
+        if($teacher->save()){
+            return $this::success(trans('auth.change password success'), 200);
+        } else {
+            return $this::faild(trans('auth.update password falid'), 400);
+        }
+    }
+
+    public function change_image(Request $request){
+        try{
+            DB::beginTransaction();
+            // validate registeration request
+            $validator = Validator::make($request->all(), [
+                'image'       => 'required|mimes:jpeg,jpg,png,gif',
+            ]);
+
+            if($validator->fails()){
+                return $this::faild($validator->errors(), 403);
+            }
+
+            //get teacher
+            if (! $teacher = auth('teacher')->user()) {
+                return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+            }
+
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/teachers', 300, 300);
+
+            if($teacher->Image == null){
+                //if user don't have image 
+                Image::create([
+                    'imageable_id'   => $teacher->id,
+                    'imageable_type' => 'App\Models\Teacher',
+                    'src'            => $path,
+                ]);
+
+            } else {
+                //if teacher have image
+                $oldImage = $teacher->Image->src;
+
+                if(file_exists(base_path('public/uploads/teachers/') . $oldImage)){
+                    unlink(base_path('public/uploads/teachers/') . $oldImage);
+                }
+
+                $teacher->Image->src = $path;
+                $teacher->Image->save();
+            }
+
+            DB::commit();
+            return $this::success(trans('auth.update image success'), 200);
+        } catch(\Exception $ex){
+            return $this::faild(trans('auth.update image faild'), 200);
+        }   
     }
 }

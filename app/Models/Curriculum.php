@@ -17,11 +17,16 @@ class Curriculum extends Model
         'id'            => 'integer',
         'country_id'    => 'integer',
         'parent'        => 'integer',
+        'curriculum_id' => 'integer',
     ];
 
     //relations
     public function Country(){
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function Curriculums(){
+        return $this->hasMany(Curriculum::class, 'curriculum_id');
     }
     
     public function Levels(){
