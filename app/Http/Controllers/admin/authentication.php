@@ -20,8 +20,7 @@ class authentication extends Controller
             return redirect('admins');
         }
 
-        return 'good';
-        // return redirect()->back()->with('error', 'username or password is wrong' );
+        return redirect()->back()->with('error', 'username or password is wrong' );
     }
     
 
