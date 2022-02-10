@@ -13,16 +13,13 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::group(
-//     [
-//         'prefix' => LaravelLocalization::setLocale(),
-//         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
-//     ], function(){
+Route::group(['prefix' => 'admins'], function(){
+    Route::get('/', 'App\Http\Controllers\admin\dashbourd@index')->middleware('auth:admin');
 
-//     Route::get('/', function(){
-//         return view('welcome');
-//     });
-    
-// });
+    Route::get('/login', 'App\Http\Controllers\admin\authentication@loginView')->name('adminlogin')->middleware('guest:admin');
+    Route::post('/login', 'App\Http\Controllers\admin\authentication@login')->middleware('guest:admin');
+
+    Route::get('/logout', 'App\Http\Controllers\admin\authentication@logout')->middleware('auth:admin');
+});
 
 
