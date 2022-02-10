@@ -37,6 +37,24 @@ Route::group(['prefix' => 'admins'], function(){
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\roles@edit')->middleware('auth:admin');
     });
 
+    Route::group(['prefix' => 'countries'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\country@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\country@delete')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\country@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\country@create')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\country@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\country@edit')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'curriculums'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\curriculums@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\curriculums@delete')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\curriculums@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\curriculums@create')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\curriculums@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\curriculums@edit')->middleware('auth:admin');
+    });
+
     Route::get('/logout', 'App\Http\Controllers\admin\authentication@logout')->middleware('auth:admin');
 });
 

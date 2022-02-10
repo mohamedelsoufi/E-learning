@@ -29,6 +29,18 @@
                 </li>
             @endif
 
+            @if (auth('admin')->user()->isAbleTo('read-countries'))
+                <li class="{{request()->is('admins/countries')? 'active':''}}">
+                    <a href="{{url('admins/countries')}}"><i class="fa fa-users"></i><span>countries</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
+                <li class="{{request()->is('admins/curriculums')? 'active':''}}">
+                    <a href="{{url('admins/curriculums')}}"><i class="fa fa-users"></i><span>curriculums</span></a>
+                </li>
+            @endif
+
         </ul>
     </section>
 

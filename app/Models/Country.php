@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Country extends Model 
+class Country extends Model implements TranslatableContract
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'countries';
+    public $translatedAttributes = ['name'];
 
     protected $guarded = [];
 
     protected $casts = [
         'id'        => 'integer',
-        'parent'    => 'integer',
         'status'    => 'integer',
-
     ];
 
     //relations
@@ -34,5 +35,18 @@ class Country extends Model
 
     public function Class_types(){
         return $this->hasMany(Class_type::class, 'country_id');
+    }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
     }
 }

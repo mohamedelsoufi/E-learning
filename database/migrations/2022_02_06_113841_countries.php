@@ -15,12 +15,20 @@ class Countries extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('dialing_code');
-            $table->string('locale');
-            $table->bigInteger('parent');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
+        });
+
+        Schema::create('countries_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('country_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['country_id', 'locale']);
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
     }
 
@@ -32,5 +40,6 @@ class Countries extends Migration
     public function down()
     {
         Schema::dropIfExists('countries');
+        Schema::dropIfExists('countries_translations');
     }
 }

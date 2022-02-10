@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Curriculum extends Model
+class Curriculum extends Model implements TranslatableContract
 {
-    use HasFactory;
+    use HasFactory, Translatable;
 
     protected $table = 'curriculums';
+    public $translatedAttributes = ['name'];
 
     protected $guarded = [];
 
     protected $casts = [
         'id'            => 'integer',
         'country_id'    => 'integer',
-        'parent'        => 'integer',
-        'curriculum_id' => 'integer',
     ];
 
     //relations
@@ -31,6 +32,14 @@ class Curriculum extends Model
     
     public function Levels(){
         return $this->hasMany(Level::class, 'curriculum_id');
+    }
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
     }
 
 }
