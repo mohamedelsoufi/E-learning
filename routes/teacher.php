@@ -36,7 +36,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('myProfile', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
         Route::post('myProfile/changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
         Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
-
+        Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
 
         Route::post('tag/add', 'App\Http\Controllers\site\teacher\authentication\profile@add_tags');
         Route::post('tag/remove', 'App\Http\Controllers\site\teacher\authentication\profile@remove_tags');

@@ -72,11 +72,11 @@ class auth extends Controller
         $validator = Validator::make($request->all(), [
             'username'         => 'required|string|unique:students|min:3|max:255',
             'dialing_code'     => 'required|string',
-            'phone'            => 'required|string',
+            'phone'            => 'required|unique:students|string',
             'password'         => 'required|string|min:6',
             'confirm_password' => 'required|string|same:password',
             'country_id'       => 'required|exists:countries,id',
-            'curriculum_id'    => 'nullable|exists:curriculums,id',
+            'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
         ]);
 

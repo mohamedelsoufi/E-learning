@@ -76,6 +76,7 @@ class auth extends Controller
             'password'         => 'required|string|min:6',
             'confirm_password' => 'required|string|same:password',
             'country_id'       => 'required|exists:countries,id',
+            'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
         ]);
 

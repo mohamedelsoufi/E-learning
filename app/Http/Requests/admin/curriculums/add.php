@@ -24,7 +24,8 @@ class add extends FormRequest
     public function rules()
     {
         return [
-            'country.*.name' => 'required|string|min:2',
+            'curriculums.*.name' => 'required|string|min:2',
+            'country_id'        => 'required|exists:countries,id',
         ];
     }
 }

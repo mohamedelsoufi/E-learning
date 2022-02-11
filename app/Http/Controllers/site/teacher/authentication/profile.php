@@ -179,4 +179,43 @@ class profile extends Controller
             return $this::faild(trans('auth.update image faild'), 200);
         }   
     }
+
+    public function updateProfile(Request $request){
+        //get teacher or vender
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        // validate
+        $validator = Validator::make($request->all(), [
+            'username'          => 'nullable|string|max:250|unique:teachers,username,'. $teacher->id,
+            'email'             => 'nullable|email|max:255|unique:teachers,email,'. $teacher->id,
+            'dialing_code'      => 'nullable|string|max:10',
+            'phone'             => 'nullable|string|max:20|unique:teachers,phone,'. $teacher->id,
+            'password'          => 'nullable|string|max:250',
+            'country_id'        => 'nullable|integer|exists:countries,id',
+            'curriculum_id'     => 'nullable|integer|exists:curriculums,id',
+            'gender'            => ['nullable',Rule::in(0,1,2)],    //0->male  1->female
+            'birth'             => 'nullable|date',
+            'about'             => 'nullable|string|max:1000',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+
+        //selet student
+
+        $input = $request->only(
+            'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
+            'gender', 'birth'
+        );
+
+        //update student
+        if($teacher->update($input)){
+            return $this->success(trans('auth.update profile success'), 200, 'teacher', new teacherResource($teacher));
+        } else {
+            return $this::faild(trans('auth.update profile falid'), 400);
+        }
+    }
 }

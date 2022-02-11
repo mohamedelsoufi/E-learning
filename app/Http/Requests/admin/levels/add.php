@@ -25,7 +25,7 @@ class add extends FormRequest
     {
         return [
             'levels.*.name' => 'required|string|min:2',
-            // 'curriculum_id' => 'required|exists:levels,id',
+            'curriculum_id' => 'required|exists:curriculums,id',
         ];
     }
 }

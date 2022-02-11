@@ -28,6 +28,7 @@ class Teachers extends Migration
             $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->float('balance')->default(0);
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
+            $table->text('about')->nullable();
             $table->timestamps();
 
             //relations

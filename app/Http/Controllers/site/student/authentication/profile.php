@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class profile extends Controller
 {
@@ -41,7 +42,7 @@ class profile extends Controller
     public function myProfile(){
         //get student
         if (! $student = auth('student')->user()) {
-            return $this::faild(trans('user.student not found'), 404, 'E04');
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
 
         return $this->success(
@@ -66,7 +67,7 @@ class profile extends Controller
 
         //get student or vender
         if (! $student = auth('student')->user()) {
-            return $this::faild(trans('user.student not found'), 404, 'E04');
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
         }        
         
         //update student pass
@@ -97,7 +98,7 @@ class profile extends Controller
 
             //get student
             if (! $student = auth('student')->user()) {
-                return $this::faild(trans('user.auth not found'), 404, 'E04');
+                return $this::faild(trans('auth.auth not found'), 404, 'E04');
             }
 
             //update image
@@ -128,5 +129,44 @@ class profile extends Controller
         } catch(\Exception $ex){
             return $this::faild(trans('auth.update image faild'), 200);
         }   
+    }
+
+    public function updateProfile(Request $request){
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        // validate
+        $validator = Validator::make($request->all(), [
+            'username'          => 'nullable|string|max:250|unique:students,username,'. $student->id,
+            'email'             => 'nullable|email|max:255|unique:students,email,'. $student->id,
+            'dialing_code'      => 'nullable|string|max:10',
+            'phone'             => 'nullable|string|max:20|unique:students,phone,'. $student->id,
+            'password'          => 'nullable|string|max:250',
+            'country_id'        => 'nullable|integer|exists:countries,id',
+            'curriculum_id'     => 'nullable|integer|exists:curriculums,id',
+            'year_id'           => 'nullable|integer|exists:years,id',
+            'gender'            => ['nullable',Rule::in(0,1,2)],    //0->male  1->female
+            'birth'             => 'nullable|date',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+
+        //selet student
+
+        $input = $request->only(
+            'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
+            'gender', 'birth'
+        );
+
+        //update student
+        if($student->update($input)){
+            return $this->success(trans('auth.update profile success'), 200, 'student', new studentResource($student));
+        } else {
+            return $this::faild(trans('auth.update profile falid'), 400);
+        }
     }
 }
