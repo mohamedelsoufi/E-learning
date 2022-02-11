@@ -33,6 +33,11 @@ class Curriculum extends Model implements TranslatableContract
     public function Levels(){
         return $this->hasMany(Level::class, 'curriculum_id');
     }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
     //
     public function getStatus(){
         if($this->status == 0){

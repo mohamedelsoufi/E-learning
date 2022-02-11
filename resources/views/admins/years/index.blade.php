@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'countries')
+@section('title', 'years')
 
 
 @section('content')
@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>country</h1>
+            <h1>years</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/countries')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins/years')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>countries</li>
+                <li class="active"><i class="fa fa-users"></i>years</li>
             </ol>
         </section>
 
@@ -36,8 +36,8 @@
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
                                     search
                                 </button>
-                                @if (auth('admin')->user()->isAbleTo('create-countries'))
-                                    <a href="{{url('admins/countries/create')}}"
+                                @if (auth('admin')->user()->isAbleTo('create-years'))
+                                    <a href="{{url('admins/years/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
                                 @else
@@ -56,23 +56,27 @@
                                 <tr>
                                     <th>#</th>
                                     <th>name</th>
-                                    <th>dialing_code</th>
+                                    <th>description</th>
                                     <th>status</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($countries as $country)
+                                @foreach ($years as $year)
                                     <tr>
-                                        <td>{{$country->id}}</td>
-                                        <td>{{$country->translate('en')->name}}</td>
-                                        <td>{{$country->dialing_code}}</td>
-                                        <td>{{$country->getStatus()}}</td>
+                                        <td>{{$year->id}}</td>
+                                        <td>{{$year->translate('en')->name}}</td>
+                                        <td>
+                                            {{$year->Level->Curriculum->Country->translate('en')->name}} ->
+                                            {{$year->Level->Curriculum->translate('en')->name}} ->
+                                            {{$year->Level->translate('en')->name}}
+                                        </td>
+                                        <td>{{$year->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}
-                                            @if (auth('admin')->user()->isAbleTo('update-countries'))
-                                                <a href="{{url('admins/countries/edit/' . $country->id)}}" style="color: #fff;
+                                            @if (auth('admin')->user()->isAbleTo('update-years'))
+                                                <a href="{{url('admins/years/edit/' . $year->id)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
@@ -85,8 +89,8 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-countries'))
-                                                <a href="{{url('admins/countries/delete/' . $country->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
+                                            @if (auth('admin')->user()->isAbleTo('delete-years'))
+                                                <a href="{{url('admins/years/delete/' . $year->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 
                                             @else

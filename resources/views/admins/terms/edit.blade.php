@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "edit Curriculum")
+@section('title', "edit terms")
 
 
 @section('content')
@@ -13,7 +13,8 @@
 
             <ol class="breadcrumb">
                 <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>Curriculums</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>terms
+                </a></li>
                 <li class="active"><i class="fa fa-plus"></i>edit</li>
             </ol>
         </section>
@@ -34,13 +35,13 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>country</label>
-                                <select name="country_id" class="form-control">
-                                    @foreach ($countries as $country)
-                                        <option value="{{$country->id}}" @if ($curriculum->country_id == $country->id) selected @endif>{{$country->translate('en')->name}}</option>
+                                <label>year</label>
+                                <select name="year_id" class="form-control">
+                                    @foreach ($years as $year)
+                                        <option value="{{$year->id}}" @if ($term->year_id == $year->id) selected @endif>{{$year->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('country_id')
+                                @error('term_id')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -52,8 +53,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>name in {{$properties['native']}}</label>
-                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="curriculums[{{$localeCode}}][name]"
-                                        placeholder="name" value="{{$curriculum->translate($localeCode)->name}}" required autocomplete="off">
+                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="terms[{{$localeCode}}][name]"
+                                        placeholder="name" value="{{$term->translate($localeCode)->name}}" required autocomplete="off">
                                     @error('name')
                                         <small class=" text text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -66,7 +67,7 @@
                         {{-- status --}}
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg" @if ($curriculum->status == 1) checked @endif/>
+                                <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg" @if ($term->status == 1) checked @endif/>
                                 <label for="switcherySize" class="font-medium-2 text-bold-600 ml-1">status</label>
                             </div>
                         </div>

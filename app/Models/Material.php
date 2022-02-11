@@ -25,4 +25,18 @@ class Material extends Model
     {
         return $this->morphMany(File::class, 'fileable');
     }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
+    }
 }

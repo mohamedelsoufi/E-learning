@@ -62,7 +62,7 @@
                         $models = [
                             "countries",
                             "curriculums",
-                            "leavels",
+                            "levels",
                             "years",
                             "terms",
                             "subjects",

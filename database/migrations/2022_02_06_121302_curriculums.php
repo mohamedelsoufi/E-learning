@@ -36,9 +36,6 @@ class Curriculums extends Migration
 
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('locale')->nullable();
-            $table->bigInteger('parent');
             $table->unsignedBigInteger('curriculum_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -47,11 +44,19 @@ class Curriculums extends Migration
             $table->foreign('curriculum_id')->references('id')->on('curriculums')->onDelete('cascade');
         });
 
+        Schema::create('levels_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('level_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['level_id', 'locale']);
+            $table->foreign('level_id')->references('id')->on('levels')->onDelete('cascade');
+        });
+
         Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('locale')->nullable();
-            $table->bigInteger('parent');
             $table->unsignedBigInteger('level_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -60,11 +65,19 @@ class Curriculums extends Migration
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('cascade');
         });
 
+        Schema::create('years_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('year_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['year_id', 'locale']);
+            $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade');
+        });
+
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('locale')->nullable();
-            $table->bigInteger('parent');
             $table->unsignedBigInteger('year_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -73,17 +86,36 @@ class Curriculums extends Migration
             $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade');
         });
 
+        Schema::create('terms_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('term_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['term_id', 'locale']);
+            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
+        });
+
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('locale')->nullable();
-            $table->bigInteger('parent');
             $table->unsignedBigInteger('term_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
             $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
+        });
+
+        Schema::create('subjects_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('subject_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['subject_id', 'locale']);
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
         Schema::create('materials', function (Blueprint $table) {
@@ -95,6 +127,17 @@ class Curriculums extends Migration
 
             //relations
             $table->foreign('subject_id')->references('id')->on('materials')->onDelete('cascade');
+        });
+
+        Schema::create('materials_translations', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('material_id');
+            $table->string('locale')->index();
+            $table->string('name');
+            $table->timestamps();
+        
+            $table->unique(['material_id', 'locale']);
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
         });
     }
 
@@ -108,9 +151,14 @@ class Curriculums extends Migration
         Schema::dropIfExists('curriculums');
         Schema::dropIfExists('curriculums_translations');
         Schema::dropIfExists('levels');
+        Schema::dropIfExists('levels_translations');
         Schema::dropIfExists('years');
+        Schema::dropIfExists('years_translations');
         Schema::dropIfExists('terms');
+        Schema::dropIfExists('terms_translations');
         Schema::dropIfExists('subjects');
+        Schema::dropIfExists('subjects_translations');
         Schema::dropIfExists('materials');
+        Schema::dropIfExists('materials_translations');
     }
 }

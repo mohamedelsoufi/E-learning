@@ -41,6 +41,36 @@
                 </li>
             @endif
 
+            @if (auth('admin')->user()->isAbleTo('read-levels'))
+                <li class="{{request()->is('admins/levels')? 'active':''}}">
+                    <a href="{{url('admins/levels')}}"><i class="fa fa-users"></i><span>levels</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-years'))
+                <li class="{{request()->is('admins/years')? 'active':''}}">
+                    <a href="{{url('admins/years')}}"><i class="fa fa-users"></i><span>years</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-terms'))
+                <li class="{{request()->is('admins/terms')? 'active':''}}">
+                    <a href="{{url('admins/terms')}}"><i class="fa fa-users"></i><span>terms</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-subjects'))
+                <li class="{{request()->is('admins/subjects')? 'active':''}}">
+                    <a href="{{url('admins/subjects')}}"><i class="fa fa-users"></i><span>subjects</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-materials'))
+                <li class="{{request()->is('admins/materials')? 'active':''}}">
+                    <a href="{{url('admins/materials')}}"><i class="fa fa-users"></i><span>materials</span></a>
+                </li>
+            @endif
+
         </ul>
     </section>
 

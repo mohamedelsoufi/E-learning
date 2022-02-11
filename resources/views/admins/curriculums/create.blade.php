@@ -34,13 +34,13 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>role</label>
+                                <label>country</label>
                                 <select name="country_id" class="form-control">
                                     @foreach ($countries as $country)
                                         <option value="{{$country->id}}">{{$country->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('role')
+                                @error('country_id')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>

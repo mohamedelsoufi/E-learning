@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'countries')
+@section('title', 'subjects')
 
 
 @section('content')
@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>country</h1>
+            <h1>subject</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/countries')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins/subjects')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>countries</li>
+                <li class="active"><i class="fa fa-users"></i>subjects</li>
             </ol>
         </section>
 
@@ -36,8 +36,8 @@
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
                                     search
                                 </button>
-                                @if (auth('admin')->user()->isAbleTo('create-countries'))
-                                    <a href="{{url('admins/countries/create')}}"
+                                @if (auth('admin')->user()->isAbleTo('create-subjects'))
+                                    <a href="{{url('admins/subjects/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
                                 @else
@@ -56,23 +56,29 @@
                                 <tr>
                                     <th>#</th>
                                     <th>name</th>
-                                    <th>dialing_code</th>
+                                    <th>description</th>
                                     <th>status</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($countries as $country)
+                                @foreach ($subjects as $subject)
                                     <tr>
-                                        <td>{{$country->id}}</td>
-                                        <td>{{$country->translate('en')->name}}</td>
-                                        <td>{{$country->dialing_code}}</td>
-                                        <td>{{$country->getStatus()}}</td>
+                                        <td>{{$subject->id}}</td>
+                                        <td>{{$subject->translate('en')->name}}</td>
+                                        <td>
+                                            {{$subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
+                                            {{$subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
+                                            {{$subject->Term->Year->Level->translate('en')->name}} ->
+                                            {{$subject->Term->Year->translate('en')->name}} ->
+                                            {{$subject->Term->translate('en')->name}}
+                                        </td>
+                                        <td>{{$subject->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}
-                                            @if (auth('admin')->user()->isAbleTo('update-countries'))
-                                                <a href="{{url('admins/countries/edit/' . $country->id)}}" style="color: #fff;
+                                            @if (auth('admin')->user()->isAbleTo('update-subjects'))
+                                                <a href="{{url('admins/subjects/edit/' . $subject->id)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
@@ -85,8 +91,8 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-countries'))
-                                                <a href="{{url('admins/countries/delete/' . $country->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
+                                            @if (auth('admin')->user()->isAbleTo('delete-subjects'))
+                                                <a href="{{url('admins/subjects/delete/' . $subject->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 
                                             @else

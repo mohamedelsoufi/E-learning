@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Subject extends Model
+class Subject extends Model implements TranslatableContract
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'subjects';
-
+    public $translatedAttributes = ['name'];
     protected $guarded = [];
 
     protected $casts = [
@@ -37,5 +39,19 @@ class Subject extends Model
 
     public function Student_classes(){
         return $this->hasMany(Student_class::class, 'student_id');
+    }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
     }
 }
