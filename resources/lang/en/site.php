@@ -14,7 +14,7 @@ return [
     'delete answer faild'               => 'delete answer faild',
     'update answer success'             => 'update answer success',
     'update answer faild'               => 'update answer faild',
-    '' => '',
+    'student must choose an academic year' => 'student must choose an academic year',
     '' => '',
     '' => '',
     '' => '',

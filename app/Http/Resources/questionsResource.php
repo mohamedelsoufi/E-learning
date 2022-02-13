@@ -19,7 +19,13 @@ class questionsResource extends JsonResource
             'student_id'    => $this->student_id,
             'question'      => $this->question,
             'status'        => $this->getStatus(),
+            'answers_count' => count($this->Answers),
             'created_at'    => date("Y-m-d H:i", strtotime($this->created_at)),
+            'question_owner'=> [
+                'id'        => $this->student_id,
+                'username'  => $this->Student->username,
+                'image'     => $this->Student->getImage(),
+            ],
         ];
     }
 }

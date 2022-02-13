@@ -36,10 +36,14 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
-        Route::post('myProfile', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
-        Route::post('myProfile/changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
-        Route::post('myProfile/changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
-        Route::post('myProfile/update', 'App\Http\Controllers\site\student\authentication\profile@updateProfile');
+        Route::get('/home', 'App\Http\Controllers\site\student\home@index');
+
+        Route::group(['prefix' => 'myProfile'], function(){
+            Route::post('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
+            Route::post('changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
+            Route::post('changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
+            Route::post('update', 'App\Http\Controllers\site\student\authentication\profile@updateProfile');
+        });
 
         Route::group(['prefix' => 'questions'], function(){
             Route::post('/create', 'App\Http\Controllers\site\student\questions@create');

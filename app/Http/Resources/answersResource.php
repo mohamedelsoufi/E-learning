@@ -22,8 +22,10 @@ class answersResource extends JsonResource
             'recommendation'=> $this->recommendation,
             'created_at'    => date("Y-m-d H:i", strtotime($this->created_at)),
             'answer_owner'  => [
-                'id'    => $this->answerable_id,
-                'type'  => $this->getType(),
+                'id'        => $this->answerable_id,
+                'username'  => $this->getUser()->username,
+                'type'      => $this->getType(),
+                'image'     => $this->getUser()->getImage(),
             ],
         ];
     }

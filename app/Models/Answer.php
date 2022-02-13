@@ -28,6 +28,14 @@ class Answer extends Model
     {
         return $this->morphTo();
     }
+
+    public function Student(){
+        return $this->belongsTo(Student::class, 'answerable_id');
+    }
+
+    public function Teacher(){
+        return $this->belongsTo(Teacher::class, 'answerable_id');
+    }
     //scope
     public function scopeActive($query)
     {
@@ -47,6 +55,14 @@ class Answer extends Model
             return 'student';
         } else {
             return 'teacher';
+        }
+    }
+
+    public function getUser(){
+        if($this->answerable_type == "App\Models\Student"){
+            return $this->Student;
+        } else {
+            return $this->Teacher;
         }
     }
 }
