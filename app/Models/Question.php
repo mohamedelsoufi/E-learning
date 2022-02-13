@@ -24,4 +24,18 @@ class Question extends Model
     public function Answers(){
         return $this->hasMany(Answer::class, 'question_id');
     }
+    
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
+    }
 }

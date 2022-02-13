@@ -24,15 +24,6 @@ class VideoCalls extends Migration
             //relations
             $table->foreign('available_classes_id')->references('id')->on('available_classes')->onDelete('cascade');
         });
-
-        Schema::create('student_call', function (Blueprint $table) {
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('video_call_id');
-
-            //relations
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->foreign('video_call_id')->references('id')->on('video_calls')->onDelete('cascade');
-        });
     }
 
     /**
@@ -43,6 +34,5 @@ class VideoCalls extends Migration
     public function down()
     {
         Schema::dropIfExists('video_calls');
-        Schema::dropIfExists('student_call');
     }
 }

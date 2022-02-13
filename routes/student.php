@@ -30,13 +30,28 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
     
+
     Route::get('profile', 'App\Http\Controllers\site\student\authentication\profile@index');
+    Route::get('questions', 'App\Http\Controllers\site\student\questions@index');
+    Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::post('myProfile', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
         Route::post('myProfile/changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
         Route::post('myProfile/changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
         Route::post('myProfile/update', 'App\Http\Controllers\site\student\authentication\profile@updateProfile');
+
+        Route::group(['prefix' => 'questions'], function(){
+            Route::post('/create', 'App\Http\Controllers\site\student\questions@create');
+            Route::post('/delete', 'App\Http\Controllers\site\student\questions@delete');
+            Route::post('/edit', 'App\Http\Controllers\site\student\questions@update');
+        });
+
+        Route::group(['prefix' => 'answers'], function(){
+            Route::post('/create', 'App\Http\Controllers\site\student\answers@create');
+            Route::post('/delete', 'App\Http\Controllers\site\student\answers@delete');
+            Route::post('/edit', 'App\Http\Controllers\site\student\answers@update');
+        });
 
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });

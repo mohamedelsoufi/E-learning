@@ -58,7 +58,7 @@ class Teacher extends Authenticatable implements JWTSubject
 
     public function Answer()
     {
-        return $this->morphOne(Answer::class, 'answerable');
+        return $this->morphMany(Answer::class, 'answerable');
     }
     //
     public function getGender(){

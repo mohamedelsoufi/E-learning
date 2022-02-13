@@ -22,8 +22,4 @@ class Video_call extends Model
     public function Available_class(){
         return $this->belongsTo(Available_class::class, 'available_classes_id');
     }
-
-    public function Student_calls(){
-        return $this->hasMany(Student_call::class, 'video_call_id');
-    }
 }

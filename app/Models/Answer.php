@@ -15,7 +15,6 @@ class Answer extends Model
     protected $casts = [
         'id'                   => 'integer',
         'answerable_id'        => 'integer',
-        'answerable_type'      => 'integer',
         'question_id'          => 'integer',
         'recommendation'       => 'integer'
     ];
@@ -28,5 +27,26 @@ class Answer extends Model
     public function answerable()
     {
         return $this->morphTo();
+    }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+    //
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
+    }
+
+    public function getType(){
+        if($this->answerable_type == "App\Models\Student"){
+            return 'student';
+        } else {
+            return 'teacher';
+        }
     }
 }

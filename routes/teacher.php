@@ -29,8 +29,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@sendCode');
     });
 
-    Route::get('profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
 
+    Route::get('profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
+    Route::get('questions', 'App\Http\Controllers\site\teacher\questions@index');
+    Route::get('answers', 'App\Http\Controllers\site\teacher\answers@index');
+    
     //auth
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
         Route::post('myProfile', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
@@ -38,9 +41,16 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
         Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
 
-        Route::post('tag/add', 'App\Http\Controllers\site\teacher\authentication\profile@add_tags');
-        Route::post('tag/remove', 'App\Http\Controllers\site\teacher\authentication\profile@remove_tags');
+        Route::group(['prefix' => 'tag'], function(){
+            Route::post('add', 'App\Http\Controllers\site\teacher\authentication\profile@add_tags');
+            Route::post('remove', 'App\Http\Controllers\site\teacher\authentication\profile@remove_tags');
+        });
 
+        Route::group(['prefix' => 'answers'], function(){
+            Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');
+            Route::post('/delete', 'App\Http\Controllers\site\teacher\answers@delete');
+            Route::post('/edit', 'App\Http\Controllers\site\teacher\answers@update');
+        });
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });
 });

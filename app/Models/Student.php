@@ -35,10 +35,6 @@ class Student extends Authenticatable implements JWTSubject
         return $this->belongsTo(Year::class, 'year_id');
     }
 
-    public function Student_calls(){
-        return $this->hasMany(Student_call::class, 'student_id');
-    }
-
     public function Questions(){
         return $this->hasMany(Question::class, 'student_id');
     }
@@ -50,7 +46,7 @@ class Student extends Authenticatable implements JWTSubject
 
     public function Answer()
     {
-        return $this->morphOne(Answer::class, 'answerable');
+        return $this->morphMany(Answer::class, 'answerable');
     }
     //
     public function getGender(){

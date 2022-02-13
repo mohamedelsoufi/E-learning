@@ -16,12 +16,14 @@ class Questions extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('subject_id');
             $table->text('question');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
         Schema::create('answers', function (Blueprint $table) {
