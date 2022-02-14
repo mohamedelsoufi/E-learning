@@ -71,6 +71,12 @@
                 </li>
             @endif
 
+            @if (auth('admin')->user()->isAbleTo('read-questions'))
+                <li class="{{request()->is('admins/questions')? 'active':''}}">
+                    <a href="{{url('admins/questions')}}"><i class="fa fa-users"></i><span>questions</span></a>
+                </li>
+            @endif
+
         </ul>
     </section>
 </aside>

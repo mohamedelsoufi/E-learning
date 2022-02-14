@@ -37,12 +37,12 @@ class promo_codes extends Controller
         $promo_code = Promo_code::find($id);
 
         if($promo_code == null)
-            return redirect('admins/promo_codes')->with('error', 'faild');
+            return redirect('admins/promo_codes')->with('error', 'delete faild');
         
         $promo_code->status = -1;
         $promo_code->save();
 
-        return redirect('admins/promo_codes')->with('success', 'success');
+        return redirect('admins/promo_codes')->with('success', 'delete success');
         
     }
 

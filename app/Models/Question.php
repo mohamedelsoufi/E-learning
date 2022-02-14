@@ -13,12 +13,18 @@ class Question extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'id'    => 'integer',
+        'id'            => 'integer',
+        'student_id'    => 'integer',
+        'subject_id'    => 'integer',
     ];
 
     //relations
     public function Student(){
         return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function Subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
     public function Answers(){

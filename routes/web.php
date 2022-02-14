@@ -110,7 +110,16 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@editView')->middleware('auth:admin');
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@edit')->middleware('auth:admin');
     });
+    
+    Route::group(['prefix' => 'questions'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\questions@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\questions@delete')->middleware('auth:admin');
+    });
 
+    Route::group(['prefix' => 'answers'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\answers@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\answers@delete')->middleware('auth:admin');
+    });
 });
 
 
