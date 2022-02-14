@@ -77,6 +77,18 @@
                 </li>
             @endif
 
+            @if (auth('admin')->user()->isAbleTo('read-students'))
+                <li class="{{request()->is('admins/students')? 'active':''}}">
+                    <a href="{{url('admins/students')}}"><i class="fa fa-users"></i><span>students</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-teachers'))
+                <li class="{{request()->is('admins/teachers')? 'active':''}}">
+                    <a href="{{url('admins/teachers')}}"><i class="fa fa-users"></i><span>teachers</span></a>
+                </li>
+            @endif
+
         </ul>
     </section>
 </aside>

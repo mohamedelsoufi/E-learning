@@ -77,6 +77,22 @@ class Teacher extends Authenticatable implements JWTSubject
         }
     }
 
+    public function getStatus(){
+        if($this->status == 0){
+            return 'block';
+        } else {
+            return 'active';
+        }
+    }
+
+    public function changeStatus(){
+        if($this->status == 0){
+            return 'active';
+        } else {
+            return 'block';
+        }
+    }
+
     public function getImage(){
         if($this->Image != null){
             return url('public/uploads/teachers/' . $this->Image->src);

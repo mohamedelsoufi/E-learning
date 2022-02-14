@@ -120,6 +120,16 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/', 'App\Http\Controllers\admin\answers@index')->middleware('auth:admin');
         Route::get('/delete/{id}', 'App\Http\Controllers\admin\answers@delete')->middleware('auth:admin');
     });
+
+    Route::group(['prefix' => 'students'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\students@index')->middleware('auth:admin');
+        Route::get('/block/{id}', 'App\Http\Controllers\admin\students@block')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'teachers'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\teachers@index')->middleware('auth:admin');
+        Route::get('/block/{id}', 'App\Http\Controllers\admin\teachers@block')->middleware('auth:admin');
+    });
 });
 
 
