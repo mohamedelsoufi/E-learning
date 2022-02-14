@@ -13,9 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 class terms extends Controller
 {
-    public function index(){
-        $terms = Term::where('status', '!=', -1)->get();
-        return view('admins.terms.index')->with('terms', $terms);
+    public function index(Request $request){
+        $terms = Term::where('status', '!=', -1)
+                        ->where('year_id', $request->get('year'))
+                        ->get();
+
+        return view('admins.terms.index')->with([
+            'terms'             => $terms,
+            'curriculum_id'     => $request->get('curriculum'),
+            'level_id'          => $request->get('level'),
+            'year_id'           => $request->get('year'),
+        ]);
     }
 
     public function delete($term_id){

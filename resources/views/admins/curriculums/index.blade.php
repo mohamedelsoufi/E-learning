@@ -58,6 +58,7 @@
                                     <th>name</th>
                                     <th>description</th>
                                     <th>status</th>
+                                    <th>levels count</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
@@ -69,6 +70,7 @@
                                         <td>{{$curriculum->translate('en')->name}}</td>
                                         <td>{{$curriculum->Country->translate('en')->name}}</td>
                                         <td>{{$curriculum->getStatus()}}</td>
+                                        <td><a href="levels?curriculum={{$curriculum->id}}">{{count($curriculum->Levels)}}</a></td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))

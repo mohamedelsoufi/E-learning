@@ -14,6 +14,12 @@
             <ol class="breadcrumb">
                 <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
+                <li> <a href="{{url('admins/curriculums')}}"><i class="fa fa-dashboard"></i>curriculum</a>
+                </li>
+                <li> <a href="{{url('admins/levels?curriculum='.$curriculum_id)}}"><i class="fa fa-dashboard"></i>levels</a>
+                </li>
+                <li> <a href="{{url('admins/years?curriculum='.$curriculum_id . '&&level=' . $level_id )}}"><i class="fa fa-dashboard"></i>years</a>
+                </li>
                 <li class="active"><i class="fa fa-users"></i>terms</li>
             </ol>
         </section>
@@ -58,6 +64,7 @@
                                     <th>name</th>
                                     <th>description</th>
                                     <th>status</th>
+                                    <th>subjects count</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
@@ -74,6 +81,7 @@
                                             {{$term->Year->translate('en')->name}}
                                         </td>
                                         <td>{{$term->getStatus()}}</td>
+                                        <td><a href="subjects?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term->id}}">{{count($term->Subjects)}}</a></td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))

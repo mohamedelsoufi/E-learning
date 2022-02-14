@@ -12,9 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class subjects extends Controller
 {
-    public function index(){
-        $subjects = Subject::where('status', '!=', -1)->get();
-        return view('admins.subjects.index')->with('subjects', $subjects);
+    public function index(Request $request){
+        $subjects = Subject::where('status', '!=', -1)
+                            ->where('term_id', $request->get('term'))
+                            ->get();
+
+        return view('admins.subjects.index')->with([
+            'subjects'          => $subjects,
+            'curriculum_id'     => $request->get('curriculum'),
+            'level_id'          => $request->get('level'),
+            'year_id'           => $request->get('year'),
+            'term_id'           => $request->get('term'),
+        ]);
     }
 
     public function delete($subject_id){

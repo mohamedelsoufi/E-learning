@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class levels extends Controller
 {
-    public function index(){
-        $levels = Level::where('status', '!=', -1)->get();
-        return view('admins.levels.index')->with('levels', $levels);
+    public function index(Request $request){
+        $levels = Level::where('status', '!=', -1)
+                            ->where('curriculum_id', $request->get('curriculum'))
+                            ->get();
+                            
+        return view('admins.levels.index')->with([
+            'levels'            => $levels,
+            'curriculum_id'     => $request->get('curriculum'),
+        ]);
     }
 
     public function delete($level_id){

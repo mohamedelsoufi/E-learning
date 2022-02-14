@@ -12,9 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class years extends Controller
 {
-    public function index(){
-        $years = Year::where('status', '!=', -1)->get();
-        return view('admins.years.index')->with('years', $years);
+    public function index(Request $request){
+        $years = Year::where('status', '!=', -1)
+                        ->where('level_id', $request->get('level'))
+                        ->get();
+
+        return view('admins.years.index')->with([
+            'years'             => $years,
+            'curriculum_id'     => $request->get('curriculum'),
+            'level_id'          => $request->get('level'),
+        ]);
     }
 
     public function delete($level_id){

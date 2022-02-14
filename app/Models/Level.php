@@ -26,7 +26,7 @@ class Level extends Model implements TranslatableContract
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
     public function Years(){
-        return $this->hasMany(Year::class, 'year_id');
+        return $this->hasMany(Year::class, 'level_id');
     }
 
     //scope

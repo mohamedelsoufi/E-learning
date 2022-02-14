@@ -41,30 +41,6 @@
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
-                <li class="{{request()->is('admins/levels')? 'active':''}}">
-                    <a href="{{url('admins/levels')}}"><i class="fa fa-users"></i><span>levels</span></a>
-                </li>
-            @endif
-
-            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
-                <li class="{{request()->is('admins/years')? 'active':''}}">
-                    <a href="{{url('admins/years')}}"><i class="fa fa-users"></i><span>years</span></a>
-                </li>
-            @endif
-
-            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
-                <li class="{{request()->is('admins/terms')? 'active':''}}">
-                    <a href="{{url('admins/terms')}}"><i class="fa fa-users"></i><span>terms</span></a>
-                </li>
-            @endif
-
-            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
-                <li class="{{request()->is('admins/subjects')? 'active':''}}">
-                    <a href="{{url('admins/subjects')}}"><i class="fa fa-users"></i><span>subjects</span></a>
-                </li>
-            @endif
-
             @if (auth('admin')->user()->isAbleTo('read-promo_codes'))
                 <li class="{{request()->is('admins/promo_codes')? 'active':''}}">
                     <a href="{{url('admins/promo_codes')}}"><i class="fa fa-users"></i><span>promo_codes</span></a>
