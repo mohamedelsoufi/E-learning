@@ -102,6 +102,15 @@ Route::group(['prefix' => 'admins'], function(){
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\subjects@edit')->middleware('auth:admin');
     });
 
+    Route::group(['prefix' => 'promo_codes'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\promo_codes@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\promo_codes@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\promo_codes@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\promo_codes@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@edit')->middleware('auth:admin');
+    });
+
 });
 
 

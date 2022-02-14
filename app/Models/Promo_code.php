@@ -15,6 +15,18 @@ class Promo_code extends Model
 
     protected $casts = [
     ];
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
     
     //relations
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'subjects')
+@section('title', 'promo codes')
 
 
 @section('content')
@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>subject</h1>
+            <h1>promo codes</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/subjects')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins/promocodes')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>subjects</li>
+                <li class="active"><i class="fa fa-users"></i>promo codes</li>
             </ol>
         </section>
 
@@ -36,8 +36,8 @@
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
                                     search
                                 </button>
-                                @if (auth('admin')->user()->isAbleTo('create-curriculums'))
-                                    <a href="{{url('admins/subjects/create')}}"
+                                @if (auth('admin')->user()->isAbleTo('create-promo_codes'))
+                                    <a href="{{url('admins/promo_codes/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
                                 @else
@@ -55,30 +55,26 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-                                    <th>description</th>
+                                    <th>code</th>
+                                    <th>discound</th>
+                                    <th>expire_date</th>
                                     <th>status</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($subjects as $subject)
+                                @foreach ($promo_codes as $promo_code)
                                     <tr>
-                                        <td>{{$subject->id}}</td>
-                                        <td>{{$subject->translate('en')->name}}</td>
-                                        <td>
-                                            {{$subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
-                                            {{$subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
-                                            {{$subject->Term->Year->Level->translate('en')->name}} ->
-                                            {{$subject->Term->Year->translate('en')->name}} ->
-                                            {{$subject->Term->translate('en')->name}}
-                                        </td>
-                                        <td>{{$subject->getStatus()}}</td>
+                                        <td>{{$promo_code->id}}</td>
+                                        <td>{{$promo_code->code}}</td>
+                                        <td>{{$promo_code->percentage}} %</td>
+                                        <td>{{$promo_code->expiration}}</td>
+                                        <td>{{$promo_code->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}
-                                            @if (auth('admin')->user()->isAbleTo('update-curriculums'))
-                                                <a href="{{url('admins/subjects/edit/' . $subject->id)}}" style="color: #fff;
+                                            @if (auth('admin')->user()->isAbleTo('update-promo_codes'))
+                                                <a href="{{url('admins/promo_codes/edit/' . $promo_code->id)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
@@ -91,8 +87,8 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-curriculums'))
-                                                <a href="{{url('admins/subjects/delete/' . $subject->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
+                                            @if (auth('admin')->user()->isAbleTo('delete-promo_codes'))
+                                                <a href="{{url('admins/promo_codes/delete/' . $promo_code->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 
                                             @else

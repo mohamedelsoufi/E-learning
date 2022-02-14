@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "roles-add")
+@section('title', "promo codes-create")
 
 
 @section('content')
@@ -13,7 +13,7 @@
 
             <ol class="breadcrumb">
                 <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>users</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>promo codes</a></li>
                 <li class="active"><i class="fa fa-plus"></i>add</li>
             </ol>
         </section>
@@ -32,13 +32,12 @@
                     <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row" style="margin: 0 !important;">
-                        
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>name</label>
-                                <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name"
-                                    placeholder="name" value="{{ old('name') }}" required autocomplete="off">
-                                @error('name')
+                                <label>code</label>
+                                <input type="text" class="form-control  @error('code') is-invalid @enderror" name="code"
+                                    placeholder="code" value="{{ old('code') }}" required autocomplete="off">
+                                @error('code')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -48,45 +47,36 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>description</label>
-                                <input type="text" class="form-control  @error('description') is-invalid @enderror" name="description"
-                                placeholder="description" value="{{ old('description') }}" required autocomplete="off">
-                                @error('description')
+                                <label>percentage</label>
+                                <input type="text" class="form-control  @error('percentage') is-invalid @enderror" name="percentage"
+                                placeholder="percentage" value="{{ old('percentage') }}" required autocomplete="off">
+                                @error('percentage')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
                                 @enderror
                             </div>
                         </div>
-                        
-                        @php
-                        $models = [
-                            "admins",
-                            "roles",
-                            'students',
-                            'teachers',
-                            "countries",
-                            "curriculums",
-                            "promo_codes",
-                            "questions",
-                        ];
-                        $maps = ['read', 'create','update', 'delete'];
-                        @endphp
 
-                        @foreach ($models as $model)
-                            <div class="list-group col-md-3" style="padding-left: 15px !important;">
-                                <a href="#" class="list-group-item active">
-                                    {{$model}}
-                                </a>
-                                {{-- --}}
-                                @foreach ($maps as $map)
-                                    <label>
-                                        <input type="checkbox" name="permissions[]" value="{{$map . '-' . $model}}">{{$map}}
-                                    </label>
-                                    <hr>
-                                @endforeach
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>expiration</label>
+                                <input type="date" placeholder="expire date" class="form-control  @error('expiration') is-invalid @enderror" name="expiration" value="{{old('expiration')}}">
+                                @error('expiration')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
-                        @endforeach
+                        </div>
+
+                        {{-- status --}}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg"checked/>
+                                <label for="switcherySize" class="font-medium-2 text-bold-600 ml-1">status</label>
+                            </div>
+                        </div>
 
                         <div class="row" style="margin: 0 !important;">
                             <div class="col-md-12">

@@ -36,7 +36,7 @@
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
                                     search
                                 </button>
-                                @if (auth('admin')->user()->isAbleTo('create-years'))
+                                @if (auth('admin')->user()->isAbleTo('create-curriculums'))
                                     <a href="{{url('admins/years/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
@@ -75,7 +75,7 @@
                                         <td>{{$year->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}
-                                            @if (auth('admin')->user()->isAbleTo('update-years'))
+                                            @if (auth('admin')->user()->isAbleTo('update-curriculums'))
                                                 <a href="{{url('admins/years/edit/' . $year->id)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
@@ -89,7 +89,7 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-years'))
+                                            @if (auth('admin')->user()->isAbleTo('delete-curriculums'))
                                                 <a href="{{url('admins/years/delete/' . $year->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 

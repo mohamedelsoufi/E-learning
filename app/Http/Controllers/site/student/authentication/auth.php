@@ -50,8 +50,8 @@ class auth extends Controller
             return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
         // check if student not active
-        if($student['verified'] == 0)
-            return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
+        // if($student['verified'] == 0)
+        //     return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
         
         return response()->json([
             'successful'=> true,
