@@ -12,7 +12,9 @@
             <h1>answers</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/answers')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                </li>
+                <li> <a href="{{url('admins/questions')}}"><i class="fa fa-dashboard"></i>questions</a>
                 </li>
                 <li class="active"><i class="fa fa-users"></i>answers</li>
             </ol>

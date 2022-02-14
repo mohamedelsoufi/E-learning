@@ -12,7 +12,7 @@
             <h1>promo codes</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/promocodes')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
                 <li class="active"><i class="fa fa-users"></i>promo codes</li>
             </ol>

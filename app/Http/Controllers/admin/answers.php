@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class answers extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         //select all admin
-        $answers = Answer::get();
+        $answers = Answer::where('question_id', $request->get('question'))->get();
         return view('admins.answers.index')->with('answers', $answers);
     }
 

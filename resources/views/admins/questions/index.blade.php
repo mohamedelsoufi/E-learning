@@ -70,7 +70,7 @@
                                         <td>{{$question->Student->username}}</td>
                                         <td>{{$question->Subject->translate('en')->name}}</td>
                                         <td>{{$question->question}}</td>
-                                        <td><a href="answers">{{count($question->Answers)}}</a></td>
+                                        <td><a href="answers?question={{$question->id}}">{{count($question->Answers)}}</a></td>
                                         <td>
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-questions'))

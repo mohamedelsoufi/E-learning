@@ -12,7 +12,7 @@
             <h1>country</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/countries')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
                 <li class="active"><i class="fa fa-users"></i>countries</li>
             </ol>

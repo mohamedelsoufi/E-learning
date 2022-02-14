@@ -12,7 +12,7 @@
             <h1>terms</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/terms')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
                 <li class="active"><i class="fa fa-users"></i>terms</li>
             </ol>

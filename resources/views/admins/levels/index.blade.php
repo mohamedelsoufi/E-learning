@@ -12,7 +12,7 @@
             <h1>levels</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/levels')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
                 </li>
                 <li class="active"><i class="fa fa-users"></i>levels</li>
             </ol>
