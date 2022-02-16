@@ -15,7 +15,7 @@ class answers extends Controller
     public function index(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'question_id'    => 'required|string|exists:questions,id',
+            'question_id'    => 'required|exists:questions,id',
         ]);
 
         if($validator->fails()){
@@ -38,7 +38,7 @@ class answers extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'answer'         => 'required|string|min:3|max:2000',
-            'question_id'    => 'required|string|exists:questions,id',
+            'question_id'    => 'required|exists:questions,id',
         ]);
 
         if($validator->fails()){
@@ -64,7 +64,7 @@ class answers extends Controller
     public function delete(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'answer_id'         => 'required|string|exists:answers,id',
+            'answer_id'         => 'required|exists:answers,id',
         ]);
 
         if($validator->fails()){
@@ -95,7 +95,7 @@ class answers extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'answer'         => 'required|string|min:3|max:2000',
-            'answer_id'      => 'required|string|exists:answers,id',
+            'answer_id'      => 'required|exists:answers,id',
         ]);
 
         if($validator->fails()){

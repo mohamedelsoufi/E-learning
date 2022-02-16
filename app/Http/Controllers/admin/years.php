@@ -21,20 +21,23 @@ class years extends Controller
             'years'             => $years,
             'curriculum_id'     => $request->get('curriculum'),
             'level_id'          => $request->get('level'),
+            'parms'             => 'curriculum=' . $request->get('curriculum') .
+                                    '&&level=' . $request->get('level'),
         ]);
     }
 
     public function delete($level_id){
         //get level 
         $year = Year::find($level_id);
+        $parms = 'curriculum=' . $_GET['curriculum'] . '&&level=' . $_GET['level'];
 
         if($year == null)
-            return redirect('admins/years')->with('error', 'delete faild');
+            return redirect('admins/years?' . $parms)->with('error', 'delete faild');
 
         $year->status = -1;
         $year->save();
 
-        return redirect('admins/years')->with('success', 'delete level success');
+        return redirect('admins/years?' . $parms)->with('success', 'delete level success');
     }
 
     public function createView(){
@@ -43,6 +46,7 @@ class years extends Controller
     }
 
     public function create(add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'] . '&&level=' . $_GET['level'];
         try{
             DB::beginTransaction();
                 //get cate status
@@ -62,20 +66,21 @@ class years extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect('admins/years')->with('success', 'add year success');
+            return redirect('admins/years?' . $parms)->with('success', 'add year success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/years')->with('error', 'add year faild');
+            return redirect('admins/years?' . $parms)->with('error', 'add year faild');
         }
     }
 
     public function editView($year_id){
         $year = Year::find($year_id);
         $levels = Level::active()->get();
+        $parms = 'curriculum=' . $_GET['curriculum'] . '&&level=' . $_GET['level'];
 
         //if Curriculum not found
         if($year == null)
-            return redirect('admins/years');
+            return redirect('admins/years?' . $parms);
         
         return view('admins.years.edit')->with([
             'year'          => $year,
@@ -84,6 +89,7 @@ class years extends Controller
     }
 
     public function edit($year_id, add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'] . '&&level=' . $_GET['level'];
         try{
             $year = Year::find($year_id);
             $yearsTranslation = YearTranslation::where('year_id', $year_id)->get();
@@ -104,10 +110,10 @@ class years extends Controller
                 }
 
             DB::commit();
-            return redirect('admins/years')->with('success', 'add year success');
+            return redirect('admins/years?' . $parms)->with('success', 'add year success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/years')->with('error', 'add year faild');
+            return redirect('admins/years?' . $parms)->with('error', 'add year faild');
         }
     }
 }

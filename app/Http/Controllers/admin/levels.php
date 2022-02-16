@@ -19,21 +19,23 @@ class levels extends Controller
                             
         return view('admins.levels.index')->with([
             'levels'            => $levels,
-            'curriculum_id'     => $request->get('curriculum'),
+            'parms'             => 'curriculum=' . $request->get('curriculum'),
         ]);
     }
 
     public function delete($level_id){
         //get level 
         $level = Level::find($level_id);
+        $parms = 'curriculum=' . $_GET['curriculum'];
+
 
         if($level == null)
-            return redirect('admins/levels')->with('error', 'delete faild');
+            return redirect('admins/levels?' . $parms)->with('error', 'delete faild');
 
         $level->status = -1;
         $level->save();
 
-        return redirect('admins/levels')->with('success', 'delete level success');
+        return redirect('admins/levels?' . $parms)->with('success', 'delete level success');
     }
 
     public function createView(){
@@ -42,6 +44,7 @@ class levels extends Controller
     }
 
     public function create(add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'];
         try{
             DB::beginTransaction();
                 //get cate status
@@ -61,20 +64,21 @@ class levels extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect('admins/levels')->with('success', 'add level success');
+            return redirect('admins/levels?' . $parms)->with('success', 'add level success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/levels')->with('error', 'add level faild');
+            return redirect('admins/levels?' . $parms)->with('error', 'add level faild');
         }
     }
 
     public function editView($level_id){
         $level = Level::find($level_id);
         $curriculums = Curriculum::active()->get();
+        $parms = 'curriculum=' . $_GET['curriculum'];
 
         //if Curriculum not found
         if($level == null)
-            return redirect('admins/levels');
+            return redirect('admins/levels?' . $parms);
         
         return view('admins.levels.edit')->with([
             'level'         => $level,
@@ -83,6 +87,8 @@ class levels extends Controller
     }
 
     public function edit($level_id, add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'];
+
         try{
             $level = Level::find($level_id);
             $levelsTranslation = LevelTranslation::where('level_id', $level_id)->get();
@@ -103,10 +109,10 @@ class levels extends Controller
                 }
 
             DB::commit();
-            return redirect('admins/levels')->with('success', 'add level success');
+            return redirect('admins/levels?' . $parms)->with('success', 'add level success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/levels')->with('error', 'add level faild');
+            return redirect('admins/levels?' . $parms)->with('error', 'add level faild');
         }
     }
 }

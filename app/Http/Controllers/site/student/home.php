@@ -31,4 +31,8 @@ class home extends Controller
 
         return $this::success(trans('auth.success'), 400, 'terms', term_SubjectResource::collection($terms));
     }
+
+    public function (){
+        
+    }
 }

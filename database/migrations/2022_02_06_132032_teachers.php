@@ -29,6 +29,7 @@ class Teachers extends Migration
             $table->float('balance')->default(0);
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
             $table->text('about')->nullable();
+            $table->string('token_firebase')->nullable();
             $table->timestamps();
 
             //relations
@@ -52,6 +53,7 @@ class Teachers extends Migration
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('teacher_id');
 
+            $table->unique(['subject_id', 'teacher_id']);
             //relations
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');

@@ -94,7 +94,7 @@ class questions extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'question'         => 'required|string|min:3|max:2000',
-            'question_id'         => 'required|string|exists:questions,id',
+            'question_id'         => 'required|exists:questions,id',
         ]);
 
         if($validator->fails()){

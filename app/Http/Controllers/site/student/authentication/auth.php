@@ -22,8 +22,9 @@ class auth extends Controller
         
         // //validation
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
+            'username'          => 'required|string',
+            'password'          => 'required|string',
+            'token_firebase'    => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -53,6 +54,10 @@ class auth extends Controller
         // if($student['verified'] == 0)
         //     return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
         
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
+
         return response()->json([
             'successful'=> true,
             'message'   => 'success',
@@ -78,6 +83,7 @@ class auth extends Controller
             'country_id'       => 'required|exists:countries,id',
             'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
+            'token_firebase'   => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -93,6 +99,7 @@ class auth extends Controller
             'country_id'        => $request->get('country_id'),
             'curriculum_id'     => $request->get('curriculum_id'),
             'gender'            => $request->get('gender'),
+            'token_firebase'    => $request->get('token_firebase'),
         ]);
 
         //create token

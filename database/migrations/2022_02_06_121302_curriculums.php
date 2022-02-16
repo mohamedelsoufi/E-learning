@@ -120,13 +120,12 @@ class Curriculums extends Migration
 
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->unsignedBigInteger('subject_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
-            $table->foreign('subject_id')->references('id')->on('materials')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
         Schema::create('materials_translations', function(Blueprint $table) {

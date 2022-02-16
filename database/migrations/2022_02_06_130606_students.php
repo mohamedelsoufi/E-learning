@@ -29,6 +29,7 @@ class Students extends Migration
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
             $table->tinyInteger('gender')->comment('1->male, 0 ->female')->default(0);
             $table->date('birth')->nullable();
+            $table->string('token_firebase')->nullable();
             $table->timestamps();
 
             //relations

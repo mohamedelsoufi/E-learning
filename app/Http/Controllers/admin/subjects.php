@@ -23,20 +23,28 @@ class subjects extends Controller
             'level_id'          => $request->get('level'),
             'year_id'           => $request->get('year'),
             'term_id'           => $request->get('term'),
+            'parms'             => 'curriculum=' . $request->get('curriculum') .
+                                    '&&level=' . $request->get('level') . 
+                                    '&&year=' . $request->get('year').
+                                    '&&term=' . $request->get('term'),
         ]);
     }
 
     public function delete($subject_id){
         //get Subject 
         $subject = Subject::find($subject_id);
+        $parms = 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'] .
+                '&&term=' . $_GET['term'];
 
         if($subject == null)
-            return redirect('admins/subjects')->with('error', 'delete faild');
+            return redirect('admins/subjects?' . $parms)->with('error', 'delete faild');
 
         $subject->status = -1;
         $subject->save();
 
-        return redirect('admins/subjects')->with('success', 'delete subject success');
+        return redirect('admins/subjects?' . $parms)->with('success', 'delete subject success');
     }
 
     public function createView(){
@@ -45,6 +53,10 @@ class subjects extends Controller
     }
 
     public function create(add $request){
+        $parms= 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'] .
+                '&&term=' . $_GET['term'];
         try{
             DB::beginTransaction();
                 //get cate status
@@ -64,20 +76,24 @@ class subjects extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect('admins/subjects')->with('success', 'add subject success');
+            return redirect('admins/subjects?' . $parms)->with('success', 'add subject success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/subjects')->with('error', 'add subject faild');
+            return redirect('admins/subjects?' . $parms)->with('error', 'add subject faild');
         }
     }
 
     public function editView($subject_id){
         $subject = Subject::find($subject_id);
         $terms = Term::active()->get();
+        $parms= 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'] .
+                '&&term=' . $_GET['term'];
 
         //if Curriculum not found
         if($subject == null)
-            return redirect('admins/subjects');
+            return redirect('admins/subjects?' . $parms);
         
         return view('admins.subjects.edit')->with([
             'subject'       => $subject,
@@ -86,6 +102,10 @@ class subjects extends Controller
     }
 
     public function edit($subject_id, add $request){
+        $parms= 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'] .
+                '&&term=' . $_GET['term'];
         try{
             $subject = Subject::find($subject_id);
             $subjectsTranslation = SubjectTranslation::where('subject_id', $subject_id)->get();
@@ -106,10 +126,10 @@ class subjects extends Controller
                 }
 
             DB::commit();
-            return redirect('admins/subjects')->with('success', 'add subject success');
+            return redirect('admins/subjects?' . $parms)->with('success', 'add subject success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/subjects')->with('error', 'add subject faild');
+            return redirect('admins/subjects?' . $parms)->with('error', 'add subject faild');
         }
     }
 }

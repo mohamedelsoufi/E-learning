@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Material extends Model
+class Material extends Model implements TranslatableContract
 {
-    use HasFactory;
+    use HasFactory, Translatable;
     protected $table = 'materials';
+    public $translatedAttributes = ['name'];
 
     protected $guarded = [];
 
@@ -21,9 +24,9 @@ class Material extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function files()
+    public function file()
     {
-        return $this->morphMany(File::class, 'fileable');
+        return $this->morphOne(File::class, 'fileable');
     }
     //scope
     public function scopeActive($query)

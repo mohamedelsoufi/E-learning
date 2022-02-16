@@ -60,6 +60,11 @@ class Teacher extends Authenticatable implements JWTSubject
     {
         return $this->morphMany(Answer::class, 'answerable');
     }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
     //
     public function getGender(){
         if($this->gender == 0){

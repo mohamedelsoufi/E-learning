@@ -20,10 +20,11 @@ class auth extends Controller
     public function login(Request $request){
         $guard = 'teacher';
         
-        // //validation
+        //validation
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
+            'username'          => 'required|string',
+            'password'          => 'required|string',
+            'token_firebase'    => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -49,9 +50,13 @@ class auth extends Controller
         if($teacher['status'] == 0)
             return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
-        // check if student not active
+        // check if teacher not active
         // if($teacher['verified'] == 0)
         //     return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
+
+        //update token
+        $teacher->token_firebase = $request->get('token_firebase');
+        $teacher->save();
         
         return response()->json([
             'successful'=> true,
@@ -78,6 +83,8 @@ class auth extends Controller
             'country_id'       => 'required|exists:countries,id',
             'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
+            'token_firebase'   => $request->get('token_firebase'),
+            'token_firebase'   => 'required|string',
         ]);
 
         if($validator->fails()){

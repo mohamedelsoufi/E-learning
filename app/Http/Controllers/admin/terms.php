@@ -17,26 +17,33 @@ class terms extends Controller
         $terms = Term::where('status', '!=', -1)
                         ->where('year_id', $request->get('year'))
                         ->get();
+        
 
         return view('admins.terms.index')->with([
             'terms'             => $terms,
             'curriculum_id'     => $request->get('curriculum'),
             'level_id'          => $request->get('level'),
             'year_id'           => $request->get('year'),
+            'parms'             => 'curriculum=' . $request->get('curriculum') .
+                                    '&&level=' . $request->get('level') . 
+                                    '&&year=' . $request->get('year'),
         ]);
     }
 
     public function delete($term_id){
         //get term 
         $term = Term::find($term_id);
+        $parms = 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'];
 
         if($term == null)
-            return redirect('admins/terms')->with('error', 'delete faild');
+            return redirect('admins/terms?' . $parms)->with('error', 'delete faild');
 
         $term->status = -1;
         $term->save();
 
-        return redirect('admins/terms')->with('success', 'delete term success');
+        return redirect('admins/terms?' . $parms)->with('success', 'delete term success');
     }
 
     public function createView(){
@@ -45,6 +52,9 @@ class terms extends Controller
     }
 
     public function create(add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'];
         try{
             DB::beginTransaction();
                 //get cate status
@@ -64,20 +74,23 @@ class terms extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect('admins/terms')->with('success', 'add term success');
+            return redirect('admins/terms?' . $parms)->with('success', 'add term success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/terms')->with('error', 'add term faild');
+            return redirect('admins/terms?' . $parms)->with('error', 'add term faild');
         }
     }
 
     public function editView($term_id){
         $term = Term::find($term_id);
         $years = Year::active()->get();
-
+        $parms = 'curriculum=' . $_GET['curriculum'] .
+                '&&level=' . $_GET['level'] .
+                '&&year=' . $_GET['year'];
+        
         //if Curriculum not found
         if($term == null)
-            return redirect('admins/terms');
+            return redirect('admins/terms?' . $parms);
         
         return view('admins.terms.edit')->with([
             'term'          => $term,
@@ -86,6 +99,9 @@ class terms extends Controller
     }
 
     public function edit($term_id, add $request){
+        $parms = 'curriculum=' . $_GET['curriculum'] .
+                 '&&level=' . $_GET['level'] .
+                 '&&year=' . $_GET['year'];
         try{
             $term = Term::find($term_id);
             $termsTranslation = TermTranslation::where('term_id', $term_id)->get();
@@ -106,10 +122,10 @@ class terms extends Controller
                 }
 
             DB::commit();
-            return redirect('admins/terms')->with('success', 'add term success');
+            return redirect('admins/terms?' . $parms)->with('success', 'add term success');
         } catch(\Exception $ex){
             //if there are error
-            return redirect('admins/terms')->with('error', 'add term faild');
+            return redirect('admins/terms?' . $parms)->with('error', 'add term faild');
         }
     }
 }
