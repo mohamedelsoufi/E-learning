@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "edit countries")
+@section('title', "edit class type")
 
 
 @section('content')
@@ -13,7 +13,7 @@
 
             <ol class="breadcrumb">
                 <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>countries</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>class type</a></li>
                 <li class="active"><i class="fa fa-plus"></i>edit</li>
             </ol>
         </section>
@@ -34,10 +34,10 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>dialing_code</label>
-                                <input type="text" class="form-control  @error('dialing_code') is-invalid @enderror" name="dialing_code"
-                                    placeholder="dialing_code" value="{{$country->dialing_code}}" required autocomplete="off">
-                                @error('dialing_code')
+                                <label>percentage</label>
+                                <input type="number" class="form-control  @error('long') is-invalid @enderror" name="long"
+                                    placeholder="long" value="{{$class_type->long }}" required autocomplete="off">
+                                @error('long')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -45,34 +45,32 @@
                             </div>
                         </div>
 
-                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>name in {{$properties['native']}}</label>
-                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="countries[{{$localeCode}}][name]"
-                                        placeholder="name" value="{{$country->translate($localeCode)->name}}" required autocomplete="off">
-                                    @error('name')
-                                        <small class=" text text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </small>
-                                    @enderror
-                                </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>minutes cost	</label>
+                                <input type="number" step="0.01" class="form-control  @error('long_cost') is-invalid @enderror" name="long_cost"
+                                    placeholder="minutes cost" value="{{ $class_type->long_cost }}" required autocomplete="off">
+                                @error('long_cost')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
-                        @endforeach
+                        </div>
 
                         {{-- status --}}
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg" @if ($country->status == 1) checked @endif/>
+                                <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg" @if ($class_type->status == 1) checked @endif/>
                                 <label for="switcherySize" class="font-medium-2 text-bold-600 ml-1">status</label>
                             </div>
                         </div>
-                        
+
                         <div class="row" style="margin: 0 !important;">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        add</button>
                                 </div>
                             </div>
                         </div>

@@ -14,12 +14,8 @@ class Class_type extends Model
 
     protected $casts = [
         'id'                    => 'integer',
-        'country_id'            => 'integer',
         'cost'                  => 'float',
         'students_number'       => 'integer',
-        'company_percentage'    => 'integer',
-        'max_students_number'   => 'integer',
-        'min_students_number'   => 'integer',
         'long'                  => 'integer',
     ];
 
@@ -30,5 +26,13 @@ class Class_type extends Model
 
     public function Available_classes(){
         return $this->hasMany(Available_class::class, 'class_type_id');
+    }
+
+    public function getStatus(){
+        if($this->status == 0){
+            return 'not active';
+        } else {
+            return 'active';
+        }
     }
 }

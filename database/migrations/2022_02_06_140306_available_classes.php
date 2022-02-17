@@ -24,6 +24,7 @@ class AvailableClasses extends Migration
             $table->integer('long')->comment('in minutes');
             $table->integer('max_student_number');
             $table->float('cost')->nullable();
+            $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->integer('promoCode_percentage')->nullable();
             $table->text('note')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');

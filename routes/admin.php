@@ -171,6 +171,15 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/edit', 'App\Http\Controllers\admin\settings@editView')->middleware('auth:admin');
         Route::post('/edit', 'App\Http\Controllers\admin\settings@edit')->middleware('auth:admin');
     });
+
+    Route::group(['prefix' => 'class_types'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\class_types@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\class_types@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\class_types@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\class_types@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\class_types@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\class_types@edit')->middleware('auth:admin');
+    });
 });
 
 

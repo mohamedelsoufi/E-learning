@@ -94,6 +94,12 @@
                     <a href="{{url('admins/settings/edit')}}"><i class="fa fa-users"></i><span>settings</span></a>
                 </li>
             @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
+                <li class="{{request()->is('admins/class_types')? 'active':''}}">
+                    <a href="{{url('admins/class_types')}}"><i class="fa fa-users"></i><span>class types</span></a>
+                </li>
+            @endif
         </ul>
     </section>
 </aside>
