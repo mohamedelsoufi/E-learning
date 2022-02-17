@@ -69,6 +69,7 @@
                             "curriculums",
                             "promo_codes",
                             "questions",
+                            'class_costs',
                         ];
                         $maps = ['read', 'create','update', 'delete'];
                         @endphp

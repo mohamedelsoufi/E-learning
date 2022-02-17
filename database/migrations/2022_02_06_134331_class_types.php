@@ -17,7 +17,7 @@ class ClassTypes extends Migration
             $table->id();
             $table->integer('long')->comment('in minutes');
             $table->float('long_cost');
-            $table->integer('discount')->comment('from 0 to 100');
+            $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->tinyInteger('status');
             $table->timestamps();
         });

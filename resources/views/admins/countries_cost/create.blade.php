@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'admins-edit')
+@section('title', "add countries cost")
 
 
 @section('content')
@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>user edit</h1>
+            <h1>add</h1>
 
             <ol class="breadcrumb">
                 <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>user</a></li>
-                <li class="active"><i class="fa fa-edit"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-users"></i>countries cost</a></li>
+                <li class="active"><i class="fa fa-plus"></i>add</li>
             </ol>
         </section>
 
@@ -23,7 +23,7 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h1 class="box-title"> edit</h1>
+                    <h1 class="box-title">add</h1>
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
@@ -34,10 +34,10 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>username</label>
-                                <input type="username" class="form-control  @error('username') is-invalid @enderror" name="username"
-                                    placeholder="username" value="{{ $admin->username }}" required autocomplete="off">
-                                @error('username')
+                                <label>cost</label>
+                                <input type="number" step="0.01" class="form-control  @error('cost') is-invalid @enderror" name="cost"
+                                    placeholder="cost" value="{{ old('cost') }}" required autocomplete="off">
+                                @error('cost')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -47,25 +47,13 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>password</label>
-                                <input type="password" placeholder="password" class="form-control  @error('password') is-invalid @enderror" name="password" value="">
-                                @error('password')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>role</label>
-                                <select name="role_id" class="form-control">
-                                    @foreach ($roles as $role)
-                                        <option value="{{$role->id}}" @if ($role->id == $admin->getRoleId()) selected @endif>{{$role->name}}</option>
+                                <label>countries</label>
+                                <select name="country_id" class="form-control">
+                                    @foreach ($countries as $country)
+                                        <option value="{{$country->id}}">{{$country->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('role_id')
+                                @error('country_id')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -77,7 +65,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        add</button>
                                 </div>
                             </div>
                         </div>

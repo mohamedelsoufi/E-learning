@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'admins-edit')
+@section('title', "edit countries")
 
 
 @section('content')
@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>user edit</h1>
+            <h1>edit</h1>
 
             <ol class="breadcrumb">
                 <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>user</a></li>
-                <li class="active"><i class="fa fa-edit"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-users"></i>countries</a></li>
+                <li class="active"><i class="fa fa-plus"></i>edit</li>
             </ol>
         </section>
 
@@ -23,7 +23,7 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h1 class="box-title"> edit</h1>
+                    <h1 class="box-title">edit</h1>
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
@@ -34,10 +34,10 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>username</label>
-                                <input type="username" class="form-control  @error('username') is-invalid @enderror" name="username"
-                                    placeholder="username" value="{{ $admin->username }}" required autocomplete="off">
-                                @error('username')
+                                <label>cost</label>
+                                <input type="number" step="0.01" class="form-control  @error('cost') is-invalid @enderror" name="cost"
+                                    placeholder="cost" value="{{ $level_cost->cost }}" required autocomplete="off">
+                                @error('cost')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -47,25 +47,13 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>password</label>
-                                <input type="password" placeholder="password" class="form-control  @error('password') is-invalid @enderror" name="password" value="">
-                                @error('password')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>role</label>
-                                <select name="role_id" class="form-control">
-                                    @foreach ($roles as $role)
-                                        <option value="{{$role->id}}" @if ($role->id == $admin->getRoleId()) selected @endif>{{$role->name}}</option>
+                                <label>level</label>
+                                <select name="level_id" class="form-control">
+                                    @foreach ($levels as $level)
+                                        <option value="{{$level->id}}" @if ($level_cost->level_id == $level->id) selected @endif>{{$level->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('role_id')
+                                @error('level_id')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>

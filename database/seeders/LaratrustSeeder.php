@@ -33,13 +33,14 @@ class LaratrustSeeder extends Seeder
                         "curriculums",
                         "promo_codes",
                         "questions",
+                        'class_costs',
                     ];
         
                 foreach($rols as $rol){
                     $create = Permission::create([
                         'name'          => 'create-' . $rol,
                         'display_name'  => 'Create ' . $rol,
-                        'description'   => 'create new' .$rol,
+                        'description'   => 'create new' . $rol,
                     ]);
         
                     $read = Permission::create([

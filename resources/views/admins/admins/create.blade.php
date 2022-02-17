@@ -65,7 +65,7 @@
                                         <option value="{{$role->id}}">{{$role->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('role')
+                                @error('role_id')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>

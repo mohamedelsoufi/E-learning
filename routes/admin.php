@@ -130,6 +130,42 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/', 'App\Http\Controllers\admin\teachers@index')->middleware('auth:admin');
         Route::get('/block/{id}', 'App\Http\Controllers\admin\teachers@block')->middleware('auth:admin');
     });
+
+    Route::group(['prefix' => 'levels_cost'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\levels_cost@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\levels_cost@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\levels_cost@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\levels_cost@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@edit')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'countries_cost'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\countries_cost@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\countries_cost@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\countries_cost@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\countries_cost@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@edit')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'company_percentages'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\company_percentages@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\company_percentages@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\company_percentages@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\company_percentages@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@edit')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'students_numbers_cost'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\students_numbers_cost@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\students_numbers_cost@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\students_numbers_cost@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\students_numbers_cost@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@edit')->middleware('auth:admin');
+    });
 });
 
 
