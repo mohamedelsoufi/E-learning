@@ -166,6 +166,11 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@editView')->middleware('auth:admin');
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@edit')->middleware('auth:admin');
     });
+
+    Route::group(['prefix' => 'settings'],function(){
+        Route::get('/edit', 'App\Http\Controllers\admin\settings@editView')->middleware('auth:admin');
+        Route::post('/edit', 'App\Http\Controllers\admin\settings@edit')->middleware('auth:admin');
+    });
 });
 
 

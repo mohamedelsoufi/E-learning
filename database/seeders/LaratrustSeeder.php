@@ -33,7 +33,8 @@ class LaratrustSeeder extends Seeder
                         "curriculums",
                         "promo_codes",
                         "questions",
-                        'class_costs',
+                        'class_types',
+                        'settings',
                     ];
         
                 foreach($rols as $rol){

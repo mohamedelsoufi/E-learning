@@ -36,7 +36,7 @@
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
                                     search
                                 </button>
-                                @if (auth('admin')->user()->isAbleTo('create-class_costs'))
+                                @if (auth('admin')->user()->isAbleTo('create-class_types'))
                                     <a href="{{url('admins/students_numbers_cost/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
@@ -71,7 +71,7 @@
                                         <td>{{$student_numbers_cost->cost}}</td>
                                         <td>
                                             {{-- edit --}}
-                                            @if (auth('admin')->user()->isAbleTo('update-class_costs'))
+                                            @if (auth('admin')->user()->isAbleTo('update-class_types'))
                                                 <a href="{{url('admins/students_numbers_cost/edit/' . $student_numbers_cost->id)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
@@ -85,7 +85,7 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-class_costs'))
+                                            @if (auth('admin')->user()->isAbleTo('delete-class_types'))
                                                 <a href="{{url('admins/students_numbers_cost/delete/' . $student_numbers_cost->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 

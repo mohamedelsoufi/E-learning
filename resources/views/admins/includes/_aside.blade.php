@@ -65,27 +65,33 @@
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_costs'))
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{request()->is('admins/levels_cost')? 'active':''}}">
                     <a href="{{url('admins/levels_cost')}}"><i class="fa fa-users"></i><span>levels cost</span></a>
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_costs'))
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{request()->is('admins/countries_cost')? 'active':''}}">
                     <a href="{{url('admins/countries_cost')}}"><i class="fa fa-users"></i><span>countries cost</span></a>
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_costs'))
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{request()->is('admins/company_percentages')? 'active':''}}">
                     <a href="{{url('admins/company_percentages')}}"><i class="fa fa-users"></i><span>companies percentage</span></a>
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_costs'))
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{request()->is('admins/students_numbers_cost')? 'active':''}}">
                     <a href="{{url('admins/students_numbers_cost')}}"><i class="fa fa-users"></i><span>students numbers cost</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-settings'))
+                <li class="{{request()->is('admins/settings/edit')? 'active':''}}">
+                    <a href="{{url('admins/settings/edit')}}"><i class="fa fa-users"></i><span>settings</span></a>
                 </li>
             @endif
         </ul>
