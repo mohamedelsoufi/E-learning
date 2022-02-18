@@ -35,4 +35,8 @@ class Class_type extends Model
             return 'active';
         }
     }
+
+    public function getCost(){
+        
+    }
 }

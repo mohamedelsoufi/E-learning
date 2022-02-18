@@ -28,11 +28,12 @@ class questions extends Controller
                                 ->where('subject_id', $request->get('subject_id'))
                                 ->paginate(5);
 
-        return $this->success(trans('auth.success'),
-                                200,
-                                'questions',
-                                questionsResource::collection($questions)->response()->getData(true),
-                            );
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'questions_count'   => count($questions),
+            'questions'         => questionsResource::collection($questions)->response()->getData(true),
+        ], 200);
     }
 
     public function create(Request $request){

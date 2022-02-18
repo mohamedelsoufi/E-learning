@@ -44,4 +44,9 @@ class Available_class extends Model
     public function Video_calls(){
         return $this->hasMany(Video_call::class, 'available_class_id');
     }
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

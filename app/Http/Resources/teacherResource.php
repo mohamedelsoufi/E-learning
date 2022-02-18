@@ -26,6 +26,7 @@ class teacherResource extends JsonResource
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
+            'class_count'   => count($this->Available_classes),
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'tags'          => tagResource::collection($this->Tags),
