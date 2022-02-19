@@ -59,6 +59,7 @@ class home extends Controller
         // validate registeration request
         $validator = Validator::make($request->all(), [
             'teacher_id'     => 'required|integer|exists:teachers,id',
+            'subject_id'     => 'required|integer|exists:subjects,id',
         ]);
 
         if($validator->fails()){
@@ -71,39 +72,30 @@ class home extends Controller
         return $this->success(trans('auth.success'), 200, 'class_types', classType_availableClassResource::collection($class_type));
     }
 
-    public function test(Request $request){
-        //validation
-        $validator = Validator::make($request->all(), [
-            'available_class_id' => 'required|exists:available_classes,id',
-        ]);
-
-        if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
-        }
-
-        //get available_classes
-        $available_class = Available_class::find($request->get('available_class_id'));
-        //get setings
+    public function get_cost($class_type_id, $country_id, $level_id){
+        //get class_type
+        $class_type = Class_type::find($class_type_id);
+        if($class_type == null)
+            return false;
+        
         $setting = Settings::first();
 
-        //get class_type
-        $class_type = $available_class->Class_type;
-
         //get cost_country
-        $cost_country = Cost_country::where('country_id', $available_class->Teacher->id)->first();
+        $cost_country = Cost_country::where('country_id', $country_id)->first();
         if($cost_country != null){
             $cost_country = $cost_country->cost;
         } else{
             $cost_country = $setting->cost_country;
         }
 
-        //get cost levels
-        $cost_level     = Cost_level::where('level_id', $available_class->Subject->Term->Year->Level->id)->first();
+        //get cost levels //$available_class->Subject->Term->Year->Level->id
+        $cost_level     = Cost_level::where('level_id', $level_id)->first();
         if($cost_level != null){
             $cost_level = $cost_level->cost;
         } else {
             $cost_level = $setting->cost_level;
         }
+
         return ($cost_country * $cost_level * $class_type->long_cost) * $class_type->long;
     }
 }

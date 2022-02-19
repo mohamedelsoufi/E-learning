@@ -21,7 +21,6 @@ class AvailableClasses extends Migration
             $table->dateTime('from');
             $table->dateTime('to');
             $table->integer('long')->comment('in minutes');
-            $table->float('cost')->nullable();
             $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->integer('promoCode_percentage')->nullable();
             $table->text('note')->nullable();

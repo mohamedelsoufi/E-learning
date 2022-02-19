@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\site\guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\classTypeResource;
 use App\Http\Resources\materialResource;
+use App\Http\Resources\teacher_classesTypeResourc;
 use App\Http\Resources\teacherResource;
+use App\Models\Class_type;
 use App\Models\Subject;
 use App\Models\Subject_teacher;
 use App\Models\Teacher;
@@ -31,6 +34,7 @@ class home extends Controller
                                     ->whereHas('Subject_teachers', function($q) use($request){
                                         $q->where('subject_id', $request->get('subject_id'));
                                     })
+                                    ->limit(5)
                                     ->get();
         //offline
         $offline_teachers = Teacher::active()
@@ -38,13 +42,40 @@ class home extends Controller
                                     ->whereHas('Subject_teachers', function($q) use($request){
                                         $q->where('subject_id', $request->get('subject_id'));
                                     })
-                                    ->get();
+                                    ->paginate(5);
+        // ->inRandomOrder()
 
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
             'online_teachers'   => teacherResource::collection($online_teachers),
-            'offline_teachers'  => teacherResource::collection($offline_teachers),
+            'offline_teachers'  => teacher_classesTypeResourc::collection($offline_teachers)->response()->getData(true),
+        ], 200);
+    }
+
+    public function online_teachers_bysubject(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'subject_id'    => 'required|exists:subjects,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors(), 403, 'E03');
+        }
+
+        //online
+        $online_teachers = Teacher::active()
+                                    ->where('online', 1)
+                                    ->whereHas('Subject_teachers', function($q) use($request){
+                                        $q->where('subject_id', $request->get('subject_id'));
+                                    })
+                                    ->limit(5)
+                                    ->get();
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'online_teachers'   => teacher_classesTypeResourc::collection($online_teachers),
         ], 200);
     }
 
@@ -60,6 +91,34 @@ class home extends Controller
 
         //get materials
         $materials = Subject::find($request->get('subject_id'))->Materials;
-        return materialResource::collection($materials);
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'materials',
+            materialResource::collection($materials)
+        );
+    }
+
+    public function classes_type_cost(Request $request){
+        // validate registeration request
+        $validator = Validator::make($request->all(), [
+            'teacher_id'     => 'required|integer|exists:teachers,id',
+            'subject_id'     => 'required|integer|exists:subjects,id',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+
+        $classes_type = Class_type::active()->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'classes_type',
+            classTypeResource::collection($classes_type)
+        );
+        
     }
 }

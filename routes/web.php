@@ -20,6 +20,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
 
     //get teacher by subject_id
     Route::get('/teachers', 'App\Http\Controllers\site\guest\home@teachersBysubject');
+    Route::get('/onlineTeachers', 'App\Http\Controllers\site\guest\home@online_teachers_bysubject');
+
+
+    Route::get('/classes_types_cost', 'App\Http\Controllers\site\guest\home@classes_type_cost');
+
 
     Route::get('/materials', 'App\Http\Controllers\site\guest\home@materials');
 

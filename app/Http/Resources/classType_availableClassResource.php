@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\site\student\home;
 use App\Http\Requests\admin\countries\add;
 use App\Models\Available_class;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,14 +20,17 @@ class classType_availableClassResource extends JsonResource
     public function toArray($request)
     {
         $available_classes = Available_class::where('class_type_id', $this->id)
+                                            ->where('subject_id', $request->get('subject_id'))
                                             ->where('teacher_id', $request->get('teacher_id'))
                                             ->where('to', '>', date('Y-m-d H:i:s'))
                                             ->doesntHave('Student_classes')
                                             ->get();
+        $subject = Subject::find($request->get('subject_id'));
+        $teacher = Teacher::find($request->get('teacher_id'));
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'long_cost'         => $this->long_cost,
+            'cost'              => home::get_cost($this->id, $teacher->Country->id, $subject->Term->Year->Level->id),
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }
