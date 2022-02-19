@@ -158,15 +158,6 @@ Route::group(['prefix' => 'admins'], function(){
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@edit')->middleware('auth:admin');
     });
 
-    Route::group(['prefix' => 'students_numbers_cost'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\students_numbers_cost@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\students_numbers_cost@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\students_numbers_cost@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\students_numbers_cost@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@edit')->middleware('auth:admin');
-    });
-
     Route::group(['prefix' => 'settings'],function(){
         Route::get('/edit', 'App\Http\Controllers\admin\settings@editView')->middleware('auth:admin');
         Route::post('/edit', 'App\Http\Controllers\admin\settings@edit')->middleware('auth:admin');

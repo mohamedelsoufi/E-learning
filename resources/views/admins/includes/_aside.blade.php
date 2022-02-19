@@ -83,12 +83,6 @@
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_types'))
-                <li class="{{request()->is('admins/students_numbers_cost')? 'active':''}}">
-                    <a href="{{url('admins/students_numbers_cost')}}"><i class="fa fa-users"></i><span>students numbers cost</span></a>
-                </li>
-            @endif
-
             @if (auth('admin')->user()->isAbleTo('read-settings'))
                 <li class="{{request()->is('admins/settings/edit')? 'active':''}}">
                     <a href="{{url('admins/settings/edit')}}"><i class="fa fa-users"></i><span>settings</span></a>

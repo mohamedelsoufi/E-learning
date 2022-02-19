@@ -46,62 +46,6 @@ class profile extends Controller
         return $this->success(trans('auth.success'), 200, 'teacher', new teacherResource($teacher));
     }
 
-    public function add_tags(Request $request){
-        //validation
-        $validator = Validator::make($request->all(), [
-            'tag'                => 'required|string|min:2|max:25',
-        ]);
-
-        if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
-        }
-
-        //get teacher
-        if (! $teacher = auth('teacher')->user()) {
-            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
-        }
-
-        //add tag to teacher
-        Tag::create([
-            'teacher_id'    => $teacher->id,
-            'tag'           => $request->get('tag'),
-        ]);
-        
-        return $this->success(
-            trans('auth.add tag success'),
-            200,
-        );
-    }
-
-    public function remove_tags(Request $request){
-        //validation
-        $validator = Validator::make($request->all(), [
-            'tag_id'        => 'required|string|exists:tags,id',
-        ]);
-
-        if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
-        }
-
-        //get teacher
-        if (! $teacher = auth('teacher')->user()) {
-            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
-        }
-
-        //remove tag from teacher
-        $tag = Tag::where('teacher_id', $teacher->id)->find($request->get('tag_id'));
-
-        if($tag == null)
-            return $this::faild(trans('auth.this tag not found'), 404, 'E04');
-
-        $tag->delete();
-
-        return $this->success(
-            trans('auth.remove tag success'),
-            200,
-        );
-    }
-
     public function changePassword(Request $request){
         // validate registeration request
         $validator = Validator::make($request->all(), [

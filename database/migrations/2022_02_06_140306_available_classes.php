@@ -18,11 +18,9 @@ class AvailableClasses extends Migration
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('class_type_id');
-            $table->date('date');
-            $table->time('from');
-            $table->time('to');
+            $table->dateTime('from');
+            $table->dateTime('to');
             $table->integer('long')->comment('in minutes');
-            $table->integer('max_student_number');
             $table->float('cost')->nullable();
             $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->integer('promoCode_percentage')->nullable();

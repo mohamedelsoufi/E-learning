@@ -57,11 +57,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::post('/edit', 'App\Http\Controllers\site\student\answers@update');
         });
 
+        Route::post('/available_classes', 'App\Http\Controllers\site\student\home@available_classes');
         Route::post('leave', 'App\Http\Controllers\site\student\home@leave');
 
         Route::post('test', 'App\Http\Controllers\site\student\home@test');
-
-
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
 });

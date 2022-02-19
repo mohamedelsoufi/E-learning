@@ -28,6 +28,12 @@ class Class_type extends Model
         return $this->hasMany(Available_class::class, 'class_type_id');
     }
 
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+    //
     public function getStatus(){
         if($this->status == 0){
             return 'not active';
@@ -37,6 +43,6 @@ class Class_type extends Model
     }
 
     public function getCost(){
-        
+
     }
 }

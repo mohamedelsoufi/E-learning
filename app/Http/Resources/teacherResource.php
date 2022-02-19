@@ -26,10 +26,9 @@ class teacherResource extends JsonResource
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
-            'class_count'   => count($this->Available_classes),
+            'class_count'   => count($this->Available_classes->where('to', '>', date('Y-m-d H:i:s'))),
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
-            'tags'          => tagResource::collection($this->Tags),
             'image'         => $this->getImage(),
         ];
     }

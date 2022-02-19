@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class class_types extends Controller
 {
     public function index(){
-        $class_types = Class_type::get();
+        $class_types = Class_type::active()->get();
         return view('admins.class_types.index')->with('class_types', $class_types);
     }
 
@@ -45,7 +45,8 @@ class class_types extends Controller
         if($class_type == null)
             return redirect('admins/class_types')->with('error', 'delete faild');
 
-        $class_type->delete();
+        $class_type->status = -1;
+        $class_type->save();
 
         return redirect('admins/class_types')->with('success', 'delete class type success');
     }

@@ -41,11 +41,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
         Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
 
-        Route::group(['prefix' => 'tag'], function(){
-            Route::post('add', 'App\Http\Controllers\site\teacher\authentication\profile@add_tags');
-            Route::post('remove', 'App\Http\Controllers\site\teacher\authentication\profile@remove_tags');
-        });
-
         Route::group(['prefix' => 'answers'], function(){
             Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');
             Route::post('/delete', 'App\Http\Controllers\site\teacher\answers@delete');
