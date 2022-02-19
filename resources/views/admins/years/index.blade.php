@@ -78,7 +78,7 @@
                                             {{$year->Level->translate('en')->name}}
                                         </td>
                                         <td>{{$year->getStatus()}}</td>
-                                        <td><a href="terms?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year->id}}">{{count($year->Terms)}}</a></td>
+                                        <td><a href="terms?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year->id}}">{{count($year->Terms->where('status', '!=', -1))}}</a></td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))

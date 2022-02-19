@@ -70,7 +70,7 @@
                                         <td>{{$curriculum->translate('en')->name}}</td>
                                         <td>{{$curriculum->Country->translate('en')->name}}</td>
                                         <td>{{$curriculum->getStatus()}}</td>
-                                        <td><a href="levels?curriculum={{$curriculum->id}}">{{count($curriculum->Levels)}}</a></td>
+                                        <td><a href="levels?curriculum={{$curriculum->id}}">{{count($curriculum->Levels->where('status', '!=', -1))}}</a></td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))

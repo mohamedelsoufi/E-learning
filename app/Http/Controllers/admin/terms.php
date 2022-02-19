@@ -46,9 +46,13 @@ class terms extends Controller
         return redirect('admins/terms?' . $parms)->with('success', 'delete term success');
     }
 
-    public function createView(){
-        $years = Year::active()->get();
-        return view('admins.terms.create')->with('years', $years);
+    public function createView(Request $request){
+        $year_id = $request->get('year');
+        $years = Year::active()->where('level_id', $request->get('level'))->get();
+        return view('admins.terms.create')->with([
+            'years'     => $years,
+            'year_id'   => $year_id
+        ]);
     }
 
     public function create(add $request){
@@ -81,9 +85,9 @@ class terms extends Controller
         }
     }
 
-    public function editView($term_id){
+    public function editView($term_id, Request $request){
         $term = Term::find($term_id);
-        $years = Year::active()->get();
+        $years = Year::active()->where('level_id', $request->get('level'))->get();
         $parms = 'curriculum=' . $_GET['curriculum'] .
                 '&&level=' . $_GET['level'] .
                 '&&year=' . $_GET['year'];

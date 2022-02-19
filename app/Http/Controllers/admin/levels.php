@@ -38,9 +38,13 @@ class levels extends Controller
         return redirect('admins/levels?' . $parms)->with('success', 'delete level success');
     }
 
-    public function createView(){
-        $curriculums = Curriculum::active()->get();
-        return view('admins.levels.create')->with('curriculums', $curriculums);
+    public function createView(Request $request){
+        $curriculums    = Curriculum::active()->get();
+        $curriculum_id  = $request->get('curriculum');
+        return view('admins.levels.create')->with([
+            'curriculums'   => $curriculums,
+            'curriculum_id' => $curriculum_id,
+        ]);
     }
 
     public function create(add $request){

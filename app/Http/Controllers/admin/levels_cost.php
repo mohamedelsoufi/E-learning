@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\levels_cost\add;
 use App\Models\Cost_level;
+use App\Models\Curriculum;
 use App\Models\Level;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +18,11 @@ class levels_cost extends Controller
     }
 
     public function createView(){
+        $curriculums= Curriculum::active()->get();
         $levels = Level::active()->get();
         return view('admins.levels_cost.create')->with([
-            'levels' => $levels,
+            'levels'        => $levels,
+            'curriculums'   => $curriculums,
         ]);
     }
 

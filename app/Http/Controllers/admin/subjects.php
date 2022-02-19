@@ -47,9 +47,13 @@ class subjects extends Controller
         return redirect('admins/subjects?' . $parms)->with('success', 'delete subject success');
     }
 
-    public function createView(){
-        $terms = Term::active()->get();
-        return view('admins.subjects.create')->with('terms', $terms);
+    public function createView(Request $request){
+        $term_id = $request->get('term');
+        $terms = Term::active()->where('year_id', $request->get('year'))->get();
+        return view('admins.subjects.create')->with([
+            'terms'     => $terms,
+            'term_id'   => $term_id,
+        ]);
     }
 
     public function create(add $request){
@@ -83,9 +87,9 @@ class subjects extends Controller
         }
     }
 
-    public function editView($subject_id){
+    public function editView($subject_id, Request $request){
         $subject = Subject::find($subject_id);
-        $terms = Term::active()->get();
+        $terms = Term::active()->where('year_id', $request->get('year'))->get();
         $parms= 'curriculum=' . $_GET['curriculum'] .
                 '&&level=' . $_GET['level'] .
                 '&&year=' . $_GET['year'] .

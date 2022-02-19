@@ -40,9 +40,13 @@ class years extends Controller
         return redirect('admins/years?' . $parms)->with('success', 'delete level success');
     }
 
-    public function createView(){
-        $levels = Level::active()->get();
-        return view('admins.years.create')->with('levels', $levels);
+    public function createView(Request $request){
+        $level_id = $request->get('level');
+        $levels = Level::active()->where('curriculum_id', $request->get('curriculum'))->get();
+        return view('admins.years.create')->with([
+            'levels'    => $levels,
+            'level_id'  => $level_id,
+        ]);
     }
 
     public function create(add $request){
@@ -73,9 +77,9 @@ class years extends Controller
         }
     }
 
-    public function editView($year_id){
+    public function editView($year_id,Request $request){
         $year = Year::find($year_id);
-        $levels = Level::active()->get();
+        $levels = Level::active()->where('curriculum_id', $request->get('curriculum'))->get();
         $parms = 'curriculum=' . $_GET['curriculum'] . '&&level=' . $_GET['level'];
 
         //if Curriculum not found

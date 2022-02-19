@@ -36,8 +36,8 @@
                             <div class="form-group">
                                 <label>terms</label>
                                 <select name="term_id" class="form-control">
-                                    @foreach ($terms as $terms)
-                                        <option value="{{$terms->id}}">{{$terms->translate('en')->name}}</option>
+                                    @foreach ($terms as $term)
+                                        <option value="{{$term->id}}" @if ($term_id == $term->id) selected @endif>{{$term->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('terms_id')
