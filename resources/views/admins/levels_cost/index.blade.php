@@ -65,7 +65,7 @@
                                 @foreach ($levels_cost as $level_cost)
                                     <tr>
                                         <td>{{$level_cost->id}}</td>
-                                        <td>{{$level_cost->Level->translate('en')->name}}</td>
+                                        <td>{{$level_cost->Level->Curriculum->translate('en')->name}} => {{$level_cost->Level->translate('en')->name}}</td>
                                         <td>{{$level_cost->cost}}</td>
                                         <td>
                                             {{-- edit --}}

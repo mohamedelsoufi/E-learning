@@ -50,7 +50,7 @@
                                 <label>level</label>
                                 <select name="level_id" class="form-control">
                                     @foreach ($levels as $level)
-                                        <option value="{{$level->id}}" @if ($level_cost->level_id == $level->id) selected @endif>{{$level->translate('en')->name}}</option>
+                                        <option value="{{$level->id}}" @if ($level_cost->level_id == $level->id) selected @endif>{{$level->Curriculum->translate('en')->name}} => {{$level->translate('en')->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('level_id')
