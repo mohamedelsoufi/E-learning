@@ -14,7 +14,7 @@ class CostLevels extends Migration
     public function up()
     {
         Schema::create('cost_levels', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('level_id');
             $table->float('cost')->nullable();
             $table->timestamps();

@@ -14,7 +14,7 @@ class Teachers extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable();
             $table->string('dialing_code')->nullable();
@@ -52,6 +52,7 @@ class Teachers extends Migration
         Schema::create('subject_teacher', function (Blueprint $table) {
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('teacher_id');
+            $table->timestamps();
 
             $table->unique(['subject_id', 'teacher_id']);
             //relations

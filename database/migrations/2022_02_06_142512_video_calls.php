@@ -14,7 +14,7 @@ class VideoCalls extends Migration
     public function up()
     {
         Schema::create('video_calls', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('available_classes_id');
             $table->date('date');
             $table->string('agora_token');

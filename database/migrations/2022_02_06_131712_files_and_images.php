@@ -14,7 +14,7 @@ class FilesAndImages extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->bigInteger('imageable_id')->nullable();
             $table->string('imageable_type')->nullable();
             $table->string('src')->nullable();
@@ -22,7 +22,7 @@ class FilesAndImages extends Migration
         });
 
         Schema::create('files', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->bigInteger('fileable_id')->nullable();
             $table->string('fileable_type')->nullable();
             $table->string('src')->nullable();

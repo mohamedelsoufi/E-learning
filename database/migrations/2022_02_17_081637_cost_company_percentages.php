@@ -14,7 +14,7 @@ class CostCompanyPercentages extends Migration
     public function up()
     {
         Schema::create('cost_company_percentages', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('country_id');
             $table->float('percentage')->default(0);
             $table->timestamps();

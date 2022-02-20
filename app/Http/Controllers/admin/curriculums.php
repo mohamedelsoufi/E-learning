@@ -68,9 +68,9 @@ class curriculums extends Controller
 
         //if Curriculum not found
         if($curriculum == null)
-            return redirect('admins/Curriculums');
+            return redirect('admins/curriculums');
         
-        return view('admins.Curriculums.edit')->with([
+        return view('admins.curriculums.edit')->with([
             'curriculum' => $curriculum,
             'countries'  => $countries,
         ]);

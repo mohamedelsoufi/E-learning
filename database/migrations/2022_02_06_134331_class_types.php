@@ -14,7 +14,7 @@ class ClassTypes extends Migration
     public function up()
     {
         Schema::create('class_types', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->integer('long')->comment('in minutes');
             $table->float('long_cost');
             $table->tinyInteger('status');

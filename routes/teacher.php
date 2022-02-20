@@ -40,6 +40,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('myProfile/changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
         Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
         Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
+        Route::post('myProfile/update/subjects', 'App\Http\Controllers\site\teacher\authentication\profile@update_subjects');
+
 
         Route::group(['prefix' => 'answers'], function(){
             Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');

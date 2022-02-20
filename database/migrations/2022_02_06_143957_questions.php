@@ -14,7 +14,7 @@ class Questions extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('subject_id');
             $table->text('question');
@@ -27,7 +27,7 @@ class Questions extends Migration
         });
 
         Schema::create('answers', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->bigInteger('answerable_id')->nullable()->comment('student or teacher');
             $table->string('answerable_type')->nullable();
             $table->unsignedBigInteger('question_id');

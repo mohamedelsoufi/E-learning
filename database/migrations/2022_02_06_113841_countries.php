@@ -14,14 +14,14 @@ class Countries extends Migration
     public function up()
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->string('dialing_code');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
         });
 
         Schema::create('countries_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('country_id');
             $table->string('locale')->index();
             $table->string('name');

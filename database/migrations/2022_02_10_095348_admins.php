@@ -14,7 +14,7 @@ class Admins extends Migration
     public function up()
     {
         Schema::create('admins', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->string('username')->unique();
             $table->string('password');
             $table->timestamps();

@@ -14,7 +14,7 @@ class AvailableClasses extends Migration
     public function up()
     {
         Schema::create('available_classes', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('class_type_id');

@@ -48,7 +48,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>password</label>
-                                <input type="password" placeholder="password" class="form-control  @error('password') is-invalid @enderror" name="password" value="">
+                                <input type="password" placeholder="password" class="form-control  @error('password') is-invalid @enderror" name="password" required value="">
                                 @error('password')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -14,7 +14,7 @@ class Videos extends Migration
     public function up()
     {
         Schema::create('videos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('teacher_id')->default(1);
             $table->text('title')->nullable();
             $table->string('src')->nullable();

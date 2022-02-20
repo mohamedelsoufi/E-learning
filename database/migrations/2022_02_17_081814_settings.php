@@ -14,7 +14,7 @@ class Settings extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
             $table->float('cost_students_number')->default(1);
             $table->float('cost_level')->default(1);
             $table->float('cost_country')->default(1);

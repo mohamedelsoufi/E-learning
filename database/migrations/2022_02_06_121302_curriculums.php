@@ -14,7 +14,7 @@ class Curriculums extends Migration
     public function up()
     {
         Schema::create('curriculums', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('country_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -24,7 +24,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('curriculums_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('curriculum_id');
             $table->string('locale')->index();
             $table->string('name');
@@ -35,7 +35,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('levels', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('curriculum_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -45,7 +45,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('levels_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('level_id');
             $table->string('locale')->index();
             $table->string('name');
@@ -56,7 +56,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('years', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('level_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -66,7 +66,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('years_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('year_id');
             $table->string('locale')->index();
             $table->string('name');
@@ -77,7 +77,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('terms', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('year_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -87,7 +87,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('terms_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('term_id');
             $table->string('locale')->index();
             $table->string('name');
@@ -98,7 +98,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('subjects', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('term_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -108,7 +108,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('subjects_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('subject_id');
             $table->string('locale')->index();
             $table->string('name');
@@ -119,7 +119,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('materials', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('subject_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
@@ -129,7 +129,7 @@ class Curriculums extends Migration
         });
 
         Schema::create('materials_translations', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('material_id');
             $table->string('locale')->index();
             $table->string('name');

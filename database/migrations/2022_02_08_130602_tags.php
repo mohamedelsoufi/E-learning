@@ -14,7 +14,7 @@ class Tags extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('teacher_id');
             $table->string('tag');
             $table->timestamps();

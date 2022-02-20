@@ -47,7 +47,7 @@ return [
     'update image faild'                    => 'update image faild',
     'update profile falid'                  => 'update profile falid',
     'update profile success'                => 'update profile success',
-    ''        => '',
+    'update success'        => 'update success',
     ''        => '',
     ''        => '',
     ''        => '',

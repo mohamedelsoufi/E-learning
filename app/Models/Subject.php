@@ -40,6 +40,7 @@ class Subject extends Model implements TranslatableContract
     public function Student_classes(){
         return $this->hasMany(Student_class::class, 'student_id');
     }
+
     //scope
     public function scopeActive($query)
     {

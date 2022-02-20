@@ -14,7 +14,7 @@ class PromoCodes extends Migration
     public function up()
     {
         Schema::create('promo_codes', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unique();
             $table->string('code');
             $table->integer('percentage');
             $table->dateTime('expiration');

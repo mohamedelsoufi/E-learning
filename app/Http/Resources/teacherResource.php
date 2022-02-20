@@ -14,6 +14,12 @@ class teacherResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($request->lang == 'ar'){
+            $lang = 'ar';
+        } else{
+            $lang = 'en';
+        }
+
         return [
             'id'            => $this->id,
             'email'         => $this->email,
@@ -30,6 +36,12 @@ class teacherResource extends JsonResource
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
+            'subjects'      => $this->Subject_teachers->map(function ($data) use($lang){
+                                    return  [
+                                            'id'    => $data->subject_id,
+                                            'name'  => $data->Subject->translate($lang)->name
+                                        ];
+                                }),
         ];
     }
 }

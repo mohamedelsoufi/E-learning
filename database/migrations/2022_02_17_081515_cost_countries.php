@@ -14,7 +14,7 @@ class CostCountries extends Migration
     public function up()
     {
         Schema::create('cost_countries', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('country_id');
             $table->float('cost')->nullable();
             $table->timestamps();

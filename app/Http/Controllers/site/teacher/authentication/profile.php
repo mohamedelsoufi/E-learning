@@ -5,6 +5,7 @@ namespace App\Http\Controllers\site\teacher\authentication;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\teacherResource;
 use App\Models\Image;
+use App\Models\Subject_teacher;
 use App\Models\Tag;
 use App\Models\Teacher;
 use App\Traits\response;
@@ -123,6 +124,37 @@ class profile extends Controller
             return $this::faild(trans('auth.update image faild'), 200);
         }   
     }
+
+    // public function update_subjects(Request $request){
+    //     // validate registeration request
+    //     $validator = Validator::make($request->all(), [
+    //         'subject_ids.*' => 'required|exists:subjects,id',
+    //     ]);
+
+    //     if($validator->fails()){
+    //         return $this::faild($validator->errors(), 403);
+    //     }
+
+    //     //get teacher or vender
+    //     if (! $teacher = auth('teacher')->user()) {
+    //         return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+    //     }
+
+    //     //delete teacher subject
+    //     // foreach($teacher->Subject_teachers as $subject_teacher){
+    //     //     return  $subject_teacher->delete();
+    //     //     $subject_teacher->delete();
+    //     // }
+
+    //     foreach($request->get('subject_ids') as $subject_id){
+    //         Subject_teacher::create([
+    //             'teacher_id' => $teacher->id,
+    //             'subject_id' => $subject_id,
+    //         ]);
+    //     }
+
+    //     return $this->success(trans('auth.update success'), 200);
+    // }
 
     public function updateProfile(Request $request){
         //get teacher or vender
