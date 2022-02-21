@@ -48,6 +48,10 @@ class Student extends Authenticatable implements JWTSubject
     {
         return $this->morphMany(Answer::class, 'answerable');
     }
+
+    public function Student_classes(){
+        return $this->hasMany(Student_class::class, 'available_class_id');
+    }
     //
     public function getGender(){
         if($this->gender == 0){

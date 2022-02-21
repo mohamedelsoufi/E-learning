@@ -22,7 +22,7 @@ class Student_class extends Model
         return $this->belongsTo(Student::class, 'student_id');
     }
 
-    public function Available_classes(){
+    public function Available_class(){
         return $this->belongsTo(Available_class::class, 'available_class_id');
     }
 }

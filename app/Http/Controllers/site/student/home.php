@@ -4,6 +4,7 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\classType_availableClassResource;
+use App\Http\Resources\student_classResource;
 use App\Http\Resources\term_SubjectResource;
 use App\Models\Class_type;
 use App\Models\Cost_country;
@@ -98,6 +99,21 @@ class home extends Controller
         }
 
         return ($cost_country * $cost_level * $class_type->long_cost) * $class_type->long;
+    }
+
+    public function my_reservations(){
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'reservations',
+            student_classResource::collection($student->Student_classes)
+        );
+
     }
 
     public function test(){

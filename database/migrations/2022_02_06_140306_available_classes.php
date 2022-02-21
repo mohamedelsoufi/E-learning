@@ -24,6 +24,7 @@ class AvailableClasses extends Migration
             $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->integer('promoCode_percentage')->nullable();
             $table->text('note')->nullable();
+            $table->float('cost');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
@@ -38,6 +39,9 @@ class AvailableClasses extends Migration
             $table->unsignedBigInteger('available_class_id');
             $table->dateTime('from');
             $table->dateTime('to');
+            $table->unsignedBigInteger('promocode_id');
+            $table->integer('promocode_descount');
+            $table->tinyInteger('status');
 
             //relations
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
