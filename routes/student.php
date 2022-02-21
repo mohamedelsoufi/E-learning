@@ -62,10 +62,9 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
-
-    Route::post('test', 'App\Http\Controllers\site\student\home@test');
-
 });
+Route::get('test', 'App\Http\Controllers\site\student\home@test');
+
 
 
 

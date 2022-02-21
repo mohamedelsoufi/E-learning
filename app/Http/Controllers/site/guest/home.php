@@ -4,10 +4,14 @@ namespace App\Http\Controllers\site\guest;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\classTypeResource;
+use App\Http\Resources\countryResource;
+use App\Http\Resources\curriculumResource;
 use App\Http\Resources\materialResource;
 use App\Http\Resources\teacher_classesTypeResourc;
 use App\Http\Resources\teacherResource;
 use App\Models\Class_type;
+use App\Models\Country;
+use App\Models\Curriculum;
 use App\Models\Subject;
 use App\Models\Subject_teacher;
 use App\Models\Teacher;
@@ -120,5 +124,27 @@ class home extends Controller
             classTypeResource::collection($classes_type)
         );
         
+    }
+
+    public function countries(){
+        $countries = Country::active()->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'countries',
+            countryResource::collection($countries)
+        );
+    }
+
+    public function curriculums(){
+        $curriculums = Curriculum::active()->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'curriculums',
+            curriculumResource::collection($curriculums)
+        );
     }
 }

@@ -22,6 +22,7 @@ class teacherResource extends JsonResource
 
         return [
             'id'            => $this->id,
+            'username'      => $this->username,
             'email'         => $this->email,
             'phone'         => [
                                 'dialing_code'  =>$this->dialing_code,
@@ -32,7 +33,7 @@ class teacherResource extends JsonResource
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
-            'class_count'   => count($this->Available_classes->where('to', '>', date('Y-m-d H:i:s'))),
+            'class_count'   => count($this->Available_classes->where('to', '<', date('Y-m-d H:i:s'))),
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),

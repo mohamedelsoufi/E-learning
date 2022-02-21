@@ -16,12 +16,14 @@ class Videos extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('teacher_id')->default(1);
+            $table->unsignedBigInteger('subject_id')->default(1);
             $table->text('title')->nullable();
             $table->string('src')->nullable();
             $table->timestamps();
 
             //relations
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
     }
 

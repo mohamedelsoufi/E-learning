@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class level_yearResource extends JsonResource
+class countryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,9 +23,7 @@ class level_yearResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->translate($lang)->name,
-            'curriculum_id'     => $this->curriculum_id,
-            'status'            => $this->getStatus(),
-            'years'             => yearResource::collection($this->Years->where('status', 1)),
+            'image'             => url('public/uploads/countries/a1.png'),
         ];
     }
 }

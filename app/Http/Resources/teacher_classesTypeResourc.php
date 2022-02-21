@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\site\student\home;
 use App\Models\Class_type;
+use App\Models\Subject;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class teacher_classesTypeResourc extends JsonResource
@@ -15,9 +17,11 @@ class teacher_classesTypeResourc extends JsonResource
      */
     public function toArray($request)
     {
-        // $request->teacher_id = $this->id;
+        $subject = Subject::find($request->get('subject_id'));
+
         return [
             'id'            => $this->id,
+            'username'      => $this->username,
             'email'         => $this->email,
             'phone'         => [
                                 'dialing_code'  =>$this->dialing_code,
@@ -32,7 +36,13 @@ class teacher_classesTypeResourc extends JsonResource
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
-            // 'classes_type'  => classTypeResource::collection(Class_type::active()->get())
+            'classes_type'  => Class_type::active()->get()->map(function($data) use($subject){
+                return [
+                    'id'        => $data->id,
+                    'long'      => $data->long,
+                    'cost'      =>home::get_cost($data->id, $this->id, $subject->Term->Year->Level->id),
+                ];
+            }),
         ];
     }
 }

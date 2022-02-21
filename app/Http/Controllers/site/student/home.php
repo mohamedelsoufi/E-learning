@@ -4,24 +4,25 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\classType_availableClassResource;
-use App\Http\Resources\subjectsResource;
 use App\Http\Resources\term_SubjectResource;
-use App\Models\Available_class;
 use App\Models\Class_type;
 use App\Models\Cost_country;
 use App\Models\Cost_level;
-use App\Models\Cost_student_number;
 use App\Models\Settings;
-use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Term;
 use App\Traits\response;
+use App\Services\AgoraService;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class home extends Controller
 {
     use response;
+    public function __construct(AgoraService $AgoraService)
+    {
+        $this->AgoraService         = $AgoraService;
+    }
     public function index(){
         //get student or vender
         if (! $student = auth('student')->user()) {
@@ -29,7 +30,7 @@ class home extends Controller
         }
 
         if($student->year_id == null)
-            return $this::faild(trans('site.student must choose an academic year'), 400, 'E00');
+            return $this::faild(trans('site.student must choose his grade'), 400, 'E00');
 
         $terms = Term::where('status', 1)
                         ->whereHas('Year', function($query) use($student){
@@ -98,4 +99,9 @@ class home extends Controller
 
         return ($cost_country * $cost_level * $class_type->long_cost) * $class_type->long;
     }
+
+    public function test(){
+        return $this->AgoraService->generateToken();
+    }
+    
 }

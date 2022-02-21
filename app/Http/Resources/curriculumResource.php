@@ -2,12 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\site\student\home;
-use App\Models\Subject;
-use App\Models\Teacher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class classTypeResource extends JsonResource
+class curriculumResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +14,15 @@ class classTypeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $subject = Subject::find($request->get('subject_id'));
-        $teacher = Teacher::find($request->get('teacher_id'));
+        if($request->lang == 'ar'){
+            $lang = 'ar';
+        } else{
+            $lang = 'en';
+        }
+
         return [
             'id'                => $this->id,
-            'long'              => $this->long,
-            'cost'              => home::get_cost($this->id, 1, $subject->Term->Year->Level->id),
+            'name'              => $this->translate($lang)->name,
         ];
     }
 }

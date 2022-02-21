@@ -25,9 +25,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
 
     Route::get('/classes_types_cost', 'App\Http\Controllers\site\guest\home@classes_type_cost');
 
+    Route::get('/countries', 'App\Http\Controllers\site\guest\home@countries');
+    Route::get('/curriculums', 'App\Http\Controllers\site\guest\home@curriculums');
+
 
     Route::get('/materials', 'App\Http\Controllers\site\guest\home@materials');
-
 });
 
 
