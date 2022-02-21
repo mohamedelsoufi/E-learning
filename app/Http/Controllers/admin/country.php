@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\countries\add;
 use App\Models\Country as ModelsCountry;
 use App\Models\CountryTranslation;
+use App\Models\Image;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,14 @@ class country extends Controller
                         'country_id'        => $new_country['id'],
                     ]);
                 }
+
+                //add image
+                $path = $this->upload_image($request->file('image'),'uploads/countries', 150, 100);
+                Image::create([
+                    'imageable_id'   => $new_country->id,
+                    'imageable_type' => 'App\Models\Country',
+                    'src'            => $path,
+                ]);
             DB::commit();
             return redirect('admins/countries')->with('success', 'add country success');
         } catch(\Exception $ex){
@@ -87,6 +96,29 @@ class country extends Controller
                 $country->status            = $active;
                 $country->dialing_code      = $request->dialing_code;
                 $country->save();
+
+                //update image
+                $path = $this->upload_image($request->file('image'),'uploads/countries', 150, 100);
+
+                if($country->Image == null){
+                    //if user don't have image 
+                    Image::create([
+                        'imageable_id'   => $country->id,
+                        'imageable_type' => 'App\Models\countries',
+                        'src'            => $path,
+                    ]);
+
+                } else {
+                    //if countries have image
+                    $oldImage = $country->Image->src;
+
+                    if(file_exists(base_path('public/uploads/countries/') . $oldImage)){
+                        unlink(base_path('public/uploads/countries/') . $oldImage);
+                    }
+
+                    $country->Image->src = $path;
+                    $country->Image->save();
+                }
 
                 //change all country trans name
                 foreach($CountriesTranslation as $CountryTranslation){

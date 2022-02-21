@@ -24,7 +24,7 @@ class level_yearResource extends JsonResource
             'id'                => $this->id,
             'name'              => $this->translate($lang)->name,
             'curriculum_id'     => $this->curriculum_id,
-            'status'            => $this->getStatus(),
+            'status'            => $this->status,
             'years'             => yearResource::collection($this->Years->where('status', 1)),
         ];
     }

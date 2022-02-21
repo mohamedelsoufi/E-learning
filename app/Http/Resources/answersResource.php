@@ -18,7 +18,7 @@ class answersResource extends JsonResource
             'id'            => $this->id,
             'answer'        => $this->answer,
             'question_id'   => $this->question_id,
-            'status'        => $this->getStatus(),
+            'status'        => $this->status,
             'recommendation'=> $this->recommendation,
             'created_at'    => date("Y-m-d H:i", strtotime($this->created_at)),
             'answer_owner'  => [

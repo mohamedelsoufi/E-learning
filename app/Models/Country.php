@@ -25,6 +25,11 @@ class Country extends Model implements TranslatableContract
         return $this->hasMany(Student::class, 'country_id');
     }
 
+    public function Image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function Teachers(){
         return $this->hasMany(Teacher::class, 'country_id');
     }
@@ -47,6 +52,14 @@ class Country extends Model implements TranslatableContract
             return 'not active';
         } else {
             return 'active';
+        }
+    }
+
+    public function getImage(){
+        if($this->Image != null){
+            return url('public/uploads/countries/' . $this->Image->src);
+        } else {
+            return url('public/uploads/countries/default.png');
         }
     }
 }

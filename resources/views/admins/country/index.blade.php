@@ -57,6 +57,7 @@
                                     <th>#</th>
                                     <th>name</th>
                                     <th>dialing_code</th>
+                                    <th>image</th>
                                     <th>status</th>
                                     <th>action</th>
                                 </tr>
@@ -68,6 +69,7 @@
                                         <td>{{$country->id}}</td>
                                         <td>{{$country->translate('en')->name}}</td>
                                         <td>{{$country->dialing_code}}</td>
+                                        <td><img src="{{$country->getImage()}}" style="width: 150"></td>
                                         <td>{{$country->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}

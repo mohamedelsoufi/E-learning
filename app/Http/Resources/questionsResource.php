@@ -18,7 +18,7 @@ class questionsResource extends JsonResource
             'id'            => $this->id,
             'student_id'    => $this->student_id,
             'question'      => $this->question,
-            'status'        => $this->getStatus(),
+            'status'        => $this->status,
             'answers_count' => count($this->Answers),
             'created_at'    => date("Y-m-d H:i", strtotime($this->created_at)),
             'question_owner'=> [

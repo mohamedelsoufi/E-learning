@@ -24,7 +24,7 @@ class yearResource extends JsonResource
             'id'                => $this->id,
             'name'              => $this->translate($lang)->name,
             'level_id'          => $this->level_id,
-            'status'            => $this->getStatus(),
+            'status'            => $this->status,
         ];
     }
 }

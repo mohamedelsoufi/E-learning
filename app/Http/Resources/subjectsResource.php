@@ -24,7 +24,7 @@ class subjectsResource extends JsonResource
             'id'            => $this->id,
             'name'          => $this->translate($lang)->name,
             'term_id'       => $this->term_id,
-            'status'        => $this->getStatus(),
+            'status'        => $this->status,
         ];
     }
 }

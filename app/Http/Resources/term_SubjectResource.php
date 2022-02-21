@@ -24,7 +24,7 @@ class term_SubjectResource extends JsonResource
             'id'            => $this->id,
             'name'          => $this->translate($lang)->name,
             'year_id'       => $this->year_id,
-            'status'        => $this->getStatus(),
+            'status'        => $this->status,
             'subjects'      => subjectsResource::collection($this->Subjects),
         ];
     }
