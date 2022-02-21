@@ -15,40 +15,41 @@ class verification extends Controller
     ////////sent email /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
-        if (!$this->validateUsername($request->username)) {  // this is validate to fail send mail or true
-            return $this::faild(trans('auth.username not found'), 404, 'E04');
+        if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
+            return $this::faild(trans('auth.phone not found'), 404, 'E04');
         }
         
         // code is important in send mail 
-        $code = $this->createCode($request->username);
+        $code = $this->createCode($request->phone);
         // Mail::to($request->email)->send(new MailVerification($code, $request->email));
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }
 
-    public function createCode($username){  // this is a function to get your request email that there are or not to send mail
+    public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
 
-        $oldCode = DB::table('student_verified')->where('username', $username)->first();
+        $oldCode = DB::table('student_verified')->where('username', $phone)->first();
 
         //if user already has code
         if ($oldCode)
             return $oldCode->code;
 
-        $code = rand(1000,9999);
-        $this->saveCode($code, $username);
+        // $code = rand(1000,9999);
+        $code = "1234";
+        $this->saveCode($code, $phone);
         return $code;
     }
 
-    public function saveCode($code, $username){  // this function save new password
+    public function saveCode($code, $phone){  // this function save new password
         DB::table('student_verified')->insert([
-            'username'      => $username,
+            'username'      => $phone,
             'code'          => $code,
             'created_at'    => Carbon::now()
         ]);
     }
 
-    public function validateUsername($username){  //this is a function to get your email from database
-        return !!DB::table('students')->where('username', $username)->first();
+    public function validatePhone($phone){  //this is a function to get your email from database
+        return !!DB::table('students')->where('phone', $phone)->first();
     }
     ///////////////check if code is valid ////////////
 
@@ -56,7 +57,7 @@ class verification extends Controller
         if($this->updatePasswordRow($request)->count() > 0){
             return $this::success(trans('auth.success'), 200);
         } else {
-            return $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
+            return $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
         }
     }
 
@@ -64,21 +65,21 @@ class verification extends Controller
 
     public function verificationProcess(Request $request){
         $validator = Validator::make($request->all(), [
-            'username'             => 'required',
-            'code'                 => 'required',
+            'phone'             => 'required',
+            'code'              => 'required',
         ]);
 
         if($validator->fails()){
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.Either your username or code is wrong.'), 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
     private function verificationRow($request){
         return DB::table('student_verified')->where([
-            'username'  => $request->username,
+            'username'  => $request->phone,
             'code'      => $request->code
         ]);
     }
@@ -86,7 +87,7 @@ class verification extends Controller
     private function verification($request) {
         // update students
         DB::table('students')
-        ->where('username', $request->username)
+        ->where('phone', $request->phone)
         ->update(['verified' => 1]);
 
         // remove verification data from db

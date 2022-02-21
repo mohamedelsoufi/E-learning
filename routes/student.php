@@ -39,7 +39,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');
 
         Route::group(['prefix' => 'myProfile'], function(){
-            Route::post('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
+            Route::get('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
             Route::post('changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
             Route::post('changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
             Route::post('update', 'App\Http\Controllers\site\student\authentication\profile@updateProfile');

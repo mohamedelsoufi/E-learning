@@ -15,6 +15,15 @@ class resetPasswored extends Controller
     ////////sent code /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
+        // validate
+        $validator = Validator::make($request->all(), [
+            'username'          => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+        
         if (!$this->validateUsername($request->username)) {  // this is validate to fail send mail or true
             return $this::faild(trans('auth.username not found'), 404, 'E04');
         }
@@ -33,7 +42,8 @@ class resetPasswored extends Controller
         if ($oldCode)
             return $oldCode->code;
 
-        $code = rand(100000,999999);
+        // $code = rand(1000,9999);
+        $code = "1234";
         $this->saveCode($code, $username);
         return $code;
     }

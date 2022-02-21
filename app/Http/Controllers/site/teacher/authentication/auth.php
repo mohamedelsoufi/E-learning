@@ -24,7 +24,7 @@ class auth extends Controller
         $validator = Validator::make($request->all(), [
             'username'          => 'required|string',
             'password'          => 'required|string',
-            'token_firebase'    => 'required|string',
+            'token_firebase'    => 'nullable|string',
         ]);
 
         if($validator->fails()){
@@ -84,7 +84,7 @@ class auth extends Controller
             'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
             'token_firebase'   => $request->get('token_firebase'),
-            'token_firebase'   => 'required|string',
+            'token_firebase'   => 'nullable|string',
         ]);
 
         if($validator->fails()){

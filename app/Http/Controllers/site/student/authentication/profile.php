@@ -143,12 +143,12 @@ class profile extends Controller
             'email'             => 'nullable|email|max:255|unique:students,email,'. $student->id,
             'dialing_code'      => 'nullable|string|max:10',
             'phone'             => 'nullable|string|max:20|unique:students,phone,'. $student->id,
-            'password'          => 'nullable|string|max:250',
             'country_id'        => 'nullable|integer|exists:countries,id',
             'curriculum_id'     => 'nullable|integer|exists:curriculums,id',
             'year_id'           => 'nullable|integer|exists:years,id',
             'gender'            => ['nullable',Rule::in(0,1,2)],    //0->male  1->female
             'birth'             => 'nullable|date',
+            'image'             => 'nullable|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()){
@@ -161,6 +161,32 @@ class profile extends Controller
             'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
             'gender', 'birth'
         );
+
+        if($request->file('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/students', 300, 300);
+
+            if($student->Image == null){
+                //if user don't have image 
+                Image::create([
+                    'imageable_id'   => $student->id,
+                    'imageable_type' => 'App\Models\Student',
+                    'src'            => $path,
+                ]);
+
+            } else {
+                //if student have image
+                $oldImage = $student->Image->src;
+
+                if(file_exists(base_path('public/uploads/students/') . $oldImage)){
+                    unlink(base_path('public/uploads/students/') . $oldImage);
+                }
+
+                $student->Image->src = $path;
+                $student->Image->save();
+            }
+        }
+
 
         //update student
         if($student->update($input)){

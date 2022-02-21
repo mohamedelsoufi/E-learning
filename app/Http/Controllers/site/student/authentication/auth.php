@@ -22,9 +22,9 @@ class auth extends Controller
         
         // //validation
         $validator = Validator::make($request->all(), [
-            'username'          => 'required|string',
+            'phone'             => 'required|string',
             'password'          => 'required|string',
-            'token_firebase'    => 'required|string',
+            'token_firebase'    => 'nullable|string',
         ]);
 
         if($validator->fails()){
@@ -32,11 +32,11 @@ class auth extends Controller
         }
 
         //data
-        $credentials = ['username' => $request->username, 'password' => $request->password];
+        $credentials = ['phone' => $request->phone, 'password' => $request->password];
         
         try {
             if (! $token = auth($guard)->attempt($credentials)) { //login
-                return $this->faild(trans('auth.passwored or username is wrong'), 404, 'E04');
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
             return $this->faild(trans('auth.login faild'), 400, 'E00');
@@ -83,7 +83,7 @@ class auth extends Controller
             'country_id'       => 'required|exists:countries,id',
             'curriculum_id'    => 'required|exists:curriculums,id',
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
-            'token_firebase'   => 'required|string',
+            'token_firebase'   => 'nullable|string',
         ]);
 
         if($validator->fails()){
