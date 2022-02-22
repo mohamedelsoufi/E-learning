@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\teacher\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\site\student\authentication\verification;
 use App\Http\Resources\teacherResource;
 use App\Models\Teacher;
 use App\Traits\response;
@@ -16,13 +17,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class auth extends Controller
 {
+    public $verification;
+    public function __construct(verification $verification)
+    {
+        $this->verification         = $verification;
+    }
     use response;
     public function login(Request $request){
         $guard = 'teacher';
         
         //validation
         $validator = Validator::make($request->all(), [
-            'username'          => 'required|string',
+            'phone'             => 'required',
             'password'          => 'required|string',
             'token_firebase'    => 'nullable|string',
         ]);
@@ -32,11 +38,11 @@ class auth extends Controller
         }
 
         //data
-        $credentials = ['username' => $request->username, 'password' => $request->password];
+        $credentials = ['phone' => $request->phone, 'password' => $request->password];
         
         try {
             if (! $token = auth($guard)->attempt($credentials)) { //login
-                return $this->faild(trans('auth.passwored or username is wrong'), 404, 'E04');
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
             return $this->faild(trans('auth.login faild'), 400, 'E00');
@@ -50,9 +56,16 @@ class auth extends Controller
         if($teacher['status'] == 0)
             return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
-        // check if teacher not active
-        // if($teacher['verified'] == 0)
-        //     return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
+        // check if student not active
+        if($teacher['verified'] == 0){
+            $this->verification->sendCode($request);
+
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'verify',
+                'token'     => $token,
+            ], 200);
+        }
 
         //update token
         $teacher->token_firebase = $request->get('token_firebase');
@@ -103,6 +116,9 @@ class auth extends Controller
 
         //create token
         $token = JWTAuth::fromUser($teacher);
+
+        //send verification code
+        $this->verification->saveCode('1234', $request->get('phone'));
 
         //response
         return response()->json([

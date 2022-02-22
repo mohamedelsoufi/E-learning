@@ -76,7 +76,7 @@ class Teacher extends Authenticatable implements JWTSubject
 
     public function getCurriculum(){
         if($this->Curriculum != null){
-            return $this->Curriculum->name;
+            return $this->Curriculum->translate('en')->name;
         } else {
             return null;
         }

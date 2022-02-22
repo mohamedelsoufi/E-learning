@@ -35,6 +35,10 @@ class Student extends Authenticatable implements JWTSubject
         return $this->belongsTo(Year::class, 'year_id');
     }
 
+    public function Curriculum(){
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
+
     public function Questions(){
         return $this->hasMany(Question::class, 'student_id');
     }
@@ -79,7 +83,7 @@ class Student extends Authenticatable implements JWTSubject
 
     public function getYear(){
         if($this->Year != null){
-            return $this->Year->name;
+            return $this->Year->translate('en')->name;
         } else {
             return null;
         }
@@ -87,7 +91,7 @@ class Student extends Authenticatable implements JWTSubject
 
     public function getCurriculum(){
         if($this->Curriculum != null){
-            return $this->Curriculum->name;
+            return $this->Curriculum->translate('en')->name;
         } else {
             return null;
         }

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\site\student\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\studentResource;
+use App\Models\Student;
 use App\Traits\response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class resetPasswored extends Controller
 {
@@ -62,8 +66,36 @@ class resetPasswored extends Controller
     ///////////////check if code is valid ////////////
 
     public function checkCode(Request $request){
-        if($this->updatePasswordRow($request)->count() > 0){
-            return $this::success(trans('auth.success'), 200);
+        $validator = Validator::make($request->all(), [
+            'phone'             => 'required',
+            'code'              => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403, 'E03');
+        }
+
+        $updatePasswordRow = DB::table('student_password_resets')->where([
+            'username'  => $request->phone,
+            'code'      => $request->code
+        ]);
+
+        if($updatePasswordRow->count() > 0){
+            $student = Student::where('phone', $request->phone)->first();
+
+            try {
+                if (! $token = JWTAuth::fromUser($student)) { //login
+                    return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
+                }
+            } catch (JWTException $e) {
+                return $this->faild(trans('auth.login faild'), 400, 'E00');
+            }
+
+            return response()->json([
+                "successful"=> true,
+                'message'   => trans('auth.success'),
+                'token'     => $token,
+            ], 200);
         } else {
             return $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
         }
@@ -81,13 +113,12 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
     public function passwordResetProcess(Request $request){
         $validator = Validator::make($request->all(), [
-            'phone'             => 'required',
             'code'              => 'required',
             'password'          => 'required|string|min:6',
             'confirmPassword'   => 'required|string|same:password',
@@ -97,28 +128,79 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
+        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
     private function updatePasswordRow($request){
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
         return DB::table('student_password_resets')->where([
-            'username'  => $request->phone,
+            'username'  => $student->phone,
             'code'      => $request->code
         ]);
     }
 
     // Reset password
     private function resetPassword($request) {
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
         // update password
         DB::table('students')
-        ->where('phone', $request->phone)
+        ->where('phone', $student->phone)
         ->update(['password' => bcrypt($request->password)]);
 
         // remove verification data from db
         $this->updatePasswordRow($request)->delete();
 
-        // reset password response
-        return response::success(trans('auth.Password has been updated.'), 200);
+        //check if user blocked
+        if($student['status'] == 0)
+            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
+
+        //get token
+        try {
+            if (! $token = JWTAuth::fromUser($student)) { //login
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
+            }
+        } catch (JWTException $e) {
+            return $this->faild(trans('auth.login faild'), 400, 'E00');
+        }
+        
+        // check if student not active
+        if($student['verified'] == 0){
+            $this->verification->sendCode($request);
+
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'verify',
+                'student'   => new studentResource($student),
+                'token'     => $token,
+            ], 200);
+        }
+
+        // check if student not active
+        if($student['year_id'] == null){
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'setup_profile',
+                'student'   => new studentResource($student),
+                'token'     => $token,
+            ], 200);
+        }
+        
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
+
+        return response()->json([
+            'successful'=> true,
+            'step'      => true,
+            'message'   => 'success',
+            'student'   => new studentResource($student),
+            'token'     => $token,
+        ], 200);
     } 
 }

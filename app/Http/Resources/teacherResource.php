@@ -28,8 +28,11 @@ class teacherResource extends JsonResource
                                 'dialing_code'  =>$this->dialing_code,
                                 'phone'         =>$this->phone,
                             ],
-            'country'       => $this->Country->name,
-            'curriculum'    => $this->getCurriculum(),
+            'country'       => $this->Country->translate('en')->name,
+            'curriculum'    => [
+                'id'   => $this->curriculum_id,
+                'name' => $this->getCurriculum($lang),
+            ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,

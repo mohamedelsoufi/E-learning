@@ -14,6 +14,11 @@ class studentResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($request->header('lang') == 'ar'){
+            $lang = 'ar';
+        } else{
+            $lang = 'en';
+        }
         return [
             'id'            => $this->id,
             'email'         =>$this->email,
@@ -21,9 +26,15 @@ class studentResource extends JsonResource
                                 'dialing_code'  =>$this->dialing_code,
                                 'phone'         =>$this->phone,
                             ],
-            'country'       =>$this->Country->name,
-            'curriculum'    => $this->getCurriculum(),
-            'year'          => $this->getYear(),
+            'country'       => $this->Country->name,
+            'curriculum'    => [
+                                    'id'   => $this->curriculum_id,
+                                    'name' => $this->getCurriculum($lang),
+                                ],
+            'year'          => [
+                                    'id'   => $this->year_id,
+                                    'name' => $this->getYear($lang),
+                                ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'gender'        => $this->getGender(),

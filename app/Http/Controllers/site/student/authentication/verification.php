@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\site\student\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\studentResource;
 use App\Traits\response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class verification extends Controller
 {
@@ -15,7 +18,10 @@ class verification extends Controller
     ////////sent email /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
-        if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+        if (!$this->validatePhone($student->phone)) {  // this is validate to fail send mail or true
             return $this::faild(trans('auth.phone not found'), 404, 'E04');
         }
         
@@ -57,7 +63,7 @@ class verification extends Controller
         if($this->updatePasswordRow($request)->count() > 0){
             return $this::success(trans('auth.success'), 200);
         } else {
-            return $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
+            return $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
         }
     }
 
@@ -65,7 +71,6 @@ class verification extends Controller
 
     public function verificationProcess(Request $request){
         $validator = Validator::make($request->all(), [
-            'phone'             => 'required',
             'code'              => 'required',
         ]);
 
@@ -73,27 +78,61 @@ class verification extends Controller
             return $this::faild($validator->errors(), 403, 'E03');
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.Either your phone or code is wrong.'), 404, 'E04');
+        return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
     }
   
     // Verify if code is valid
     private function verificationRow($request){
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
         return DB::table('student_verified')->where([
-            'username'  => $request->phone,
+            'username'  => $student->phone,
             'code'      => $request->code
         ]);
     }
 
     private function verification($request) {
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
         // update students
         DB::table('students')
-        ->where('phone', $request->phone)
+        ->where('phone', $student->phone)
         ->update(['verified' => 1]);
 
         // remove verification data from db
         $this->verificationRow($request)->delete();
 
-        // reset password response
-        return response::success(trans('auth.acount verification success'), 200);
+        //get token
+        try {
+            if (! $token = JWTAuth::fromUser($student)) { //login
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
+            }
+        } catch (JWTException $e) {
+            return $this->faild(trans('auth.login faild'), 400, 'E00');
+        }
+
+        // check if student not active
+        if($student['year_id'] == null){
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'setup_profile',
+                'student'   => new studentResource($student),
+                'token'     => $token,
+            ], 200);
+        }
+        
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
+
+        return response()->json([
+            'successful'=> true,
+            'step'      => true,
+            'message'   => 'success',
+            'student'   => new studentResource($student),
+            'token'     => $token,
+        ], 200);
     } 
 }

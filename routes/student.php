@@ -19,13 +19,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
 
-    Route::group(['prefix' => 'verification'], function(){
-        Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
-        Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
-    });
-
     Route::group(['prefix' => 'passwordReset'], function(){
-        Route::post('/', 'App\Http\Controllers\site\student\authentication\resetPasswored@passwordResetProcess');
+        Route::post('/', 'App\Http\Controllers\site\student\authentication\resetPasswored@passwordResetProcess')->middleware('checkJWTToken:student');
         Route::post('checkCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@checkCode');
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
@@ -36,6 +31,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');
+
+        Route::group(['prefix' => 'verification'], function(){
+            Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
+            Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
+        });
 
         Route::group(['prefix' => 'myProfile'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');

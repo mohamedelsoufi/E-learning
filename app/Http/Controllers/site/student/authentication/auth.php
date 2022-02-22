@@ -7,6 +7,7 @@ use App\Http\Resources\studentResource;
 use App\Models\Student;
 use App\Traits\response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class auth extends Controller
 {
     use response;
+    public $verification;
+    public function __construct(verification $verification)
+    {
+        $this->verification         = $verification;
+    }
+
     public function login(Request $request){
         $guard = 'student';
         
@@ -51,8 +58,25 @@ class auth extends Controller
             return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
         // check if student not active
-        // if($student['verified'] == 0)
-        //     return $this->faild(trans('auth.You must verify your acount'), 405, 'E05');
+        if($student['verified'] == 0){
+            $this->verification->sendCode($request);
+
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'verify',
+                'token'     => $token,
+            ], 200);
+        }
+
+        // check if student not active
+        if($student['year_id'] == null){
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'setup_profile',
+                'student'   => new studentResource($student),
+                'token'     => $token,
+            ], 200);
+        }
         
         //update token
         $student->token_firebase = $request->get('token_firebase');
@@ -60,6 +84,7 @@ class auth extends Controller
 
         return response()->json([
             'successful'=> true,
+            'step'      => true,
             'message'   => 'success',
             'student'   => new studentResource($student),
             'token'     => $token,
@@ -104,12 +129,14 @@ class auth extends Controller
 
         //create token
         $token = JWTAuth::fromUser($student);
+        
+        //send verification code
+        $this->verification->saveCode('1234', $request->get('phone'));
 
         //response
         return response()->json([
             "successful"=> true,
             'message'   => trans('auth.register success'),
-            'student'   => new studentResource($student),
             'token'     => $token,
         ], 200);
     }
