@@ -75,7 +75,7 @@ class auth extends Controller
     public function register(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'username'         => 'required|string|unique:students|min:3|max:255',
+            'username'         => 'required|string|min:3|max:255',
             'dialing_code'     => 'required|string',
             'phone'            => 'required|unique:students|string',
             'password'         => 'required|string|min:6',

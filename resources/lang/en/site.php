@@ -15,7 +15,7 @@ return [
     'update answer success'             => 'update answer success',
     'update answer faild'               => 'update answer faild',
     'student must choose his grade' => 'student must choose his grade',
-    '' => '',
+    'you shold enter year_id or subject_id' => 'you shold enter year_id or subject_id',
     '' => '',
     '' => '',
     '' => '',

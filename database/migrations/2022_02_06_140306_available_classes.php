@@ -25,6 +25,7 @@ class AvailableClasses extends Migration
             $table->integer('promoCode_percentage')->nullable();
             $table->text('note')->nullable();
             $table->float('cost');
+            $table->integer('addition');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 

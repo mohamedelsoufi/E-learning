@@ -139,7 +139,7 @@ class profile extends Controller
 
         // validate
         $validator = Validator::make($request->all(), [
-            'username'          => 'nullable|string|max:250|unique:students,username,'. $student->id,
+            'username'          => 'nullable|string|max:250',
             'email'             => 'nullable|email|max:255|unique:students,email,'. $student->id,
             'dialing_code'      => 'nullable|string|max:10',
             'phone'             => 'nullable|string|max:20|unique:students,phone,'. $student->id,

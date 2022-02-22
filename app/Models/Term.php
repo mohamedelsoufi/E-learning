@@ -30,6 +30,7 @@ class Term extends Model implements TranslatableContract
     public function Subjects(){
         return $this->hasMany(Subject::class, 'term_id');
     }
+
     //scope
     public function scopeActive($query)
     {

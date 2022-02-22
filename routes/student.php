@@ -61,6 +61,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('/available_classes', 'App\Http\Controllers\site\student\home@available_classes');
         Route::post('leave', 'App\Http\Controllers\site\student\home@leave');
 
+        Route::get('/lives', 'App\Http\Controllers\site\student\lives@lives');
+
         Route::post('logout', 'App\Http\Controllers\site\student\authentication\auth@logout');
     });
 });
