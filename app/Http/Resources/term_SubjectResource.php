@@ -14,7 +14,7 @@ class term_SubjectResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->lang == 'ar'){
+        if($request->header('lang') == 'ar'){
             $lang = 'ar';
         } else{
             $lang = 'en';

@@ -187,6 +187,31 @@ class profile extends Controller
             'gender', 'birth'
         );
 
+        if($request->has('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/teachers', 300, 300);
+
+            if($teacher->Image == null){
+                //if user don't have image 
+                Image::create([
+                    'imageable_id'   => $teacher->id,
+                    'imageable_type' => 'App\Models\Teacher',
+                    'src'            => $path,
+                ]);
+
+            } else {
+                //if teacher have image
+                $oldImage = $teacher->Image->src;
+
+                if(file_exists(base_path('public/uploads/teachers/') . $oldImage)){
+                    unlink(base_path('public/uploads/teachers/') . $oldImage);
+                }
+
+                $teacher->Image->src = $path;
+                $teacher->Image->save();
+            }
+        }
+
         //update student
         if($teacher->update($input)){
             return $this->success(trans('auth.update profile success'), 200, 'teacher', new teacherResource($teacher));

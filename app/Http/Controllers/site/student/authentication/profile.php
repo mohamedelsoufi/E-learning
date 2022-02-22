@@ -162,7 +162,7 @@ class profile extends Controller
             'gender', 'birth'
         );
 
-        if($request->file('image') != null){
+        if($request->has('image') != null){
             //update image
             $path = $this->upload_image($request->file('image'),'uploads/students', 300, 300);
 
@@ -186,7 +186,6 @@ class profile extends Controller
                 $student->Image->save();
             }
         }
-
 
         //update student
         if($student->update($input)){

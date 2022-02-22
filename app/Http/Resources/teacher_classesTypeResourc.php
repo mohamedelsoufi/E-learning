@@ -40,7 +40,7 @@ class teacher_classesTypeResourc extends JsonResource
                 return [
                     'id'        => $data->id,
                     'long'      => $data->long,
-                    'cost'      =>home::get_cost($data->id, $this->id, $subject->Term->Year->Level->id),
+                    'cost'      => number_format(home::get_cost($data->id, $this->id, $subject->Term->Year->Level->id), 2),
                 ];
             }),
         ];

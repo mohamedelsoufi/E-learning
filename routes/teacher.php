@@ -29,8 +29,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@sendCode');
     });
 
-
-    Route::get('profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
     Route::get('questions', 'App\Http\Controllers\site\teacher\questions@index');
     Route::get('answers', 'App\Http\Controllers\site\teacher\answers@index');
     

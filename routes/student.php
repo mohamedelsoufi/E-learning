@@ -31,7 +31,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     });
     
 
-    Route::get('profile', 'App\Http\Controllers\site\student\authentication\profile@index');
     Route::get('questions', 'App\Http\Controllers\site\student\questions@index');
     Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
 

@@ -30,7 +30,7 @@ class classType_availableClassResource extends JsonResource
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'cost'              => home::get_cost($this->id, $teacher->Country->id, $subject->Term->Year->Level->id),
+            'cost'              => number_format(home::get_cost($this->id, $teacher->Country->id, $subject->Term->Year->Level->id), 2),
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }
