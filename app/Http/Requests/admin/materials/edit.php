@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\admin\countries;
+namespace App\Http\Requests\admin\materials;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class add extends FormRequest
+class edit extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class add extends FormRequest
     public function rules()
     {
         return [
-            'country.*.name' => 'required|string|min:2',
-            'iamge'          => 'required|mimes:jpeg,jpg,png,gif',
-            'dialing_code'   => 'required|string',
+            'materials.*.name'  => 'required|string|min:2',
         ];
     }
 }

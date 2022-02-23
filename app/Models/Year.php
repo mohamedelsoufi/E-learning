@@ -19,7 +19,7 @@ class Year extends Model implements TranslatableContract
     protected $casts = [
         'id'            => 'integer',
         'level_id'      => 'integer',
-        'parent'        => 'integer',
+        'status'        => 'integer',
     ];
 
     //relations

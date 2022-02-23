@@ -14,9 +14,10 @@ class Class_type extends Model
 
     protected $casts = [
         'id'                    => 'integer',
-        'cost'                  => 'float',
-        'students_number'       => 'integer',
         'long'                  => 'integer',
+        'long_cost'             => 'float',
+        'status'                => 'integer',
+
     ];
 
     //relations

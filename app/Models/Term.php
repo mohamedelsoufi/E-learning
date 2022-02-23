@@ -19,7 +19,7 @@ class Term extends Model implements TranslatableContract
     protected $casts = [
         'id'            => 'integer',
         'year_id'       => 'integer',
-        'parent'        => 'integer',
+        'status'        => 'integer',
     ];
 
     //relations

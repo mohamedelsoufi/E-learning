@@ -14,6 +14,9 @@ class Promo_code extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'            => 'integer',
+        'percentage'    => 'integer',
+        'status'        => 'integer',
     ];
     //scope
     public function scopeActive($query)

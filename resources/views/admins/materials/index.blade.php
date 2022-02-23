@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'subjects')
+@section('title', 'materials')
 
 
 @section('content')
@@ -9,7 +9,7 @@
 
         <section class="content-header">
 
-            <h1>subject</h1>
+            <h1>material</h1>
 
             <ol class="breadcrumb">
                 <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
@@ -22,7 +22,9 @@
                 </li>
                 <li> <a href="{{url('admins/terms?curriculum='.$curriculum_id . '&&level=' . $level_id . '&&year=' . $year_id . '&&term=' . $term_id )}}"><i class="fa fa-dashboard"></i>terms</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>subjects</li>
+                <li> <a href="{{url('admins/subjects?curriculum='.$curriculum_id . '&&level=' . $level_id . '&&year=' . $year_id . '&&term=' . $term_id . '&&subject=' .  $subject_id)}}"><i class="fa fa-dashboard"></i>subjects</a>
+                </li>
+                <li class="active"><i class="fa fa-users"></i>materials</li>
             </ol>
         </section>
 
@@ -45,7 +47,7 @@
                                     search
                                 </button>
                                 @if (auth('admin')->user()->isAbleTo('create-curriculums'))
-                                    <a href="{{url('admins/subjects/create?' . $parms)}}"
+                                    <a href="{{url('admins/materials/create?' . $parms)}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
                                 @else
@@ -66,29 +68,28 @@
                                     <th>name</th>
                                     <th>description</th>
                                     <th>status</th>
-                                    <th>materials cout</th>
                                     <th>action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($subjects as $subject)
+                                @foreach ($materials as $material)
                                     <tr>
-                                        <td>{{$subject->id}}</td>
-                                        <td>{{$subject->translate('en')->name}}</td>
+                                        <td>{{$material->id}}</td>
+                                        <td>{{$material->translate('en')->name}}</td>
                                         <td>
-                                            {{$subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
-                                            {{$subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
-                                            {{$subject->Term->Year->Level->translate('en')->name}} ->
-                                            {{$subject->Term->Year->translate('en')->name}} ->
-                                            {{$subject->Term->translate('en')->name}}
+                                            {{$material->Subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
+                                            {{$material->Subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
+                                            {{$material->Subject->Term->Year->Level->translate('en')->name}} ->
+                                            {{$material->Subject->Term->Year->translate('en')->name}} ->
+                                            {{$material->Subject->Term->translate('en')->name}} ->
+                                            {{$material->Subject->translate('en')->name}}
                                         </td>
-                                        <td>{{$subject->getStatus()}}</td>
-                                        <td><a href="materials?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term_id}}&&subject={{$subject->id}}">{{count($subject->Materials->where('status', '!=', -1))}}</a></td>
+                                        <td>{{$material->getStatus()}}</td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))
-                                                <a href="{{url('admins/subjects/edit/' . $subject->id . '?' . $parms)}}" style="color: #fff;
+                                                <a href="{{url('admins/materials/edit/' . $material->id . '?' . $parms)}}" style="color: #fff;
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
@@ -102,7 +103,7 @@
 
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-curriculums'))
-                                                <a href="{{url('admins/subjects/delete/' . $subject->id . '?' . $parms)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
+                                                <a href="{{url('admins/materials/delete/' . $material->id . '?' . $parms)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 
                                             @else

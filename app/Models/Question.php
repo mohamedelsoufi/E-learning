@@ -16,6 +16,7 @@ class Question extends Model
         'id'            => 'integer',
         'student_id'    => 'integer',
         'subject_id'    => 'integer',
+        'status'        => 'integer',
     ];
 
     //relations

@@ -13,15 +13,15 @@ class Available_class extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'id'                => 'integer',
-        'teacher_id'        => 'integer',
-        'subject_id'        => 'integer',
-        'class_type_id'     => 'integer',
-        'long'              => 'integer',
-        'max_student_number'=> 'integer',
-        'cost'              => 'float',
-        'max_student_number'=> 'integer',
-
+        'id'                    => 'integer',
+        'teacher_id'            => 'integer',
+        'subject_id'            => 'integer',
+        'class_type_id'         => 'integer',
+        'long'                  => 'integer',
+        'company_percentage'    => 'integer',
+        'cost'                  => 'float',
+        'promoCode_percentage'  => 'integer',
+        'status'                => 'integer',
 
     ];
     //relations

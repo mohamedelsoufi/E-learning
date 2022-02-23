@@ -16,7 +16,8 @@ class Answer extends Model
         'id'                   => 'integer',
         'answerable_id'        => 'integer',
         'question_id'          => 'integer',
-        'recommendation'       => 'integer'
+        'recommendation'       => 'integer',
+        'status'               => 'integer',
     ];
 
     //relations

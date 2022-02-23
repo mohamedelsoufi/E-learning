@@ -25,7 +25,7 @@ class materialResource extends JsonResource
             'name'              => $this->translate($lang)->name,
             'subject_id'        => $this->subject_id,
             'status'            => $this->status,
-            'file'              => url('public/uploads/materials/' . $this->file->src),
+            'file'              => $this->getFile(),
         ];
     }
 }

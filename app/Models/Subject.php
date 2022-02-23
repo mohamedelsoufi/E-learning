@@ -17,7 +17,7 @@ class Subject extends Model implements TranslatableContract
     protected $casts = [
         'id'            => 'integer',
         'term_id'       => 'integer',
-        'parent'        => 'integer',
+        'status'        => 'integer',
     ];
     
     //relations

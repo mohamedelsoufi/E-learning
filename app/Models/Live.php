@@ -17,6 +17,8 @@ class Live extends Model
         'teacher_id'    => 'integer',
         'subject_id'    => 'integer',
         'cost'          => 'float',
+        'company_percentage'    => 'integer',
+        'status'    => 'integer',
     ];
 
     //relations
