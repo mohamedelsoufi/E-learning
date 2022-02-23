@@ -12,10 +12,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\site\student\authentication\verification;
 
 class resetPasswored extends Controller
 {
     use response;
+
+    public $verification;
+    public function __construct(verification $verification)
+    {
+        $this->verification         = $verification;
+    }
     ////////sent code /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
@@ -168,9 +175,14 @@ class resetPasswored extends Controller
         } catch (JWTException $e) {
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
+
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
         
         // check if student not active
         if($student['verified'] == 0){
+            $request->phone = $student->phone;
             $this->verification->sendCode($request);
 
             return response()->json([
@@ -190,10 +202,6 @@ class resetPasswored extends Controller
                 'token'     => $token,
             ], 200);
         }
-        
-        //update token
-        $student->token_firebase = $request->get('token_firebase');
-        $student->save();
 
         return response()->json([
             'successful'=> true,

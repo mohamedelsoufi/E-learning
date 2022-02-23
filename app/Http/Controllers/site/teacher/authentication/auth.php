@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\site\teacher\authentication;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\site\student\authentication\verification;
+use App\Http\Controllers\site\teacher\authentication\verification;
 use App\Http\Resources\teacherResource;
 use App\Models\Teacher;
 use App\Traits\response;
@@ -17,14 +17,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class auth extends Controller
 {
+    use response;
     public $verification;
     public function __construct(verification $verification)
     {
         $this->verification         = $verification;
     }
-    use response;
     public function login(Request $request){
-        $guard = 'teacher';
         
         //validation
         $validator = Validator::make($request->all(), [
@@ -41,7 +40,7 @@ class auth extends Controller
         $credentials = ['phone' => $request->phone, 'password' => $request->password];
         
         try {
-            if (! $token = auth($guard)->attempt($credentials)) { //login
+            if (! $token = auth('teacher')->attempt($credentials)) { //login
                 return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
@@ -49,8 +48,12 @@ class auth extends Controller
         }
 
         //get teacher data
-        if (! $teacher = auth($guard)->user())
+        if (! $teacher = auth('teacher')->user())
             return $this->faild(trans('auth.teacher not found'), 404, 'E04');
+
+        //update token
+        $teacher->token_firebase = $request->get('token_firebase');
+        $teacher->save();
 
         //check if user blocked
         if($teacher['status'] == 0)
@@ -66,10 +69,6 @@ class auth extends Controller
                 'token'     => $token,
             ], 200);
         }
-
-        //update token
-        $teacher->token_firebase = $request->get('token_firebase');
-        $teacher->save();
         
         return response()->json([
             'successful'=> true,
@@ -80,6 +79,16 @@ class auth extends Controller
     }
 
     public function logout(){
+        //get user teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+        
+        //remove token
+        $teacher->token_firebase = null;
+        $teacher->save();
+
+        //logout
         FacadesAuth::guard('teacher')->logout();
 
         return response::success(trans('auth.logout success'), 200);
@@ -118,7 +127,7 @@ class auth extends Controller
         $token = JWTAuth::fromUser($teacher);
 
         //send verification code
-        $this->verification->saveCode('1234', $request->get('phone'));
+        $this->verification->createCode($request->get('phone'));
 
         //response
         return response()->json([

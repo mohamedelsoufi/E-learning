@@ -7,13 +7,14 @@ use App\Http\Resources\studentResource;
 use App\Models\Student;
 use App\Traits\response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\site\student\authentication\verification;
+
 
 class auth extends Controller
 {
@@ -25,7 +26,6 @@ class auth extends Controller
     }
 
     public function login(Request $request){
-        $guard = 'student';
         
         // //validation
         $validator = Validator::make($request->all(), [
@@ -42,7 +42,7 @@ class auth extends Controller
         $credentials = ['phone' => $request->phone, 'password' => $request->password];
         
         try {
-            if (! $token = auth($guard)->attempt($credentials)) { //login
+            if (! $token = auth('student')->attempt($credentials)) { //login
                 return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
@@ -50,8 +50,12 @@ class auth extends Controller
         }
 
         //get student data
-        if (! $student = auth($guard)->user())
+        if (! $student = auth('student')->user())
             return $this->faild(trans('auth.student not found'), 404, 'E04');
+
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
 
         //check if user blocked
         if($student['status'] == 0)
@@ -59,6 +63,7 @@ class auth extends Controller
         
         // check if student not active
         if($student['verified'] == 0){
+            //send verification
             $this->verification->sendCode($request);
 
             return response()->json([
@@ -68,7 +73,7 @@ class auth extends Controller
             ], 200);
         }
 
-        // check if student not active
+        // check setup_profile
         if($student['year_id'] == null){
             return response()->json([
                 'successful'=> false,
@@ -77,10 +82,6 @@ class auth extends Controller
                 'token'     => $token,
             ], 200);
         }
-        
-        //update token
-        $student->token_firebase = $request->get('token_firebase');
-        $student->save();
 
         return response()->json([
             'successful'=> true,
@@ -92,8 +93,18 @@ class auth extends Controller
     }
 
     public function logout(){
-        FacadesAuth::guard('student')->logout();
+        //get user teacher
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+        
+        //remove token
+        $student->token_firebase = null;
+        $student->save();
 
+        //logout
+        FacadesAuth::guard('student')->logout();
+    
         return response::success(trans('auth.logout success'), 200);
     }
 
@@ -131,7 +142,7 @@ class auth extends Controller
         $token = JWTAuth::fromUser($student);
         
         //send verification code
-        $this->verification->saveCode('1234', $request->get('phone'));
+        $this->verification->createCode($request->get('phone'));
 
         //response
         return response()->json([

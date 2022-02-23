@@ -18,13 +18,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
     Route::post('login', 'App\Http\Controllers\site\teacher\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\teacher\authentication\auth@register');
 
-    Route::group(['prefix' => 'verification'], function(){
-        Route::post('/', 'App\Http\Controllers\site\teacher\authentication\verification@verificationProcess');
-        Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\verification@sendCode');
-    });
-
     Route::group(['prefix' => 'passwordReset'], function(){
-        Route::post('/', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@passwordResetProcess');
+        Route::post('/', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@passwordResetProcess')->middleware('checkJWTToken:teacher');
         Route::post('checkCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@checkCode');
         Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@sendCode');
     });
@@ -40,6 +35,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
         Route::post('myProfile/update/subjects', 'App\Http\Controllers\site\teacher\authentication\profile@update_subjects');
 
+        Route::group(['prefix' => 'verification'], function(){
+            Route::post('/', 'App\Http\Controllers\site\teacher\authentication\verification@verificationProcess');
+            Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\verification@sendCode');
+        });
 
         Route::group(['prefix' => 'answers'], function(){
             Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');

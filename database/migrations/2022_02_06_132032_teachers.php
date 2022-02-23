@@ -38,13 +38,13 @@ class Teachers extends Migration
         });
 
         Schema::create('teacher_verified', function (Blueprint $table) {
-            $table->string('username')->index();
+            $table->string('phone')->index();
             $table->integer('code');
             $table->timestamp('created_at')->nullable();
         });
 
         Schema::create('teacher_password_resets', function (Blueprint $table) {
-            $table->string('username')->index();
+            $table->string('phone')->index();
             $table->integer('code');
             $table->timestamp('created_at')->nullable();
         });

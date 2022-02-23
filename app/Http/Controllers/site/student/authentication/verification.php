@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\student\authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\site\student\authentication\auth as x;
 use App\Http\Resources\studentResource;
 use App\Traits\response;
 use Carbon\Carbon;
@@ -18,6 +19,15 @@ class verification extends Controller
     ////////sent email /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
+        // validate
+        $validator = Validator::make($request->all(), [
+            'phone'          => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+        
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
@@ -113,6 +123,10 @@ class verification extends Controller
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
 
+        //update token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
+
         // check if student not active
         if($student['year_id'] == null){
             return response()->json([
@@ -122,10 +136,6 @@ class verification extends Controller
                 'token'     => $token,
             ], 200);
         }
-        
-        //update token
-        $student->token_firebase = $request->get('token_firebase');
-        $student->save();
 
         return response()->json([
             'successful'=> true,
