@@ -28,11 +28,22 @@
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
-
                     {{-- @include('admins.partials._errors') --}}
                     <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row" style="margin: 0 !important;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>image</label>
+                                <input type="file" class="form-control"  name="image"
+                                    autocomplete="off">
+                                @error('image')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>term</label>

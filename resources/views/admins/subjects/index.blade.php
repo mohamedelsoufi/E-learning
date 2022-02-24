@@ -66,6 +66,7 @@
                                     <th>name</th>
                                     <th>description</th>
                                     <th>status</th>
+                                    <th>image</th>
                                     <th>materials cout</th>
                                     <th>action</th>
                                 </tr>
@@ -84,6 +85,7 @@
                                             {{$subject->Term->translate('en')->name}}
                                         </td>
                                         <td>{{$subject->getStatus()}}</td>
+                                        <td><img src='{{$subject->getImage()}}' style="width: 100px"></td>
                                         <td><a href="materials?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term_id}}&&subject={{$subject->id}}">{{count($subject->Materials->where('status', '!=', -1))}}</a></td>
                                         <td>
                                             {{-- edit --}}

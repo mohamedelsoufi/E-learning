@@ -27,7 +27,10 @@ class studentResource extends JsonResource
                                 'dialing_code'  =>$this->dialing_code,
                                 'phone'         =>$this->phone,
                             ],
-            'country'       => $this->Country->name,
+            'country'       => [
+                                    'id'   => $this->country_id,
+                                    'name' => $this->Country->translate($lang)->name,
+                                ],
             'curriculum'    => [
                                     'id'   => $this->curriculum_id,
                                     'name' => $this->getCurriculum($lang),

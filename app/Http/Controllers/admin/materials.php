@@ -48,8 +48,14 @@ class materials extends Controller
         if($material == null)
             return redirect('admins/materials?' . $parms)->with('error', 'delete faild');
 
-        $material->status = -1;
-        $material->save();
+        //delete file
+        $file = $material->File->src;
+
+        if(file_exists(base_path('public/uploads/materials/') . $file)){
+            unlink(base_path('public/uploads/materials/') . $file);
+        }
+
+        $material->delete();
 
         return redirect('admins/materials?' . $parms)->with('success', 'delete material success');
     }

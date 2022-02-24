@@ -16,6 +16,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(){
+    Route::get('/', 'App\Http\Controllers\Controller@test');
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
 
@@ -24,7 +25,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('checkCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@checkCode');
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
-    
 
     Route::get('questions', 'App\Http\Controllers\site\student\questions@index');
     Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
@@ -39,6 +39,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
         Route::group(['prefix' => 'myProfile'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
+            Route::post('/setup_profile', 'App\Http\Controllers\site\student\authentication\profile@updateYear');
             Route::post('changePassword', 'App\Http\Controllers\site\student\authentication\profile@changePassword');
             Route::post('changeImage', 'App\Http\Controllers\site\student\authentication\profile@change_image');
             Route::post('update', 'App\Http\Controllers\site\student\authentication\profile@updateProfile');
@@ -67,8 +68,3 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     });
 });
 Route::get('test', 'App\Http\Controllers\site\student\home@test');
-
-
-
-
-

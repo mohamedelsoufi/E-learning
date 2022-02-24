@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class profile extends Controller
 {
@@ -193,5 +195,39 @@ class profile extends Controller
         } else {
             return $this::faild(trans('auth.update profile falid'), 400);
         }
+    }
+
+    public function updateYear(Request $request){
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        // validate
+        $validator = Validator::make($request->all(), [
+            'year_id'           => 'required|exists:years,id',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
+
+        $student->year_id   = $request->get('year_id');
+        $student->save();
+
+        try {
+            if (! $token = JWTAuth::fromUser($student)) { //login
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
+            }
+        } catch (JWTException $e) {
+            return $this->faild(trans('auth.login faild'), 400, 'E00');
+        }
+
+        return response()->json([
+            "successful"=> true,
+            'message'   => trans('auth.success'),
+            'student'   => new studentResource($student),
+            'token'     => $token,
+        ], 200);
     }
 }

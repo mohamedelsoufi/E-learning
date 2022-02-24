@@ -7,7 +7,6 @@ use App\Http\Requests\admin\countries\add;
 use App\Models\Country as ModelsCountry;
 use App\Models\CountryTranslation;
 use App\Models\Image;
-use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -82,7 +81,7 @@ class country extends Controller
         ]);
     }
 
-    public function edit($country_id,add $request){
+    public function edit($country_id,Request $request){
         $country = ModelsCountry::find($country_id);
         $CountriesTranslation = CountryTranslation::where('country_id', $country_id)->get();
 
@@ -98,28 +97,29 @@ class country extends Controller
                 $country->save();
 
                 //update image
-                $path = $this->upload_image($request->file('image'),'uploads/countries', 150, 100);
+                if($request->has('image')){
+                    $path = $this->upload_image($request->file('image'),'uploads/countries', 150, 100);
 
-                if($country->Image == null){
-                    //if user don't have image 
-                    Image::create([
-                        'imageable_id'   => $country->id,
-                        'imageable_type' => 'App\Models\countries',
-                        'src'            => $path,
-                    ]);
+                    if($country->Image == null){
+                        //if user don't have image 
+                        Image::create([
+                            'imageable_id'   => $country->id,
+                            'imageable_type' => 'App\Models\Country',
+                            'src'            => $path,
+                        ]);
 
-                } else {
-                    //if countries have image
-                    $oldImage = $country->Image->src;
+                    } else {
+                        //if countries have image
+                        $oldImage = $country->Image->src;
 
-                    if(file_exists(base_path('public/uploads/countries/') . $oldImage)){
-                        unlink(base_path('public/uploads/countries/') . $oldImage);
+                        if(file_exists(base_path('public/uploads/countries/') . $oldImage)){
+                            unlink(base_path('public/uploads/countries/') . $oldImage);
+                        }
+
+                        $country->Image->src = $path;
+                        $country->Image->save();
                     }
-
-                    $country->Image->src = $path;
-                    $country->Image->save();
                 }
-
                 //change all country trans name
                 foreach($CountriesTranslation as $CountryTranslation){
                     $CountryTranslation->name = $request->countries[$CountryTranslation->locale]['name'];

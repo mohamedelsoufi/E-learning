@@ -127,19 +127,8 @@ class verification extends Controller
         $student->token_firebase = $request->get('token_firebase');
         $student->save();
 
-        // check if student not active
-        if($student['year_id'] == null){
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'setup_profile',
-                'student'   => new studentResource($student),
-                'token'     => $token,
-            ], 200);
-        }
-
         return response()->json([
             'successful'=> true,
-            'step'      => true,
             'message'   => 'success',
             'student'   => new studentResource($student),
             'token'     => $token,

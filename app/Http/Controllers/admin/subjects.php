@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\subjects\add;
+use App\Models\Image;
 use App\Models\Subject;
 use App\Models\SubjectTranslation;
 use App\Models\Term;
@@ -72,6 +73,14 @@ class subjects extends Controller
                     'term_id'           => $request->term_id,
                 ]);
 
+                //add image
+                $path = $this->upload_image($request->file('image'),'uploads/subjects', 100, 100);
+                Image::create([
+                    'imageable_id'   => $new_subject->id,
+                    'imageable_type' => 'App\Models\Subject',
+                    'src'            => $path,
+                ]);
+
                 foreach($request->subjects as $key=>$subject){
                     SubjectTranslation::create([
                         'name'              => $subject['name'],
@@ -127,6 +136,31 @@ class subjects extends Controller
                 foreach($subjectsTranslation as $subjectTranslation){
                     $subjectTranslation->name = $request->subjects[$subjectTranslation->locale]['name'];
                     $subjectTranslation->save();
+                }
+
+                //update image
+                if($request->has('image') != null){
+                    $path = $this->upload_image($request->file('image'),'uploads/subjects', 150, 100);
+
+                    if($subject->Image == null){
+                        //if user don't have image 
+                        Image::create([
+                            'imageable_id'   => $subject->id,
+                            'imageable_type' => 'App\Models\Subject',
+                            'src'            => $path,
+                        ]);
+
+                    } else {
+                        //if subjects have image
+                        $oldImage = $subject->Image->src;
+
+                        if(file_exists(base_path('public/uploads/subjects/') . $oldImage)){
+                            unlink(base_path('public/uploads/subjects/') . $oldImage);
+                        }
+
+                        $subject->Image->src = $path;
+                        $subject->Image->save();
+                    }
                 }
 
             DB::commit();

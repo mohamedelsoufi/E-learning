@@ -26,6 +26,7 @@ class add extends FormRequest
         return [
             'subjects.*.name' => 'required|string|min:2',
             'term_id'        => 'required|exists:terms,id',
+            'iamge'          => 'nullable|mimes:jpeg,jpg,png,gif',
         ];
     }
 }

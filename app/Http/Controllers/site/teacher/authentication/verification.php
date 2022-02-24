@@ -119,16 +119,6 @@ class verification extends Controller
         } catch (JWTException $e) {
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
-
-        // check if teacher not active
-        if($teacher['year_id'] == null){
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'setup_profile',
-                'teacher'   => new teacherResource($teacher),
-                'token'     => $token,
-            ], 200);
-        }
         
         //update token
         $teacher->token_firebase = $request->get('token_firebase');

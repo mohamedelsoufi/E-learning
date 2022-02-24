@@ -39,13 +39,13 @@ class Students extends Migration
         });
 
         Schema::create('student_verified', function (Blueprint $table) {
-            $table->string('username')->index();
+            $table->string('code')->index();
             $table->integer('code');
             $table->timestamp('created_at')->nullable();
         });
         
         Schema::create('student_password_resets', function (Blueprint $table) {
-            $table->string('username')->index();
+            $table->string('code')->index();
             $table->integer('code');
             $table->timestamp('created_at')->nullable();
         });

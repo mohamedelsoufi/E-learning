@@ -37,6 +37,11 @@ class Subject extends Model implements TranslatableContract
         return $this->hasMany(Material::class, 'subject_id');
     }
 
+    public function Image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function Student_classes(){
         return $this->hasMany(Student_class::class, 'student_id');
     }
@@ -53,6 +58,14 @@ class Subject extends Model implements TranslatableContract
             return 'not active';
         } else {
             return 'active';
+        }
+    }
+
+    public function getImage(){
+        if($this->Image != null){
+            return url('public/uploads/subjects/' . $this->Image->src);
+        } else {
+            return url('public/uploads/subjects/default.jpg');
         }
     }
 }

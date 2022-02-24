@@ -36,4 +36,8 @@ class Controller extends BaseController
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    public function test(){
+        return 'asd';
+    }
 }
