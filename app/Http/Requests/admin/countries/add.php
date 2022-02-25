@@ -25,7 +25,7 @@ class add extends FormRequest
     {
         return [
             'country.*.name' => 'required|string|min:2',
-            'iamge'          => 'required|mimes:jpeg,jpg,png,gif',
+            'image'          => 'required|mimes:jpeg,jpg,png,gif',
             'dialing_code'   => 'required|string',
         ];
     }

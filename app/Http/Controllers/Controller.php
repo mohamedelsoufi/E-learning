@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Intervention\Image\ImageManagerStatic as Image;
+use Aloha\Twilio\Twilio;
 
 
 class Controller extends BaseController
@@ -38,6 +39,10 @@ class Controller extends BaseController
     }
 
     public function test(){
-        return 'asd';
+        $twilio = new Twilio();
+        $twilio->message('+2001151504348', 'ahmed maher');
+
+
+        return 'asdf';
     }
 }
