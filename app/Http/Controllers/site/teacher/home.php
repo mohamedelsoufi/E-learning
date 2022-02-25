@@ -68,7 +68,7 @@ class home extends Controller
             'long'                  => $class_type->long,
             'company_percentage'    => $this->get_company_percentage($teacher),
             'note'                  => $request->get('note'),
-            'cost'                  => $this->get_cost($request->get('class_type_id'), $teacher->country_id, $subject->Term->Year->Level->id),
+            'cost'                  => $this->get_cost($request->get('class_type_id'), $teacher, $subject),
         ]);
 
         return $this->success(trans('auth.success'), 200);

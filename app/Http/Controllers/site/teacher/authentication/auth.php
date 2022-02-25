@@ -69,6 +69,16 @@ class auth extends Controller
                 'token'     => $token,
             ], 200);
         }
+
+        // check if setup_profile
+        if($teacher->Subject_teacher == null){
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'setup_profile',
+                'student'   => new teacherResource($teacher),
+                'token'     => $token,
+            ], 200);
+        }
         
         return response()->json([
             'successful'=> true,

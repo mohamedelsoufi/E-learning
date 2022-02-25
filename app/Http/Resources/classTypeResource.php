@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\student\home;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -18,10 +19,11 @@ class classTypeResource extends JsonResource
     public function toArray($request)
     {
         $subject = Subject::find($request->get('subject_id'));
+        $teacher = Teacher::find($request->get('teacher_id'));
         return [
             'id'        => $this->id,
             'long'      => $this->long,
-            'cost'      => number_format(home::get_cost($this->id, $request->get('teacher_id'), $subject->Term->Year->Level->id), 2),
+            'cost'      => number_format(Controller::get_cost($this->id, $teacher, $subject), 2),
         ];
     }
 }

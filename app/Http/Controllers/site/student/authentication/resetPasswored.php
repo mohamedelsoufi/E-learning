@@ -117,12 +117,23 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'validation',
+            ], 200);
         }
 
-        return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
+        if($this->verificationRow($request)->count() > 0){
+            return $this->changePassword($request);
+        } else{
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'wrong_code',
+                'message'   => trans('auth.your code is wrong.'),
+            ], 200);
+        } 
     }
-  
+
     // Verify if code is valid
     public function passwordResetProcess(Request $request){
         $validator = Validator::make($request->all(), [
@@ -132,12 +143,25 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'validation',
+                'message'   => $validator->errors(),
+            ], 200);
         }
 
-        return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
+        if($this->updatePasswordRow($request)->count() > 0){
+            return $this->resetPassword($request);
+        } else {
+            return response()->json([
+                'successful'=> false,
+                'step'      => 'wrong_code',
+                'message'   => trans('auth.your code is wrong.'),
+            ], 200);
+        }
+            
     }
-  
+
     // Verify if code is valid
     private function updatePasswordRow($request){
         if (! $student = auth('student')->user()) {

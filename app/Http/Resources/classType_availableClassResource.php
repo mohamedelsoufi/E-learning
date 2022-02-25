@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\site\student\home;
-use App\Http\Requests\admin\countries\add;
+use App\Http\Controllers\Controller;
 use App\Models\Available_class;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -30,7 +29,7 @@ class classType_availableClassResource extends JsonResource
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'cost'              => number_format(home::get_cost($this->id, $teacher->Country->id, $subject->Term->Year->Level->id), 2),
+            'cost'              => number_format(Controller::get_cost($this->id, $teacher, $subject), 2),
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }

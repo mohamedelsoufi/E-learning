@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\student\home;
 use App\Models\Class_type;
 use App\Models\Subject;
@@ -40,7 +41,7 @@ class teacher_classesTypeResourc extends JsonResource
                 return [
                     'id'        => $data->id,
                     'long'      => $data->long,
-                    'cost'      => number_format(home::get_cost($data->id, $this->id, $subject->Term->Year->Level->id), 2),
+                    'cost'      => number_format(Controller::get_cost($data->id, $this, $subject), 2),
                 ];
             }),
         ];

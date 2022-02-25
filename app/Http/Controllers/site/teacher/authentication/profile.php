@@ -125,36 +125,38 @@ class profile extends Controller
         }   
     }
 
-    // public function update_subjects(Request $request){
-    //     // validate registeration request
-    //     $validator = Validator::make($request->all(), [
-    //         'subject_ids.*' => 'required|exists:subjects,id',
-    //     ]);
+    public function setup_profile(Request $request){
+        // validate registeration request
+        $validator = Validator::make($request->all(), [
+            'subject_ids'   => 'required',
+            'subject_ids.*' => 'required|exists:subjects,id',
+        ]);
 
-    //     if($validator->fails()){
-    //         return $this::faild($validator->errors(), 403);
-    //     }
+        if($validator->fails()){
+            return $this::faild($validator->errors(), 403);
+        }
 
-    //     //get teacher or vender
-    //     if (! $teacher = auth('teacher')->user()) {
-    //         return $this::faild(trans('auth.teacher not found'), 404, 'E04');
-    //     }
+        //get teacher or vender
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
 
-    //     //delete teacher subject
-    //     // foreach($teacher->Subject_teachers as $subject_teacher){
-    //     //     return  $subject_teacher->delete();
-    //     //     $subject_teacher->delete();
-    //     // }
+        foreach($request->get('subject_ids') as $subject_id){
+            $row = DB::table('subject_teacher')->where([
+                'teacher_id'    => $teacher->id,
+                'subject_id'    => $subject_id,
+            ])->first();
 
-    //     foreach($request->get('subject_ids') as $subject_id){
-    //         Subject_teacher::create([
-    //             'teacher_id' => $teacher->id,
-    //             'subject_id' => $subject_id,
-    //         ]);
-    //     }
+            if($row == null){
+                Subject_teacher::create([
+                    'teacher_id' => $teacher->id,
+                    'subject_id' => $subject_id,
+                ]);
+            }
+        }
 
-    //     return $this->success(trans('auth.update success'), 200);
-    // }
+        return $this->success(trans('auth.success'), 200);
+    }
 
     public function updateProfile(Request $request){
         //get teacher or vender

@@ -42,7 +42,7 @@ class Controller extends BaseController
         }
     }
 
-    public function get_cost($class_type_id, $country_id, $level_id){
+    public function get_cost($class_type_id, $teacher, $subject){
         //get class_type
         $class_type = Class_type::find($class_type_id);
         if($class_type == null)
@@ -51,7 +51,7 @@ class Controller extends BaseController
         $setting = Settings::first();
 
         //get cost_country
-        $cost_country = Cost_country::where('country_id', $country_id)->first();
+        $cost_country = Cost_country::where('country_id', $teacher->id)->first();
         if($cost_country != null){
             $cost_country = $cost_country->cost;
         } else{
@@ -59,7 +59,7 @@ class Controller extends BaseController
         }
 
         //get cost levels //$available_class->Subject->Term->Year->Level->id
-        $cost_level     = Cost_level::where('level_id', $level_id)->first();
+        $cost_level     = Cost_level::where('level_id', $subject->Term->Year->Level->id)->first();
         if($cost_level != null){
             $cost_level = $cost_level->cost;
         } else {

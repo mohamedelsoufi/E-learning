@@ -31,12 +31,12 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
     
     //auth
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
-        Route::group(['myProfile' => 'verification'], function(){
+        Route::group(['prefix' => 'profile'], function(){
             Route::post('/', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
             Route::post('changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
             Route::post('changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
             Route::post('update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
-            Route::post('update/subjects', 'App\Http\Controllers\site\teacher\authentication\profile@update_subjects');
+            Route::post('setup_profile', 'App\Http\Controllers\site\teacher\authentication\profile@setup_profile');
         });
 
         Route::group(['prefix' => 'verification'], function(){
