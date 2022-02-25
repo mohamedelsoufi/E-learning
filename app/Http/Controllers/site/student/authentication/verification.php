@@ -44,7 +44,7 @@ class verification extends Controller
 
     public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
 
-        $oldCode = DB::table('student_verified')->where('username', $phone)->first();
+        $oldCode = DB::table('student_verified')->where('phone', $phone)->first();
 
         //if user already has code
         if ($oldCode)
@@ -58,7 +58,7 @@ class verification extends Controller
 
     public function saveCode($code, $phone){  // this function save new password
         DB::table('student_verified')->insert([
-            'username'      => $phone,
+            'phone'      => $phone,
             'code'          => $code,
             'created_at'    => Carbon::now()
         ]);
@@ -97,7 +97,7 @@ class verification extends Controller
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
         return DB::table('student_verified')->where([
-            'username'  => $student->phone,
+            'phone'  => $student->phone,
             'code'      => $request->code
         ]);
     }

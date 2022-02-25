@@ -47,7 +47,7 @@ class resetPasswored extends Controller
     }
 
     public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
-        $oldCode = DB::table('student_password_resets')->where('username', $phone)->first();
+        $oldCode = DB::table('student_password_resets')->where('phone', $phone)->first();
 
         //if user already has code
         if ($oldCode)
@@ -61,7 +61,7 @@ class resetPasswored extends Controller
 
     public function saveCode($code, $phone){  // this function save new password
         DB::table('student_password_resets')->insert([
-            'username'      => $phone,
+            'phone'      => $phone,
             'code'          => $code,
             'created_at'    => Carbon::now()
         ]);
@@ -83,7 +83,7 @@ class resetPasswored extends Controller
         }
 
         $updatePasswordRow = DB::table('student_password_resets')->where([
-            'username'  => $request->phone,
+            'phone'  => $request->phone,
             'code'      => $request->code
         ]);
 
@@ -145,7 +145,7 @@ class resetPasswored extends Controller
         }
 
         return DB::table('student_password_resets')->where([
-            'username'  => $student->phone,
+            'phone'  => $student->phone,
             'code'      => $request->code
         ]);
     }

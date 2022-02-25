@@ -174,6 +174,7 @@ class profile extends Controller
             'gender'            => ['nullable',Rule::in(0,1,2)],    //0->male  1->female
             'birth'             => 'nullable|date',
             'about'             => 'nullable|string|max:1000',
+            'image'             => 'nullable|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()){
