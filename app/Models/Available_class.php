@@ -54,6 +54,13 @@ class Available_class extends Model
     {
         return $query->where('to', '>', date('Y-m-d H:i:s'));
     }
+
+    public function scopeSchedule($query)
+    {
+        return $query->where('status', 1)
+                        ->where('to', '>', date('Y-m-d H:i:s'));
+    }
+
     //
     // public function notCome(){
     //     return $this->where('to', '>', date('Y-m-d H:i:s'));

@@ -14,6 +14,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+date_default_timezone_set('Africa/cairo');
+
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(){
     Route::post('login', 'App\Http\Controllers\site\teacher\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\teacher\authentication\auth@register');
@@ -29,11 +31,13 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
     
     //auth
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
-        Route::post('myProfile', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
-        Route::post('myProfile/changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
-        Route::post('myProfile/changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
-        Route::post('myProfile/update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
-        Route::post('myProfile/update/subjects', 'App\Http\Controllers\site\teacher\authentication\profile@update_subjects');
+        Route::group(['myProfile' => 'verification'], function(){
+            Route::post('/', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
+            Route::post('changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
+            Route::post('changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
+            Route::post('update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
+            Route::post('update/subjects', 'App\Http\Controllers\site\teacher\authentication\profile@update_subjects');
+        });
 
         Route::group(['prefix' => 'verification'], function(){
             Route::post('/', 'App\Http\Controllers\site\teacher\authentication\verification@verificationProcess');
@@ -45,6 +49,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
             Route::post('/delete', 'App\Http\Controllers\site\teacher\answers@delete');
             Route::post('/edit', 'App\Http\Controllers\site\teacher\answers@update');
         });
+        //pages
+        Route::get('schedules', 'App\Http\Controllers\site\teacher\home@schedule');
+        Route::post('schedule/add', 'App\Http\Controllers\site\teacher\home@add_schedule');
+        Route::post('schedule/cancel', 'App\Http\Controllers\site\teacher\home@cancel_schedule');
+
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });
 });

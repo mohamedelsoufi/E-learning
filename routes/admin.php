@@ -13,6 +13,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
+date_default_timezone_set('Africa/cairo');
+
 Route::group(['prefix' => 'admins'], function(){
     Route::get('/', 'App\Http\Controllers\admin\dashbourd@index')->middleware('auth:admin');
 

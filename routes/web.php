@@ -13,6 +13,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
+date_default_timezone_set('Africa/cairo');
+
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
     Route::get('/level_year', 'App\Http\Controllers\site\guest\search@level_year');
 

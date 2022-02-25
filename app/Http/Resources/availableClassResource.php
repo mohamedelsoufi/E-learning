@@ -14,11 +14,25 @@ class availableClassResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($request->header('lang') == 'ar'){
+            $lang = 'ar';
+        } else{
+            $lang = 'en';
+        }
         return [
             'id'                => $this->id,
             'from'              => $this->from,
             'to'                => $this->to,
             'long'              => $this->long,
+            'student_number'    => count($this->Student_classes),
+            'year'              =>  [
+                                        'id'    => $this->Subject->Term->Year->id,
+                                        'name'  => $this->Subject->Term->Year->translate($lang)->name
+            ],
+            'subject'           => [
+                                        'id'    => $this->subject_id,
+                                        'name'  => $this->Subject->translate($lang)->name
+                                    ]
         ];
     }
 }
