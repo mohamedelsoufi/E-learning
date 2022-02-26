@@ -49,13 +49,7 @@ class teacherResource extends JsonResource
                                             'name'  => $data->Subject->translate($lang)->name
                                         ];
                                 }),
-            'videos'        => $this->Videos->map(function($data){
-                                    return [
-                                        'id'        => $data->id,
-                                        'title'     => $data->title,
-                                        'src'       => $data->src,
-                                    ];
-                                }),
+            'videos'        => videoResource::collection($this->Videos),
         ];
     }
 }

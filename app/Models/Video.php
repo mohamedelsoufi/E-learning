@@ -14,4 +14,10 @@ class Video extends Model
     protected $casts = [
         'teacher_id'    => 'integer',
     ];
+
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

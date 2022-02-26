@@ -19,6 +19,8 @@ class Videos extends Migration
             $table->unsignedBigInteger('subject_id')->default(1);
             $table->text('title')->nullable();
             $table->string('src')->nullable();
+            $table->float('cost');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations

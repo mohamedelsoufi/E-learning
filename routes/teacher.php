@@ -50,9 +50,17 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
             Route::post('/edit', 'App\Http\Controllers\site\teacher\answers@update');
         });
         //pages
-        Route::get('schedules', 'App\Http\Controllers\site\teacher\home@schedule');
-        Route::post('schedule/add', 'App\Http\Controllers\site\teacher\home@add_schedule');
-        Route::post('schedule/cancel', 'App\Http\Controllers\site\teacher\home@cancel_schedule');
+        Route::group(['prefix' => 'schedules'], function(){
+            Route::get('/', 'App\Http\Controllers\site\teacher\home@schedule');
+            Route::post('add', 'App\Http\Controllers\site\teacher\home@add_schedule');
+            Route::post('cancel', 'App\Http\Controllers\site\teacher\home@cancel_schedule');
+        });
+
+        Route::group(['prefix' => 'videos'], function(){
+            Route::get('/', 'App\Http\Controllers\site\teacher\home@videos');
+            Route::post('add', 'App\Http\Controllers\site\teacher\home@add_video');
+            Route::post('cancel', 'App\Http\Controllers\site\teacher\home@cancel_video');
+        });
 
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });

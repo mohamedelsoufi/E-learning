@@ -18,8 +18,12 @@ class teacher_classesTypeResourc extends JsonResource
      */
     public function toArray($request)
     {
+        if($request->header('lang') == 'ar'){
+            $lang = 'ar';
+        } else{
+            $lang = 'en';
+        }
         $subject = Subject::find($request->get('subject_id'));
-
         return [
             'id'            => $this->id,
             'username'      => $this->username,
@@ -28,8 +32,14 @@ class teacher_classesTypeResourc extends JsonResource
                                 'dialing_code'  =>$this->dialing_code,
                                 'phone'         =>$this->phone,
                             ],
-            'country'       => $this->Country->name,
-            'curriculum'    => $this->getCurriculum(),
+            'country'       => [
+                                'id'   => $this->country_id,
+                                'name' => $this->Country->translate($lang)->name,
+                            ],
+            'curriculum'    => [
+                'id'   => $this->curriculum_id,
+                'name' => $this->getCurriculum($lang),
+            ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
