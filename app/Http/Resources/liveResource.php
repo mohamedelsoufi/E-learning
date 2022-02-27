@@ -22,10 +22,14 @@ class liveResource extends JsonResource
 
         return [
             'id'                => $this->id,
-            'subject'           => $this->Subject->translate($lang)->name,
             'title'             => $this->title,
             'cost'              => $this->cost,
             'from'              => $this->from,
+            'company_percentage'=> $this->company_percentage,
+            'subject'           => [    
+                                        'id'    => $this->subject_id,
+                                        'name'  => $this->Subject->translate($lang)->name,
+                                    ],
             'teacher'           => [
                                         'id'        => $this->Teacher->id,
                                         'username'  => $this->Teacher->username,

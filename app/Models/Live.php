@@ -30,10 +30,15 @@ class Live extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    //
+    //scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
     //scope
     public function scopeNotCome($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)
+                        ->where('from', '>', date('Y-m-d H:i:s'));
     }
 }

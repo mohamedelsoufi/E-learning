@@ -18,7 +18,7 @@ return [
     'you shold enter year_id or subject_id' => 'you shold enter year_id or subject_id',
     'schedule not found'                => 'schedule not found',
     'video not found'                   => 'video not found',
-    '' => '',
+    'live not found'                    => 'live not found',
     '' => '',
     '' => '',
     '' => '',

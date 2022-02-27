@@ -57,9 +57,15 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         });
 
         Route::group(['prefix' => 'videos'], function(){
-            Route::get('/', 'App\Http\Controllers\site\teacher\home@videos');
-            Route::post('add', 'App\Http\Controllers\site\teacher\home@add_video');
-            Route::post('cancel', 'App\Http\Controllers\site\teacher\home@cancel_video');
+            Route::get('/', 'App\Http\Controllers\site\teacher\videos@videos');
+            Route::post('add', 'App\Http\Controllers\site\teacher\videos@add_video');
+            Route::post('cancel', 'App\Http\Controllers\site\teacher\videos@cancel_video');
+        });
+
+        Route::group(['prefix' => 'lives'], function(){
+            Route::get('/', 'App\Http\Controllers\site\teacher\lives@lives');
+            Route::post('add', 'App\Http\Controllers\site\teacher\lives@add_live');
+            Route::post('cancel', 'App\Http\Controllers\site\teacher\lives@cancel_live');
         });
 
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
