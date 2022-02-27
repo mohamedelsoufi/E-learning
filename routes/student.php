@@ -32,8 +32,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
-        Route::get('/home', 'App\Http\Controllers\site\student\home@index');
-
         Route::group(['prefix' => 'verification'], function(){
             Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
             Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
@@ -59,9 +57,14 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::post('/edit', 'App\Http\Controllers\site\student\answers@update');
         });
 
+        Route::get('/home', 'App\Http\Controllers\site\student\home@index');
+
         Route::post('/reservations', 'App\Http\Controllers\site\student\home@my_reservations');
 
         Route::post('/available_classes', 'App\Http\Controllers\site\student\home@available_classes');
+        Route::post('/booking', 'App\Http\Controllers\site\student\home@booking');
+        Route::post('/buy/video', 'App\Http\Controllers\site\student\home@buy_video');
+
         Route::post('leave', 'App\Http\Controllers\site\student\home@leave');
 
         Route::get('/lives', 'App\Http\Controllers\site\student\lives@lives');

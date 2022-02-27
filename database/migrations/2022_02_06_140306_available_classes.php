@@ -38,8 +38,8 @@ class AvailableClasses extends Migration
         Schema::create('student_class', function (Blueprint $table) {
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('available_class_id');
-            $table->dateTime('from');
-            $table->dateTime('to');
+            $table->dateTime('from')->nullable();
+            $table->dateTime('to')->nullable();
             $table->unsignedBigInteger('promocode_id');
             $table->integer('promocode_descount');
             $table->tinyInteger('status');
