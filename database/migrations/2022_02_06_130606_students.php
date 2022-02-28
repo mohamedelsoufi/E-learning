@@ -20,6 +20,7 @@ class Students extends Migration
             $table->string('dialing_code')->nullable();
             $table->string('phone')->unique();
             $table->string('password');
+            $table->integer('free')->default(0);
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->unsignedBigInteger('year_id')->nullable();

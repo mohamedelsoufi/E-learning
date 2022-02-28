@@ -21,7 +21,7 @@ class studentResource extends JsonResource
         }
         return [
             'id'            => $this->id,
-            'username'            => $this->username,
+            'username'      => $this->username,
             'email'         =>$this->email,
             'phone'         => [
                                 'dialing_code'  =>$this->dialing_code,
@@ -41,6 +41,7 @@ class studentResource extends JsonResource
                                 ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
+            'free_classes'  =>$this->free,
             'gender'        => $this->getGender(),
             'image'         => $this->getImage(),
         ];
