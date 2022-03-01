@@ -13,7 +13,17 @@ class Video extends Model
     protected $guarded = [];
     protected $casts = [
         'teacher_id'    => 'integer',
+        'subject_id'    => 'integer',
     ];
+
+    //relations
+    public function Teacher(){
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
+
+    public function Subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 
     //scope
     public function scopeActive($query)

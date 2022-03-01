@@ -51,7 +51,7 @@ class teacher_classesTypeResourc extends JsonResource
                 return [
                     'id'        => $data->id,
                     'long'      => $data->long,
-                    'cost'      => number_format(Controller::get_cost($data->id, $this, $subject), 2),
+                    'cost'      => Controller::get_cost($data->id, $this, $subject),
                 ];
             }),
         ];

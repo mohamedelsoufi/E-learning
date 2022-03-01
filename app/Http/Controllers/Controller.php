@@ -14,6 +14,7 @@ use App\Models\Class_type;
 use App\Models\Cost_company_percentage;
 use App\Models\Cost_country;
 use App\Models\Cost_level;
+use App\Models\Cost_year;
 use App\Models\Settings;
 
 class Controller extends BaseController
@@ -24,10 +25,10 @@ class Controller extends BaseController
             $image     image                                => required
             $path      path that i upload image in it       => required
             $width     image with                           => nullable
-            $height    iamge height                         => nullable
+            $height    image height                         => nullable
         */
 
-        //cange iamge name to random number
+        //cange image name to random number
         try {
             $image_name = rand(0,1000000) . time() . '.' . $image->getClientOriginalExtension();
         
@@ -58,7 +59,7 @@ class Controller extends BaseController
             $cost_country = $setting->cost_country;
         }
 
-        //get cost levels //$available_class->Subject->Term->Year->Level->id
+        //get cost levels
         $cost_level     = Cost_level::where('level_id', $subject->Term->Year->Level->id)->first();
         if($cost_level != null){
             $cost_level = $cost_level->cost;
@@ -66,7 +67,15 @@ class Controller extends BaseController
             $cost_level = $setting->cost_level;
         }
 
-        return ($cost_country * $cost_level * $class_type->long_cost) * $class_type->long;
+        //get cost years
+        $cost_year     = Cost_year::where('year_id', $subject->Term->Year->id)->first();
+        if($cost_year != null){
+            $cost_year = $cost_year->cost;
+        } else {
+            $cost_year = $setting->cost_year;
+        }
+
+        return ($cost_country * $cost_level * $cost_year * $class_type->long_cost) * $class_type->long;
     }
 
     public function get_company_percentage($teacher){

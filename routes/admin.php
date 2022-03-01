@@ -151,6 +151,15 @@ Route::group(['prefix' => 'admins'], function(){
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@edit')->middleware('auth:admin');
     });
 
+    Route::group(['prefix' => 'years_cost'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\years_cost@index')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\years_cost@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\years_cost@create')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\years_cost@delete')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\years_cost@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\years_cost@edit')->middleware('auth:admin');
+    });
+
     Route::group(['prefix' => 'countries_cost'],function(){
         Route::get('/', 'App\Http\Controllers\admin\countries_cost@index')->middleware('auth:admin');
         Route::get('/create', 'App\Http\Controllers\admin\countries_cost@createView')->middleware('auth:admin');

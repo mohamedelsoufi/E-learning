@@ -72,6 +72,12 @@
             @endif
 
             @if (auth('admin')->user()->isAbleTo('read-class_types'))
+                <li class="{{(request()->is('admins/years_cost')|| request()->is('admins/years_cost/*'))? 'active':''}}">
+                    <a href="{{url('admins/years_cost')}}"><i class="fa fa-users"></i><span>years cost</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{(request()->is('admins/countries_cost') || request()->is('admins/countries_cost/*'))? 'active':''}}">
                     <a href="{{url('admins/countries_cost')}}"><i class="fa fa-users"></i><span>countries cost</span></a>
                 </li>
@@ -83,11 +89,11 @@
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-class_types')) 
+            {{-- @if (auth('admin')->user()->isAbleTo('read-class_types')) 
                 <li class="{{(request()->is('admins/students_numbers_cost')|| request()->is('admins/students_numbers_cost/*'))? 'active':''}}">
                     <a href="{{url('admins/students_numbers_cost')}}"><i class="fa fa-users"></i><span>students numbers cost</span></a>
                 </li>
-            @endif
+            @endif --}}
 
             @if (auth('admin')->user()->isAbleTo('read-settings'))
                 <li class="{{(request()->is('admins/settings/edit') || request()->is('admins/settings/edit/*'))? 'active':''}}">

@@ -35,18 +35,25 @@ class search extends Controller
         return $this->success(trans('auth.success'), 200, 'levels', level_yearResource::collection($level));
     }
 
-    public function subjectsByTerm(Request $request){
+    public function subjects(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'term_id'    => 'required|exists:terms,id',
+            'year_id'    => 'required|exists:years,id',
         ]);
 
         if($validator->fails()){
             return response::faild($validator->errors(), 403, 'E03');
         }
 
-        $subjects = Subject::active()->where('term_id', $request->get('term_id'))->get();
+        $subjects = Subject::active()->whereHas('Term', function($query) use($request){
+            $query->where('year_id', $request->get('year_id'));
+        })->get();
 
-        return $this->success(trans('auth.success'), 200, 'subjects', subjectsResource::collection($subjects));
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'subjects',
+            subjectsResource::collection($subjects),
+        );
     }
 }

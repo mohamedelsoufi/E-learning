@@ -19,6 +19,9 @@ class Settings extends Migration
             $table->float('cost_level')->default(1);
             $table->float('cost_country')->default(1);
             $table->float('cost_company_percentage')->default(1);
+            $table->float('cost_year')->default(1);
+            $table->float('video_company_percentage')->default(5);
+            $table->float('live_company_percentage')->default(5);
             $table->timestamps();
         });
     }

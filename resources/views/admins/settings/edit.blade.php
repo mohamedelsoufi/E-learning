@@ -61,6 +61,19 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>year cost</label>
+                                <input type="number" step="0.01" class="form-control  @error('cost_year') is-invalid @enderror" name="cost_year"
+                                    placeholder="year cost" value="{{ $settings->cost_year }}" required autocomplete="off">
+                                @error('cost_year')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>country cost</label>
                                 <input type="number" step="0.01" class="form-control  @error('cost_country') is-invalid @enderror" name="cost_country"
                                     placeholder="country cost" value="{{ $settings->cost_country }}" required autocomplete="off">
@@ -78,6 +91,32 @@
                                 <input type="number" class="form-control  @error('cost_company_percentage') is-invalid @enderror" name="cost_company_percentage"
                                     placeholder="company_percentage cost" value="{{ $settings->cost_company_percentage }}" required autocomplete="off">
                                 @error('cost_company_percentage')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>company video percentage</label>
+                                <input type="number" class="form-control  @error('video_company_percentage') is-invalid @enderror" name="video_company_percentage"
+                                    placeholder="company video percentage" value="{{ $settings->video_company_percentage }}" required autocomplete="off">
+                                @error('video_company_percentage')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>company live percentage</label>
+                                <input type="number" class="form-control  @error('live_company_percentage') is-invalid @enderror" name="live_company_percentage"
+                                    placeholder="company live percentage" value="{{ $settings->live_company_percentage }}" required autocomplete="off">
+                                @error('live_company_percentage')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>

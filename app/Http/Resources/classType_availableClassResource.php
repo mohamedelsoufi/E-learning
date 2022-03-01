@@ -29,7 +29,7 @@ class classType_availableClassResource extends JsonResource
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'cost'              => number_format(Controller::get_cost($this->id, $teacher, $subject), 2),
+            'cost'              => Controller::get_cost($this->id, $teacher, $subject),
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }
