@@ -71,7 +71,7 @@ class auth extends Controller
         }
 
         // check if setup_profile
-        if($teacher->Subject_teacher == null){
+        if(count($teacher->Subject_teachers) == 0){
             return response()->json([
                 'successful'=> false,
                 'step'      => 'setup_profile',

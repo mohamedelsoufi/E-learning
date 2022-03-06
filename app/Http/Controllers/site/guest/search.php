@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\site\guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\level_year_subjects;
+use App\Http\Resources\level_year_subjectsResource;
 use App\Http\Resources\level_yearResource;
 use App\Http\Resources\subjectsResource;
 use App\Http\Resources\yearResource;
@@ -33,6 +35,25 @@ class search extends Controller
 
         // return yearResource::collection(Year::get());
         return $this->success(trans('auth.success'), 200, 'levels', level_yearResource::collection($level));
+    }
+
+    public function level_year_subjects(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'curriculum_id'    => 'required|exists:curriculums,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors(), 403, 'E03');
+        }
+
+        $levels = Level::active()
+                            ->where('curriculum_id', $request->get('curriculum_id'))
+                            ->with('Years.Subjects')
+                            ->get();
+
+        // return yearResource::collection(Year::get());
+        return $this->success(trans('auth.success'), 200, 'levels', level_year_subjectsResource::collection($levels));
     }
 
     public function subjects(Request $request){

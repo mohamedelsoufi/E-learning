@@ -34,6 +34,11 @@ class Year extends Model implements TranslatableContract
     public function Terms(){
         return $this->hasMany(Term::class, 'year_id');
     }
+
+    public function Subjects()
+    {
+        return $this->hasManyThrough(Subject::class, Term::class);
+    }
     //scope
     public function scopeActive($query)
     {

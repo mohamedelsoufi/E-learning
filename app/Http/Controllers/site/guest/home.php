@@ -13,7 +13,6 @@ use App\Models\Class_type;
 use App\Models\Country;
 use App\Models\Curriculum;
 use App\Models\Subject;
-use App\Models\Subject_teacher;
 use App\Models\Teacher;
 use App\Traits\response;
 use Illuminate\Http\Request;

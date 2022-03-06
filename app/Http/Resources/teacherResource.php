@@ -33,9 +33,9 @@ class teacherResource extends JsonResource
                                 'name' => $this->Country->translate($lang)->name,
                             ],
             'curriculum'    => [
-                'id'   => $this->curriculum_id,
-                'name' => $this->getCurriculum($lang),
-            ],
+                                'id'   => $this->curriculum_id,
+                                'name' => $this->getCurriculum($lang),
+                            ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
