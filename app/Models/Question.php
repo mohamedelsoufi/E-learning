@@ -45,4 +45,12 @@ class Question extends Model
             return 'active';
         }
     }
+
+    public function getImage(){
+        if($this->image != null){
+            return url('public/uploads/questions/' . $this->image);
+        } else {
+            return null;
+        }
+    }
 }

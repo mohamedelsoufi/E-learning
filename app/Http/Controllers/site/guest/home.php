@@ -28,7 +28,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //online
@@ -63,7 +63,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //online
@@ -89,7 +89,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get materials
@@ -111,7 +111,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         $classes_type = Class_type::active()->get();

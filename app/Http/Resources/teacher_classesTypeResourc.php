@@ -23,7 +23,7 @@ class teacher_classesTypeResourc extends JsonResource
         } else{
             $lang = 'en';
         }
-        $subject = Subject::find($request->get('subject_id'));
+        // $subject = Subject::find($request->get('subject_id'));
         return [
             'id'            => $this->id,
             'username'      => $this->username,
@@ -47,11 +47,11 @@ class teacher_classesTypeResourc extends JsonResource
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
-            'classes_type'  => Class_type::active()->get()->map(function($data) use($subject){
+            'classes_type'  => Class_type::active()->get()->map(function($data){
                 return [
                     'id'        => $data->id,
                     'long'      => $data->long,
-                    'cost'      => Controller::get_cost($data->id, $this, $subject),
+                    'cost'      => $data->long * $data->long_cost,
                 ];
             }),
         ];

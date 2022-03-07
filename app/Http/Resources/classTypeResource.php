@@ -18,12 +18,12 @@ class classTypeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $subject = Subject::find($request->get('subject_id'));
-        $teacher = Teacher::find($request->get('teacher_id'));
+        // $subject = Subject::find($request->get('subject_id'));
+        // $teacher = Teacher::find($request->get('teacher_id'));
         return [
             'id'        => $this->id,
             'long'      => $this->long,
-            'cost'      => number_format(Controller::get_cost($this->id, $teacher, $subject), 2),
+            'cost'      => $this->long * $this->long_cost,
         ];
     }
 }

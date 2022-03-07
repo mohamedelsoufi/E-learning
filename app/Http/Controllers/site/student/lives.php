@@ -18,7 +18,7 @@ class lives extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         if($request->get('subject_id') != null){

@@ -14,6 +14,11 @@ class questionsResource extends JsonResource
      */
     public function toArray($request)
     {
+        $is_me = 0;
+        if($request->user_id == $this->student_id && $request->guard == 'Student'){
+            $is_me = 1;
+        }
+
         return [
             'id'            => $this->id,
             'student_id'    => $this->student_id,
@@ -21,6 +26,8 @@ class questionsResource extends JsonResource
             'status'        => $this->status,
             'answers_count' => count($this->Answers),
             'created_at'    => date("Y-m-d H:i", strtotime($this->created_at)),
+            'image'         => $this->getImage(),
+            'is_me'         => $is_me,
             'question_owner'=> [
                 'id'        => $this->student_id,
                 'username'  => $this->Student->username,

@@ -21,7 +21,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher
@@ -61,7 +61,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher
@@ -72,7 +72,7 @@ class home extends Controller
         $class_type = Class_type::find($request->get('class_type_id'));
 
         //get subject_id
-        $subject = Subject::find($request->get('subject_id'));
+        // $subject = Subject::find($request->get('subject_id'));
 
         $newtimestamp = strtotime($request->get('from') . ' + ' . $class_type->long . ' minute');
         $to =  date('Y-m-d H:i:s', $newtimestamp);
@@ -87,7 +87,7 @@ class home extends Controller
             'long'                  => $class_type->long,
             'company_percentage'    => $this->get_company_percentage($teacher),
             'note'                  => $request->get('note'),
-            'cost'                  => $this->get_cost($request->get('class_type_id'), $teacher, $subject),
+            'cost'                  => $class_type->long * $class_type->long_cost,
         ]);
 
         return $this->success(trans('auth.success'), 200);
@@ -100,7 +100,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher

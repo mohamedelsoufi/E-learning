@@ -4,6 +4,7 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\questionsResource;
+use App\Models\Image;
 use App\Models\Question;
 use App\Traits\response;
 use Illuminate\Http\Request;
@@ -20,18 +21,28 @@ class questions extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get questions
         $questions = Question::active()
                                 ->where('subject_id', $request->get('subject_id'))
+                                ->orderBy('id', 'desc')
                                 ->paginate(5);
+        
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
 
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
-            'questions_count'   => count($questions),
+            'questions_count'   => Question::where('subject_id', $request->get('subject_id'))->count(),
             'questions'         => questionsResource::collection($questions)->response()->getData(true),
         ], 200);
     }
@@ -41,10 +52,11 @@ class questions extends Controller
         $validator = Validator::make($request->all(), [
             'question'         => 'required|string|min:3|max:2000',
             'subject_id'       => 'required|exists:subjects,id',
+            'image'            => 'nullable|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get student or vender
@@ -53,12 +65,19 @@ class questions extends Controller
         }
 
         //create Question
-        Question::create([
+        $question = Question::create([
             'student_id'    => $student->id,
             'subject_id'    => $request->get('subject_id'),
             'question'      => $request->get('question'),
-
         ]);
+
+        if($request->has('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/questions', 150, 100);
+
+            $question->image = $path;
+            $question->save();
+        }
 
         return $this->success(trans('site.add question success'), 200);
     }
@@ -70,7 +89,7 @@ class questions extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get student or vender
@@ -99,7 +118,7 @@ class questions extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get student or vender

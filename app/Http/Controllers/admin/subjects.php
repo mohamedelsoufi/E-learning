@@ -140,7 +140,7 @@ class subjects extends Controller
 
                 //update image
                 if($request->has('image') != null){
-                    $path = $this->upload_image($request->file('image'),'uploads/subjects', 150, 100);
+                    $path = $this->upload_image($request->file('image'),'uploads/subjects', 100, 100);
 
                     if($subject->Image == null){
                         //if user don't have image 

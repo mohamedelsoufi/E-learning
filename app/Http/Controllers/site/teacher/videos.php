@@ -38,7 +38,7 @@ class videos extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher
@@ -64,7 +64,7 @@ class videos extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher

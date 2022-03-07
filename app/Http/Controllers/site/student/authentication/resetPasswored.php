@@ -32,7 +32,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
         
         if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
@@ -79,7 +79,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         $updatePasswordRow = DB::table('student_password_resets')->where([
@@ -146,7 +146,7 @@ class resetPasswored extends Controller
             return response()->json([
                 'successful'=> false,
                 'step'      => 'validation',
-                'message'   => $validator->errors(),
+                'message'   => $validator->errors()->first(),
             ], 200);
         }
 

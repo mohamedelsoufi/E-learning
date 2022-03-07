@@ -20,14 +20,23 @@ class answers extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get answers
         $answers = Answer::active()
-                            ->orderBy('recommendation', 'desc')
                             ->where('question_id', $request->get('question_id'))
+                            ->orderBy('id', 'desc')
                             ->paginate(5);
+
+        //get teacher or vender
+        if (! $student = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //to check if teacher question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Teacher';
 
         return $this->success(trans('auth.success'),
                                 200,
@@ -41,10 +50,11 @@ class answers extends Controller
         $validator = Validator::make($request->all(), [
             'answer'         => 'required|string|min:3|max:2000',
             'question_id'    => 'required|exists:questions,id',
+            'image'          => 'nullable|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher or vender
@@ -53,13 +63,21 @@ class answers extends Controller
         }
 
         //create Question
-        Answer::create([
+        $answer = Answer::create([
             'answerable_id'    => $teacher->id,
             'answerable_type'  => 'App\Models\Teacher',
             'question_id'      => $request->get('question_id'),
             'answer'           => $request->get('answer'),
             'recommendation'   => 1,
         ]);
+
+        if($request->has('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/answers', 150, 100);
+
+            $answer->image = $path;
+            $answer->save();
+        }
 
         return $this->success(trans('site.add answer success'), 200);
     }
@@ -71,7 +89,7 @@ class answers extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher or vender
@@ -102,7 +120,7 @@ class answers extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get teacher or vender

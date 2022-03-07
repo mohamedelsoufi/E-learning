@@ -28,9 +28,6 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
 
-    Route::get('questions', 'App\Http\Controllers\site\student\questions@index');
-    Route::get('answers', 'App\Http\Controllers\site\student\answers@index');
-
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::group(['prefix' => 'verification'], function(){
             Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
@@ -46,12 +43,14 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         });
 
         Route::group(['prefix' => 'questions'], function(){
+            Route::get('/', 'App\Http\Controllers\site\student\questions@index');
             Route::post('/create', 'App\Http\Controllers\site\student\questions@create');
             Route::post('/delete', 'App\Http\Controllers\site\student\questions@delete');
             Route::post('/edit', 'App\Http\Controllers\site\student\questions@update');
         });
 
         Route::group(['prefix' => 'answers'], function(){
+            Route::get('/', 'App\Http\Controllers\site\student\answers@index');
             Route::post('/create', 'App\Http\Controllers\site\student\answers@create');
             Route::post('/delete', 'App\Http\Controllers\site\student\answers@delete');
             Route::post('/edit', 'App\Http\Controllers\site\student\answers@update');

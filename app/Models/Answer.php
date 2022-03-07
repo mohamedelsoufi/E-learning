@@ -66,4 +66,12 @@ class Answer extends Model
             return $this->Teacher;
         }
     }
+
+    public function getImage(){
+        if($this->image != null){
+            return url('public/uploads/answers/' . $this->image);
+        } else {
+            return null;
+        }
+    }
 }

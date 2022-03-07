@@ -26,13 +26,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\resetPasswored@sendCode');
     });
 
-    Route::get('questions', 'App\Http\Controllers\site\teacher\questions@index');
-    Route::get('answers', 'App\Http\Controllers\site\teacher\answers@index');
     
     //auth
     Route::group(['middleware' => 'checkJWTToken:teacher'], function(){
         Route::group(['prefix' => 'profile'], function(){
-            Route::post('/', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
+            Route::get('/', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
             Route::post('changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
             Route::post('changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
             Route::post('update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
@@ -45,10 +43,14 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         });
 
         Route::group(['prefix' => 'answers'], function(){
+            Route::get('/', 'App\Http\Controllers\site\teacher\answers@index');
             Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');
             Route::post('/delete', 'App\Http\Controllers\site\teacher\answers@delete');
             Route::post('/edit', 'App\Http\Controllers\site\teacher\answers@update');
         });
+
+        Route::get('questions', 'App\Http\Controllers\site\teacher\questions@index');
+
         //pages
         Route::group(['prefix' => 'schedules'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\home@schedule');

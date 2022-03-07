@@ -25,7 +25,7 @@ class search extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         $level = Level::active()
@@ -44,7 +44,7 @@ class search extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         $levels = Level::active()
@@ -63,7 +63,7 @@ class search extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         $subjects = Subject::active()->whereHas('Term', function($query) use($request){

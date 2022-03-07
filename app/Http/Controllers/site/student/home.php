@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\classType_availableClassResource;
 use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
+use App\Http\Resources\term_SubjectResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
 use App\Models\Subject;
+use App\Models\Term;
 use App\Models\Video;
 use App\Traits\response;
 use App\Services\AgoraService;
@@ -34,21 +36,20 @@ class home extends Controller
         if($student->year_id == null)
             return $this::faild(trans('site.student must choose his grade'), 400, 'E00');
 
-        // $terms = Term::where('status', 1)
-        //                 ->whereHas('Year', function($query) use($student){
-        //                     $query->where('id', $student->year_id);
-        //                 })->with(['Subjects' => function($q){
-        //                     $q->active();
-        //                 }])
-        //                 ->get();
-        
-        $subject = Subject::whereHas('Term', function($query) use($student){
-                                $query->where('year_id', $student->year_id);
-                            })
-                            ->active()
-                            ->get();
+        $terms = Term::where('status', 1)
+                        ->whereHas('Year', function($query) use($student){
+                            $query->where('id', $student->year_id);
+                        })->with(['Subjects' => function($q){
+                            $q->active();
+                        }])
+                        ->get();
+        // $subject = Subject::whereHas('Term', function($query) use($student){
+        //                         $query->where('year_id', $student->year_id);
+        //                     })
+        //                     ->active()
+        //                     ->get();
 
-        return $this::success(trans('auth.success'), 400, 'subjects', subjectsResource::collection($subject));
+        return $this::success(trans('auth.success'), 400, 'terms', term_SubjectResource::collection($terms));
     }
 
     public function leave(){
@@ -72,7 +73,7 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         //get get class type available class
@@ -81,19 +82,18 @@ class home extends Controller
         return $this->success(trans('auth.success'), 200, 'class_types', classType_availableClassResource::collection($class_type));
     }
 
-    public function booking(Request $request){
+    public function booking(Request $request){  //class
         // validate registeration request
         $validator = Validator::make($request->all(), [
             'available_class_id'     => 'required|integer|exists:available_classes,id',
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         try{
             DB::beginTransaction();
-
             //get student
             if (! $student = auth('student')->user()) {
                 return $this::faild(trans('auth.student not found'), 404, 'E04');
@@ -129,13 +129,13 @@ class home extends Controller
         }
     }
 
-    public function buy_video(Request $request){
+    public function buy_video(Request $request){ //video
         // validate registeration request
         $validator = Validator::make($request->all(), [
             'video_id'     => 'required|integer|exists:videos,id',
         ]);
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         try{

@@ -25,7 +25,7 @@ class verification extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
         
         if (! $student = auth('student')->user()) {
@@ -85,7 +85,7 @@ class verification extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         return $this->verificationRow($request)->count() > 0 ? $this->verification($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');

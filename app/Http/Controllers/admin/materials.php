@@ -5,11 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\materials\add;
 use App\Http\Requests\admin\materials\edit;
-use App\Models\Country;
 use App\Models\File;
-use App\Models\Image;
 use App\Models\Material;
-use App\Models\materialTranslation;
+use App\Models\MaterialTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -93,7 +91,7 @@ class materials extends Controller
                 ]);
 
                 foreach($request->materials as $key=>$material){
-                    materialTranslation::create([
+                    MaterialTranslation::create([
                         'name'              => $material['name'],
                         'locale'            => $key,
                         'material_id'       => $new_material['id'],
@@ -132,7 +130,7 @@ class materials extends Controller
                 '&&subject=' . $_GET['subject'];
         try{
             $material = Material::find($material_id);
-            $materialsTranslation = materialTranslation::where('material_id', $material_id)->get();
+            $materialsTranslation = MaterialTranslation::where('material_id', $material_id)->get();
             
             DB::beginTransaction();
                 //get cate status

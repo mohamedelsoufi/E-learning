@@ -24,12 +24,12 @@ class classType_availableClassResource extends JsonResource
                                             ->where('to', '>', date('Y-m-d H:i:s'))
                                             ->doesntHave('Student_classes')
                                             ->get();
-        $subject = Subject::find($request->get('subject_id'));
-        $teacher = Teacher::find($request->get('teacher_id'));
+        // $subject = Subject::find($request->get('subject_id'));
+        // $teacher = Teacher::find($request->get('teacher_id'));
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'cost'              => Controller::get_cost($this->id, $teacher, $subject),
+            'cost'              => $this->long * $this->long_cost,
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }

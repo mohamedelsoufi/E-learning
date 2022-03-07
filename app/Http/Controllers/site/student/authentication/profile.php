@@ -23,7 +23,7 @@ class profile extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         //get student
@@ -64,7 +64,7 @@ class profile extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         //get student or vender
@@ -95,7 +95,7 @@ class profile extends Controller
             ]);
 
             if($validator->fails()){
-                return $this::faild($validator->errors(), 403);
+                return $this::faild($validator->errors()->first(), 403);
             }
 
             //get student
@@ -154,7 +154,7 @@ class profile extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         //selet student
@@ -209,7 +209,7 @@ class profile extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
 
         $student->year_id   = $request->get('year_id');

@@ -34,7 +34,7 @@ class auth extends Controller
         ]);
 
         if($validator->fails()){
-            return $this->faild($validator->errors(), 403, 'E03');
+            return $this->faild($validator->errors()->first(), 403, 'E03');
         }
 
         //data
@@ -122,7 +122,7 @@ class auth extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //create student

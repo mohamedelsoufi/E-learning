@@ -29,6 +29,7 @@ class Teachers extends Migration
             $table->float('balance')->default(0);
             $table->boolean('online')->comment('1->online, 0 ->not')->default(0);
             $table->text('about')->nullable();
+            $table->tinyInteger('type')->default(0)->comment('0->, 1-> Special');
             $table->string('token_firebase')->nullable();
             $table->timestamps();
 

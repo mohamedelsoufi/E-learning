@@ -19,18 +19,20 @@ class questions extends Controller
         ]);
 
         if($validator->fails()){
-            return response::faild($validator->errors(), 403, 'E03');
+            return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
         //get questions
         $questions = Question::active()
                                 ->where('subject_id', $request->get('subject_id'))
+                                ->orderBy('id', 'desc')
                                 ->paginate(5);
 
-        return $this->success(trans('auth.success'),
-                                200,
-                                'questions',
-                                questionsResource::collection($questions)->response()->getData(true),
-                            );
+        return response()->json([
+                                'successful'        => true,
+                                'message'           => trans('auth.success'),
+                                'questions_count'   => Question::where('subject_id', $request->get('subject_id'))->count(),
+                                'questions'         => questionsResource::collection($questions)->response()->getData(true),
+                            ], 200);
     }
 }

@@ -48,7 +48,7 @@ class curriculums extends Controller
                 ]);
 
                 foreach($request->curriculums as $key=>$curriculum){
-                    curriculumTranslation::create([
+                    CurriculumTranslation::create([
                         'name'              => $curriculum['name'],
                         'locale'            => $key,
                         'curriculum_id'     => $new_curriculums['id'],

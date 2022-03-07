@@ -31,7 +31,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403);
+            return $this::faild($validator->errors()->first(), 403);
         }
         
         if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
@@ -78,7 +78,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         $updatePasswordRow = DB::table('teacher_password_resets')->where([
@@ -116,7 +116,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         return $this->verificationRow($request)->count() > 0 ? $this->changePassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');
@@ -131,7 +131,7 @@ class resetPasswored extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors(), 403, 'E03');
+            return $this::faild($validator->errors()->first(), 403, 'E03');
         }
 
         return $this->updatePasswordRow($request)->count() > 0 ? $this->resetPassword($request) : $this::faild(trans('auth.your code is wrong.'), 404, 'E04');

@@ -18,6 +18,7 @@ class Questions extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('subject_id');
             $table->text('question');
+            $table->string('image')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
@@ -32,6 +33,7 @@ class Questions extends Migration
             $table->string('answerable_type')->nullable();
             $table->unsignedBigInteger('question_id');
             $table->text('answer')->nullable();
+            $table->string('image')->nullable();
             $table->boolean('recommendation')->default(0)->comment('1-> rocommend');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
