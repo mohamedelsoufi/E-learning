@@ -37,11 +37,12 @@ class answers extends Controller
         $request->user_id   = $student->id;
         $request->guard     = 'Student';
 
-        return $this->success(trans('auth.success'),
-                                200,
-                                'questions',
-                                answersResource::collection($answers)->response()->getData(true),
-                            );
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'answers_count'     => Answer::where('question_id', $request->get('question_id'))->count(),
+            'questions'         => answersResource::collection($answers)->response()->getData(true),
+        ], 200);
     }
 
     public function create(Request $request){
