@@ -4,11 +4,14 @@ namespace App\Http\Controllers\site\teacher;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\schedules_dateResource;
+use App\Http\Resources\yearResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
 use App\Models\Student;
 use App\Models\student_notification;
+use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\Year;
 use App\Services\AgoraService;
 use App\Services\firbaseNotifications;
 use Carbon\Carbon;
@@ -61,11 +64,10 @@ class home extends Controller
     public function add_schedule(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'subject_id'       => 'required|exists:subjects,id',
+            'year_id'          => 'required|exists:years,id',
             'class_type_id'    => 'required|exists:class_types,id',
             'from'             => 'required|date_format:Y-m-d H:i:s',
             'note'             => 'nullable|exists:class_types,id',
-
         ]);
 
         if($validator->fails()){
@@ -80,14 +82,24 @@ class home extends Controller
         $class_type = Class_type::find($request->get('class_type_id'));
 
         //get subject_id
-
+        $year_id = $request->get('year_id');
+        $subject = Subject::where('main_subject_id', $teacher->main_subject_id)
+                            ->whereHas('Term', function($query) use($year_id){
+                                $query->where('year_id', $year_id);
+                            })
+                            ->first();
+        
+        if($subject == null){
+            return $this->faild(trans('site.your subject not in this year'), 404, 'E04');
+        }
+        
         $newtimestamp = strtotime($request->get('from') . ' + ' . $class_type->long . ' minute');
         $to =  date('Y-m-d H:i:s', $newtimestamp);
 
 
         Available_class::create([
             'teacher_id'            => $teacher->id,
-            'subject_id'            => $request->get('subject_id'),
+            'subject_id'            => $subject->id,
             'class_type_id'         => $request->get('class_type_id'),
             'from'                  => $request->get('from'),
             'from_date'             => date('Y-m-d', strtotime($request->get('from'))),
@@ -155,8 +167,27 @@ class home extends Controller
                             ->get();
                             // ->update(['from' => Carbon::now()]);
 
+        $agora_token    = $this->AgoraService->generateToken()['token'];
+        $channel_name   = $this->AgoraService->generateToken()['channel_name'];
+
         foreach($student_classes as $student_class){
-            //make notification to student
+            //if teacher already make call
+            $notification = student_notification::where('teacher_id', $teacher->id)
+                                    ->where('available_class_id', $student_class->available_class_id)
+                                    ->where('type', 3)
+                                    ->first();
+
+            if($notification != null){
+                $data = [
+                    'token'         => $notification->agora_token,
+                    'channel_name'  => $notification->agora_channel_name,
+                ];
+                
+                return $this->success(trans('auth.success'), 200, 'agora', $data);
+            }
+
+            //if teacher don not make call
+            //make notification to student 
             student_notification::create([
                 'title'             => 'title',
                 'content'           => 'content',
@@ -164,15 +195,34 @@ class home extends Controller
                 'student_id'        => $student_class->student_id,
                 'available_class_id'=> $student_class->available_class_id,
                 'type'              => 3,
-                'agora_token'       => $this->AgoraService->generateToken()['token'],
-                'agora_channel_name'=> $this->AgoraService->generateToken()['channel_name'],
+                'agora_token'       => $agora_token,
+                'agora_channel_name'=> $channel_name,
             ]);
 
             //send firbase notifications
             $student = Student::find($student_class->student_id);
             $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);
         }
+
+        $data = [
+            'token'         => $agora_token,
+            'channel_name'  => $channel_name,
+        ];
         
-        return $this->success(trans('auth.success'), 200);
+        return $this->success(trans('auth.success'), 200, 'agora', $data);
+    }
+
+    public function teacher_years(){
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        // return $teacher->Teacher_years;
+        $years = Year::whereHas('Teacher_years', function($query) use($teacher){
+            $query->where('teacher_id', $teacher->id);
+        })->get();
+        
+        return $this->success(trans('auth.success'), 200, 'years', yearResource::collection($years));
     }
 }

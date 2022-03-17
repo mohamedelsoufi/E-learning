@@ -19,7 +19,7 @@ use App\Models\Term;
 use App\Models\Video;
 use App\Traits\response;
 use App\Services\AgoraService;
-
+use App\Services\firbaseNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -27,9 +27,10 @@ use Illuminate\Support\Facades\Validator;
 class home extends Controller
 {
     use response;
-    public function __construct(AgoraService $AgoraService)
+    public function __construct(AgoraService $AgoraService, firbaseNotifications $firbaseNotifications)
     {
         $this->AgoraService         = $AgoraService;
+        $this->firbaseNotifications = $firbaseNotifications;
     }
 
     public function index(){

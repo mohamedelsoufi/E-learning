@@ -23,6 +23,10 @@ class yearResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->translate($lang)->name,
+            'level'             => [
+                                        'id'    =>  $this->Level->id,
+                                        'name'  =>  $this->Level->translate($lang)->name
+                                    ],
             'level_id'          => $this->level_id,
             'status'            => $this->status,
         ];

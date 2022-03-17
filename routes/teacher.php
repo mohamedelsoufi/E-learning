@@ -83,6 +83,9 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
             Route::get('/', 'App\Http\Controllers\site\teacher\notificaitons@index');
         });
 
+        Route::get('/years', 'App\Http\Controllers\site\teacher\home@teacher_years');
+
+
         Route::post('logout', 'App\Http\Controllers\site\teacher\authentication\auth@logout');
     });
 });
