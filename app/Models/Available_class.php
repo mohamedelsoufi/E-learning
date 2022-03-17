@@ -57,7 +57,7 @@ class Available_class extends Model
 
     public function scopeSchedule($query)
     {
-        return $query->where('status', 1)
+        return $query->where('status', '!=','0')
                         ->where('to', '>', date('Y-m-d H:i:s'));
     }
 

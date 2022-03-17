@@ -132,6 +132,14 @@ class questions extends Controller
         if($question == null)
             return $this::faild(trans('site.question not found'), 404, 'E04');
 
+        if($request->has('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/questions', 150, 100);
+
+            $question->image = $path;
+            $question->save();
+        }
+
         //update question
         if($question->update(['question'=> $request->get('question')]))
             return $this->success(trans('site.update question success'), 200);

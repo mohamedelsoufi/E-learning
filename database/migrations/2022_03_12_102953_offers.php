@@ -19,7 +19,6 @@ class Offers extends Migration
             $table->integer('discount')->default(0);
             $table->integer('classes_count');
             $table->timestamps();
-        
         });
     }
 

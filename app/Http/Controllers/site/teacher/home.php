@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\schedules_dateResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
+use App\Models\Student;
+use App\Models\student_notification;
+use App\Models\Teacher;
+use App\Services\AgoraService;
+use App\Services\firbaseNotifications;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +18,12 @@ use Illuminate\Support\Facades\Validator;
 
 class home extends Controller
 {
+    public function __construct(AgoraService $AgoraService, firbaseNotifications $firbaseNotifications)
+    {
+        $this->AgoraService         = $AgoraService;
+        $this->firbaseNotifications = $firbaseNotifications;
+    }
+
     public function schedule(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
@@ -113,6 +124,55 @@ class home extends Controller
         $available_class->status = -1;
         $available_class->save();
 
+        return $this->success(trans('auth.success'), 200);
+    }
+
+    public function start_class(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'schedule_id'       => 'required|exists:available_classes,id',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //get available_classes
+        $available_class = Available_class::find($request->get('schedule_id'));
+
+        //make avilable class start
+        $available_class->status = 2;
+        $available_class->save();
+
+        
+        $student_classes = DB::table('student_class')
+                            ->where('available_class_id', ($available_class->id))
+                            ->get();
+                            // ->update(['from' => Carbon::now()]);
+
+        foreach($student_classes as $student_class){
+            //make notification to student
+            student_notification::create([
+                'title'             => 'title',
+                'content'           => 'content',
+                'teacher_id'        => $teacher->id,
+                'student_id'        => $student_class->student_id,
+                'available_class_id'=> $student_class->available_class_id,
+                'type'              => 3,
+                'agora_token'       => $this->AgoraService->generateToken()['token'],
+                'agora_channel_name'=> $this->AgoraService->generateToken()['channel_name'],
+            ]);
+
+            //send firbase notifications
+            $student = Student::find($student_class->student_id);
+            $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);
+        }
+        
         return $this->success(trans('auth.success'), 200);
     }
 }

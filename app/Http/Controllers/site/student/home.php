@@ -13,6 +13,8 @@ use App\Models\Class_type;
 use App\Models\Offer;
 use App\Models\Promo_code;
 use App\Models\Subject;
+use App\Models\Teacher;
+use App\Models\Teacher_notification;
 use App\Models\Term;
 use App\Models\Video;
 use App\Traits\response;
@@ -127,6 +129,19 @@ class home extends Controller
             $available_class->cost                  = $available_class_cost;    //change avilable class cost becouse if we want to return mony for student (know what student bay)
             $available_class->promoCode_percentage  = $discount_percentage;    
             $available_class->save();
+
+            //create notification to teacher
+            Teacher_notification::create([
+                'title'             => 'title',
+                'content'           => 'content',
+                'teacher_id'        => $available_class->teacher_id,
+                'student_id'        => $student->id,
+                'available_class_id'=> $available_class->id,
+                'type'              => 1,
+            ]);
+
+            //sent firbase notifications
+            $this->firbaseNotifications->send_notification('title', 'body', $available_class->Teacher->token_firebase);
 
             DB::commit();
             return $this->success(trans('auth.success'), 200);

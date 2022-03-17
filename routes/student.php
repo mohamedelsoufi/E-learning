@@ -62,6 +62,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::post('/take', 'App\Http\Controllers\site\student\offers@take_offer');;
         });
 
+        Route::group(['prefix' => 'notifications'], function(){
+            Route::get('/', 'App\Http\Controllers\site\student\notificaitons@index');
+        });
+
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');
 
         Route::post('/reservations', 'App\Http\Controllers\site\student\home@my_reservations');

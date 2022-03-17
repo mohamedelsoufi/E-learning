@@ -26,7 +26,7 @@ class AvailableClasses extends Migration
             $table->text('note')->nullable();
             $table->float('cost');
             $table->integer('addition')->default(0);
-            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
+            $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active, 2->class start');
             $table->timestamps();
 
             //relations

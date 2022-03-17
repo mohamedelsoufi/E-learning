@@ -135,6 +135,14 @@ class answers extends Controller
         if($answer == null)
             return $this::faild(trans('site.answer not found'), 404, 'E04');
 
+        if($request->has('image') != null){
+            //update image
+            $path = $this->upload_image($request->file('image'),'uploads/answers', 150, 100);
+
+            $answer->image = $path;
+            $answer->save();
+        }
+
         //update answer
         if($answer->update(['answer'=> $request->get('answer')]))
             return $this->success(trans('site.update answer success'), 200);

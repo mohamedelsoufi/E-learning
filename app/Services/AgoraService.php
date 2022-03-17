@@ -71,7 +71,7 @@ class AgoraService
                 'rtm_token'     => $rtmToken,
             ];
 
-            return response()->json($data);
+            return collect($data);
         } catch (Exception $e) {
             return 'eror';
         }
