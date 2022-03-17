@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\countries\add;
+use App\Http\Requests\admin\image as AdminImage;
 use App\Models\Country as ModelsCountry;
 use App\Models\CountryTranslation;
 use App\Models\Image;
@@ -82,7 +83,7 @@ class country extends Controller
         ]);
     }
 
-    public function edit($country_id,Request $request){
+    public function edit($country_id,AdminImage $request){
         $country = ModelsCountry::find($country_id);
         $CountriesTranslation = CountryTranslation::where('country_id', $country_id)->get();
 

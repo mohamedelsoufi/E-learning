@@ -21,7 +21,8 @@ class Promo_code extends Model
     //scope
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)
+                    ->where('expiration', '>', date('Y-m-d H:i:s'));
     }
     
     //relations

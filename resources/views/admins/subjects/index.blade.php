@@ -76,7 +76,7 @@
                                 @foreach ($subjects as $subject)
                                     <tr>
                                         <td>{{$subject->id}}</td>
-                                        <td>{{$subject->translate('en')->name}}</td>
+                                        <td>{{$subject->Main_subject->translate('en')->name}}</td>
                                         <td>
                                             {{$subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
                                             {{$subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
@@ -84,8 +84,8 @@
                                             {{$subject->Term->Year->translate('en')->name}} ->
                                             {{$subject->Term->translate('en')->name}}
                                         </td>
-                                        <td>{{$subject->getStatus()}}</td>
-                                        <td><img src='{{$subject->getImage()}}' style="width: 100px"></td>
+                                        <td>{{$subject->Main_subject->getStatus()}}</td>
+                                        <td><img src='{{$subject->Main_subject->getImage()}}' style="width: 100px"></td>
                                         <td><a href="materials?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term_id}}&&subject={{$subject->id}}">{{count($subject->Materials->where('status', '!=', -1))}}</a></td>
                                         <td>
                                             {{-- edit --}}

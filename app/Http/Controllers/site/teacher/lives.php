@@ -5,6 +5,7 @@ namespace App\Http\Controllers\site\teacher;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\liveResource;
 use App\Models\Live;
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,13 +47,16 @@ class lives extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
+        //settings
+        $settings = Settings::first();
+
         Live::create([
             'teacher_id'            => $teacher->id,
             'subject_id'            => $request->get('subject_id'),
             'title'                 => $request->get('title'),
             'cost'                  => $request->get('cost'),
             'from'                  => $request->get('from'),
-            'company_percentage'    => 20,
+            'company_percentage'    => $settings->live_company_percentage,
         ]);
 
         return $this->success(trans('auth.success'), 200);

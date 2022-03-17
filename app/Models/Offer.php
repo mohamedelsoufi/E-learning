@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubjectTranslation extends Model
+class Offer extends Model
 {
     use HasFactory;
+    protected $table = 'offers';
 
-    protected $table = 'subjects_translations';
     protected $guarded = [];
-    public $timestamps = false;
+
+    protected $casts = [
+        'price'             => 'float',
+        'classes_count'     => 'integer',
+    ];
 }

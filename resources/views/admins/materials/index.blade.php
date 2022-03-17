@@ -83,7 +83,7 @@
                                             {{$material->Subject->Term->Year->Level->translate('en')->name}} ->
                                             {{$material->Subject->Term->Year->translate('en')->name}} ->
                                             {{$material->Subject->Term->translate('en')->name}} ->
-                                            {{$material->Subject->translate('en')->name}}
+                                            {{$material->subject->Main_subject->translate('en')->name}}
                                         </td>
                                         <td>{{$material->getStatus()}}</td>
                                         <td>

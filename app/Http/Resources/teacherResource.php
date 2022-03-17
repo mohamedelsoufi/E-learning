@@ -36,6 +36,10 @@ class teacherResource extends JsonResource
                                 'id'   => $this->curriculum_id,
                                 'name' => $this->getCurriculum($lang),
                             ],
+            'subject'       => [
+                                'id'      => $this->main_subject_id,
+                                'name' => $this->getMain_subject($lang),
+                            ],
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
@@ -43,12 +47,6 @@ class teacherResource extends JsonResource
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
-            'subjects'      => $this->Subject_teachers->map(function ($data) use($lang){
-                                    return  [
-                                            'id'    => $data->subject_id,
-                                            'name'  => $data->Subject->translate($lang)->name
-                                        ];
-                                }),
             'videos'        => videoResource::collection($this->Videos),
         ];
     }

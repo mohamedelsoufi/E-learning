@@ -50,7 +50,7 @@ class questions extends Controller
     public function create(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'question'         => 'required|string|min:3|max:2000',
+            'question'         => 'required|string|max:2000',
             'subject_id'       => 'required|exists:subjects,id',
             'image'            => 'nullable|mimes:jpeg,jpg,png,gif',
         ]);
@@ -113,7 +113,7 @@ class questions extends Controller
     public function update(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'question'         => 'required|string|min:3|max:2000',
+            'question'         => 'required|string|max:2000',
             'question_id'         => 'required|exists:questions,id',
         ]);
 

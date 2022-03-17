@@ -32,8 +32,8 @@ class level_year_subjectsResource extends JsonResource
                                                 'subjects'          => $data->subjects->where('status', 1)->map(function ($subject) use($lang){
                                                     return  [
                                                             'id'                => $subject->id,
-                                                            'name'              => $subject->translate($lang)->name,
-                                                            'image'             => $subject->getImage(),
+                                                            'name'              => $subject->Main_subject->translate($lang)->name,
+                                                            'image'             => $subject->Main_subject->getImage(),
                                                     ];
                                                 }),
                                         ];

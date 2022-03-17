@@ -15,6 +15,7 @@ use App\Models\Cost_company_percentage;
 use App\Models\Cost_country;
 use App\Models\Cost_level;
 use App\Models\Cost_year;
+use App\Models\Promo_code;
 use App\Models\Settings;
 
 class Controller extends BaseController
@@ -91,6 +92,22 @@ class Controller extends BaseController
         return $company_percentage;
     }
 
+    public function promo_code_percentage($promo_code){
+        $percentage = 0;
+
+        $promo_code = Promo_code::where('code', $promo_code)
+                                ->active()
+                                ->first();
+            
+        if($promo_code != null){
+            $percentage = $promo_code->percentage;
+        }
+        return $percentage;
+    }
+
+    public function get_price_after_discount($price, $percentage){
+        return $price - (($price / 100) * $percentage);
+    }
     public function test(){
         $twilio = new Twilio();
         $twilio->message('+2001151504348', 'ahmed maher');

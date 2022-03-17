@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\site\teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\availableClassResource;
-use App\Http\Resources\liveResource;
+use App\Http\Resources\schedules_dateResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
-use App\Models\Live;
-use App\Models\Subject;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class home extends Controller
@@ -17,37 +16,35 @@ class home extends Controller
     public function schedule(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            'date'             => 'nullable|date_format:Y-m-d',
+            // 'date'             => 'nullable|date_format:Y-m-d',
+            'month'            => 'nullable|min:1|max:12',
         ]);
 
         if($validator->fails()){
             return $this::faild($validator->errors()->first(), 403, 'E03');
         }
-
+        
         //get teacher
         if (! $teacher = auth('teacher')->user()) {
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
+        $request->teacher_id = $teacher->id;
 
-        //get all
-        $schedules = Available_class::where('teacher_id', $teacher->id)
+        //get schedules_date
+        ($request->get('month') == null) ? $month = Carbon::today()->month : $month = $request->get('month');
+        $schedules_date = Available_class::where('teacher_id', $teacher->id)
                                 ->schedule()
+                                ->select('from', 'from_date')
+                                ->whereMonth('from','=', $month)
+                                ->distinct('from_date')
+                                ->orderBy('from')
                                 ->get();
 
-        //get by date
-        if($request->get('date') != null){
-            $schedules = Available_class::where('teacher_id', $teacher->id)
-                                ->whereDate('from', '=',$request->get('date'))
-                                ->schedule()
-                                ->get();
-        }
-
-        return $this::success(
-            trans('auth.success'),
-            200,
-            'schedules',
-            availableClassResource::collection($schedules)
-        );
+        return response()->json([
+            'successful'    => true,
+            'message'       => trans('auth.success'),
+            'schedules'     => schedules_dateResource::collection($schedules_date),
+        ], 200);
     }
 
     public function add_schedule(Request $request){
@@ -72,7 +69,6 @@ class home extends Controller
         $class_type = Class_type::find($request->get('class_type_id'));
 
         //get subject_id
-        // $subject = Subject::find($request->get('subject_id'));
 
         $newtimestamp = strtotime($request->get('from') . ' + ' . $class_type->long . ' minute');
         $to =  date('Y-m-d H:i:s', $newtimestamp);
@@ -83,6 +79,7 @@ class home extends Controller
             'subject_id'            => $request->get('subject_id'),
             'class_type_id'         => $request->get('class_type_id'),
             'from'                  => $request->get('from'),
+            'from_date'             => date('Y-m-d', strtotime($request->get('from'))),
             'to'                    => $to,
             'long'                  => $class_type->long,
             'company_percentage'    => $this->get_company_percentage($teacher),

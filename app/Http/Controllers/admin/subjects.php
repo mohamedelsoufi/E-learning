@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\subjects\add;
 use App\Models\Image;
+use App\Models\Main_subject;
 use App\Models\Subject;
 use App\Models\SubjectTranslation;
 use App\Models\Term;
@@ -51,9 +52,11 @@ class subjects extends Controller
     public function createView(Request $request){
         $term_id = $request->get('term');
         $terms = Term::active()->where('year_id', $request->get('year'))->get();
+        $main_subjects = Main_subject::active()->get();
         return view('admins.subjects.create')->with([
-            'terms'     => $terms,
-            'term_id'   => $term_id,
+            'terms'         => $terms,
+            'term_id'       => $term_id,
+            'main_subjects' => $main_subjects,
         ]);
     }
 
@@ -67,27 +70,13 @@ class subjects extends Controller
                 //get cate status
                 ($request->status== 1)? $active = 1: $active = 0;
 
-                //create country
-                $new_subject = Subject::create([
+                //create Subject
+                Subject::create([
                     'status'            => $active,
                     'term_id'           => $request->term_id,
+                    'main_subject_id'   => $request->main_subject_id,
                 ]);
 
-                //add image
-                $path = $this->upload_image($request->file('image'),'uploads/subjects', 100, 100);
-                Image::create([
-                    'imageable_id'   => $new_subject->id,
-                    'imageable_type' => 'App\Models\Subject',
-                    'src'            => $path,
-                ]);
-
-                foreach($request->subjects as $key=>$subject){
-                    SubjectTranslation::create([
-                        'name'              => $subject['name'],
-                        'locale'            => $key,
-                        'subject_id'        => $new_subject['id'],
-                    ]);
-                }
             DB::commit();
             return redirect('admins/subjects?' . $parms)->with('success', 'add subject success');
         } catch(\Exception $ex){
@@ -99,6 +88,8 @@ class subjects extends Controller
     public function editView($subject_id, Request $request){
         $subject = Subject::find($subject_id);
         $terms = Term::active()->where('year_id', $request->get('year'))->get();
+        $main_subjects = Main_subject::active()->get();
+
         $parms= 'curriculum=' . $_GET['curriculum'] .
                 '&&level=' . $_GET['level'] .
                 '&&year=' . $_GET['year'] .
@@ -111,6 +102,7 @@ class subjects extends Controller
         return view('admins.subjects.edit')->with([
             'subject'       => $subject,
             'terms'         => $terms,
+            'main_subjects' => $main_subjects,
         ]);
     }
 
@@ -121,7 +113,6 @@ class subjects extends Controller
                 '&&term=' . $_GET['term'];
         try{
             $subject = Subject::find($subject_id);
-            $subjectsTranslation = SubjectTranslation::where('subject_id', $subject_id)->get();
             
             DB::beginTransaction();
                 //get cate status
@@ -130,38 +121,8 @@ class subjects extends Controller
                 //edit subject
                 $subject->status           = $active;
                 $subject->term_id          = $request->term_id;
+                $subject->main_subject_id  = $request->main_subject_id;
                 $subject->save();
-
-                //change all term trans name
-                foreach($subjectsTranslation as $subjectTranslation){
-                    $subjectTranslation->name = $request->subjects[$subjectTranslation->locale]['name'];
-                    $subjectTranslation->save();
-                }
-
-                //update image
-                if($request->has('image') != null){
-                    $path = $this->upload_image($request->file('image'),'uploads/subjects', 100, 100);
-
-                    if($subject->Image == null){
-                        //if user don't have image 
-                        Image::create([
-                            'imageable_id'   => $subject->id,
-                            'imageable_type' => 'App\Models\Subject',
-                            'src'            => $path,
-                        ]);
-
-                    } else {
-                        //if subjects have image
-                        $oldImage = $subject->Image->src;
-
-                        if(file_exists(base_path('public/uploads/subjects/') . $oldImage)){
-                            unlink(base_path('public/uploads/subjects/') . $oldImage);
-                        }
-
-                        $subject->Image->src = $path;
-                        $subject->Image->save();
-                    }
-                }
 
             DB::commit();
             return redirect('admins/subjects?' . $parms)->with('success', 'add subject success');

@@ -21,7 +21,7 @@ class Lives extends Migration
             $table->float('cost');
             $table->integer('company_percentage')->default(0)->comment('from 0 to 100');
             $table->dateTime('from');
-            $table->string('agora_token');
+            $table->string('agora_token')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 

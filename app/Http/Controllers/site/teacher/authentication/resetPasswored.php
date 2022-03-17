@@ -188,12 +188,12 @@ class resetPasswored extends Controller
             ], 200);
         }
 
-        // check if teacher not active
-        if($teacher['year_id'] == null){
+        // check if setup_profile
+        if(count($teacher->Teacher_years) == 0){
             return response()->json([
                 'successful'=> false,
                 'step'      => 'setup_profile',
-                'teacher'   => new teacherResource($teacher),
+                'teatcher'   => new teacherResource($teacher),
                 'token'     => $token,
             ], 200);
         }

@@ -31,7 +31,7 @@ class availableClassResource extends JsonResource
             ],
             'subject'           => [
                                         'id'    => $this->subject_id,
-                                        'name'  => $this->Subject->translate($lang)->name
+                                        'name'  => $this->subject->Main_subject->translate($lang)->name
                                     ]
         ];
     }

@@ -28,6 +28,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\resetPasswored@sendCode');
     });
 
+    Route::get('/offers', 'App\Http\Controllers\site\student\offers@index');
+
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::group(['prefix' => 'verification'], function(){
             Route::post('/', 'App\Http\Controllers\site\student\authentication\verification@verificationProcess');
@@ -54,6 +56,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::post('/create', 'App\Http\Controllers\site\student\answers@create');
             Route::post('/delete', 'App\Http\Controllers\site\student\answers@delete');
             Route::post('/edit', 'App\Http\Controllers\site\student\answers@update');
+        });
+
+        Route::group(['prefix' => 'offers'], function(){
+            Route::post('/take', 'App\Http\Controllers\site\student\offers@take_offer');;
         });
 
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');

@@ -50,6 +50,15 @@ Route::group(['prefix' => 'admins'], function(){
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\country@edit')->middleware('auth:admin');
     });
 
+    Route::group(['prefix' => 'main_subjects'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\main_subjects@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\main_subjects@delete')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\main_subjects@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\main_subjects@create')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@edit')->middleware('auth:admin');
+    });
+
     Route::group(['prefix' => 'curriculums'],function(){
         Route::get('/', 'App\Http\Controllers\admin\curriculums@index')->middleware('auth:admin');
         Route::get('/delete/{id}', 'App\Http\Controllers\admin\curriculums@delete')->middleware('auth:admin');
@@ -199,6 +208,15 @@ Route::group(['prefix' => 'admins'], function(){
         Route::get('/delete/{id}', 'App\Http\Controllers\admin\class_types@delete')->middleware('auth:admin');
         Route::get('/edit/{id}', 'App\Http\Controllers\admin\class_types@editView')->middleware('auth:admin');
         Route::post('/edit/{id}', 'App\Http\Controllers\admin\class_types@edit')->middleware('auth:admin');
+    });
+
+    Route::group(['prefix' => 'offers'],function(){
+        Route::get('/', 'App\Http\Controllers\admin\offers@index')->middleware('auth:admin');
+        Route::get('/delete/{id}', 'App\Http\Controllers\admin\offers@delete')->middleware('auth:admin');
+        Route::get('/create', 'App\Http\Controllers\admin\offers@createView')->middleware('auth:admin');
+        Route::post('/create', 'App\Http\Controllers\admin\offers@create')->middleware('auth:admin');
+        Route::get('/edit/{id}', 'App\Http\Controllers\admin\offers@editView')->middleware('auth:admin');
+        Route::post('/edit/{id}', 'App\Http\Controllers\admin\offers@edit')->middleware('auth:admin');
     });
 });
 

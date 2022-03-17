@@ -36,6 +36,12 @@
             @endif
 
             @if (auth('admin')->user()->isAbleTo('read-curriculums'))
+                <li class="{{(request()->is('admins/main_subjects') || request()->is('admins/main_subjects/*'))? 'active':''}}">
+                    <a href="{{url('admins/main_subjects')}}"><i class="fa fa-users"></i><span>main subjects</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-curriculums'))
                 <li class="{{(request()->is('admins/curriculums') || request()->is('admins/curriculums/*'))? 'active':''}}">
                     <a href="{{url('admins/curriculums')}}"><i class="fa fa-users"></i><span>curriculums</span></a>
                 </li>
@@ -104,6 +110,12 @@
             @if (auth('admin')->user()->isAbleTo('read-class_types'))
                 <li class="{{(request()->is('admins/class_types') || request()->is('admins/class_types/*'))? 'active':''}}">
                     <a href="{{url('admins/class_types')}}"><i class="fa fa-users"></i><span>class types</span></a>
+                </li>
+            @endif
+
+            @if (auth('admin')->user()->isAbleTo('read-offers'))
+                <li class="{{(request()->is('admins/offers') || request()->is('admins/offers/*'))? 'active':''}}">
+                    <a href="{{url('admins/offers')}}"><i class="fa fa-users"></i><span>offers</span></a>
                 </li>
             @endif
         </ul>

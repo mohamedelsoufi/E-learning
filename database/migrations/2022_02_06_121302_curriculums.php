@@ -99,23 +99,12 @@ class Curriculums extends Migration
 
         Schema::create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->unsignedBigInteger('term_id');
+            $table->unsignedBigInteger('main_subject_id');
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
             //relations
-            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
-        });
-
-        Schema::create('subjects_translations', function(Blueprint $table) {
-            $table->bigIncrements('id')->unique();
-            $table->unsignedBigInteger('subject_id');
-            $table->string('locale')->index();
-            $table->string('name');
-            $table->timestamps();
-        
-            $table->unique(['subject_id', 'locale']);
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('main_subject_id')->references('id')->on('main_subjects')->onDelete('cascade');
         });
 
         Schema::create('materials', function (Blueprint $table) {

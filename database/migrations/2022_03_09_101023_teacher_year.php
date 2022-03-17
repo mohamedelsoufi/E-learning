@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Tags extends Migration
+class TeacherYear extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class Tags extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->bigIncrements('id')->unique();
+        Schema::create('teacher_year', function (Blueprint $table) {
+            $table->unsignedBigInteger('year_id');
             $table->unsignedBigInteger('teacher_id');
-            $table->string('tag');
             $table->timestamps();
 
+            $table->unique(['year_id', 'teacher_id']);
             //relations
+            $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }
@@ -31,6 +32,6 @@ class Tags extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('teacher_year');
     }
 }

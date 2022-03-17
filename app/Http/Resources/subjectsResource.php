@@ -22,8 +22,8 @@ class subjectsResource extends JsonResource
 
         return [
             'id'            => $this->id,
-            'name'          => $this->translate($lang)->name,
-            'image'         => $this->getImage(),
+            'name'          => $this->Main_subject->translate($lang)->name,
+            'image'         => $this->Main_subject->getImage(),
             'status'        => $this->status,
         ];
     }

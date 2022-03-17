@@ -37,6 +37,14 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
             Route::post('setup_profile', 'App\Http\Controllers\site\teacher\authentication\profile@setup_profile');
         });
 
+        Route::group(['prefix' => 'myProfile'], function(){
+            Route::get('/', 'App\Http\Controllers\site\teacher\authentication\profile@myProfile');
+            Route::post('changePassword', 'App\Http\Controllers\site\teacher\authentication\profile@changePassword');
+            Route::post('changeImage', 'App\Http\Controllers\site\teacher\authentication\profile@change_image');
+            Route::post('update', 'App\Http\Controllers\site\teacher\authentication\profile@updateProfile');
+            Route::post('setup_profile', 'App\Http\Controllers\site\teacher\authentication\profile@setup_profile');
+        });
+
         Route::group(['prefix' => 'verification'], function(){
             Route::post('/', 'App\Http\Controllers\site\teacher\authentication\verification@verificationProcess');
             Route::post('sendCode', 'App\Http\Controllers\site\teacher\authentication\verification@sendCode');

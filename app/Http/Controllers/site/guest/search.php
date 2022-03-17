@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\site\guest;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\level_year_subjects;
 use App\Http\Resources\level_year_subjectsResource;
 use App\Http\Resources\level_yearResource;
 use App\Http\Resources\subjectsResource;
-use App\Http\Resources\yearResource;
 use App\Models\Level;
 use App\Models\Subject;
-use App\Models\Year;
 use App\Traits\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -56,7 +53,7 @@ class search extends Controller
         return $this->success(trans('auth.success'), 200, 'levels', level_year_subjectsResource::collection($levels));
     }
 
-    public function subjects(Request $request){
+    public function subjects_year(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
             'year_id'    => 'required|exists:years,id',

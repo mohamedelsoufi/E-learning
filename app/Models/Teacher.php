@@ -25,6 +25,7 @@ class Teacher extends Authenticatable implements JWTSubject
         'curriculum_id' => 'integer',
         'balance'       => 'float',
         'online'        => 'integer',
+        'main_subject_id'    => 'integer',
     ];
 
     //relations
@@ -32,12 +33,20 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->belongsTo(Country::class, 'country_id');
     }
 
+    public function Main_subject(){
+        return $this->belongsTo(Main_subject::class, 'main_subject_id');
+    }
+
     public function Curriculum(){
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
     
-    public function Subject_teachers(){
-        return $this->hasMany(Subject_teacher::class, 'teacher_id');
+    // public function Subject_teachers(){
+    //     return $this->hasMany(Subject_teacher::class, 'teacher_id');
+    // }
+
+    public function Teacher_years(){
+        return $this->hasMany(Teacher_year::class, 'teacher_id');
     }
 
     public function Available_classes(){
@@ -75,9 +84,17 @@ class Teacher extends Authenticatable implements JWTSubject
         }
     }
 
-    public function getCurriculum(){
+    public function getCurriculum($lang = 'en'){
         if($this->Curriculum != null){
-            return $this->Curriculum->translate('en')->name;
+            return $this->Curriculum->translate($lang)->name;
+        } else {
+            return null;
+        }
+    }
+
+    public function getMain_subject($lang = 'en'){
+        if($this->Main_subject != null){
+            return $this->Main_subject->translate($lang)->name;
         } else {
             return null;
         }

@@ -19,6 +19,7 @@ class Teachers extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('dialing_code')->nullable();
             $table->string('phone')->unique();
+            $table->bigInteger('main_subject_id');
             $table->string('password');
             $table->boolean('verified')->comment('0 ->not verified, 1 -> verified')->default(0);
             $table->boolean('status')->comment('1->active, 0->bloked')->default(1);
@@ -36,6 +37,7 @@ class Teachers extends Migration
             //relations
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('curriculum_id')->references('id')->on('curriculums')->onDelete('cascade');
+            $table->foreign('main_subject_id')->references('id')->on('main_subjects')->onDelete('cascade');
         });
 
         Schema::create('teacher_verified', function (Blueprint $table) {
@@ -49,17 +51,6 @@ class Teachers extends Migration
             $table->integer('code');
             $table->timestamp('created_at')->nullable();
         });
-
-        Schema::create('subject_teacher', function (Blueprint $table) {
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('teacher_id');
-            $table->timestamps();
-
-            $table->unique(['subject_id', 'teacher_id']);
-            //relations
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-        });
     }
 
     /**
@@ -72,6 +63,5 @@ class Teachers extends Migration
         Schema::dropIfExists('teachers');
         Schema::dropIfExists('teacher_verified');
         Schema::dropIfExists('teacher_password_resets');
-        Schema::dropIfExists('subject_teacher');
     }
 }

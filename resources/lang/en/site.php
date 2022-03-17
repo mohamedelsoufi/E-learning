@@ -22,7 +22,7 @@ return [
     'this class is complete'            => 'this class is complete',
     'your balance not enough'           => 'your balance not enough',
     'student already buy this video'    => 'student already buy this video',
-    '' => '',
+    'delete main_subject success' => 'delete main_subject success',
     '' => '',
     '' => '',
     '' => '',

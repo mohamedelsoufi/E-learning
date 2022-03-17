@@ -71,6 +71,7 @@
                             "questions",
                             'class_types',
                             'settings',
+                            'offers',
                         ];
                         $maps = ['read', 'create','update', 'delete'];
                         @endphp

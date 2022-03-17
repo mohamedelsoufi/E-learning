@@ -19,7 +19,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
     Route::get('/level_year', 'App\Http\Controllers\site\guest\search@level_year');
     Route::get('/level_year_subjects', 'App\Http\Controllers\site\guest\search@level_year_subjects');
 
-    Route::get('/subjects', 'App\Http\Controllers\site\guest\search@subjects');
+    Route::get('/subjects_year', 'App\Http\Controllers\site\guest\search@subjects_year');
+    Route::get('/subjects', 'App\Http\Controllers\site\guest\home@main_subjects');
 
     //get teacher by subject_id
     Route::get('/teachers', 'App\Http\Controllers\site\guest\home@teachersBysubject');
@@ -30,6 +31,9 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
 
     Route::get('/countries', 'App\Http\Controllers\site\guest\home@countries');
     Route::get('/curriculums', 'App\Http\Controllers\site\guest\home@curriculums');
+
+    Route::get('/answers', 'App\Http\Controllers\site\guest\home@answers');
+    Route::get('/questions', 'App\Http\Controllers\site\guest\home@questions');
 
 
     Route::get('student/profile', 'App\Http\Controllers\site\student\authentication\profile@index');

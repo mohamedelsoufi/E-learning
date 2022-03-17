@@ -4,25 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Astrotomic\Translatable\Translatable;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-
-class Subject extends Model implements TranslatableContract
+class Subject extends Model
 {
-    use HasFactory, Translatable;
+    use HasFactory;
     protected $table = 'subjects';
-    public $translatedAttributes = ['name'];
     protected $guarded = [];
 
     protected $casts = [
-        'id'            => 'integer',
-        'term_id'       => 'integer',
-        'status'        => 'integer',
+        'id'                    => 'integer',
+        'term_id'               => 'integer',
+        'main_subject_id'       => 'integer',
+        'status'                => 'integer',
     ];
     
     //relations
     public function Term(){
         return $this->belongsTo(Term::class, 'term_id');
+    }
+
+    public function Main_subject(){
+        return $this->belongsTo(Main_subject::class, 'main_subject_id');
     }
 
     public function Subject_teachers(){
@@ -49,7 +50,10 @@ class Subject extends Model implements TranslatableContract
     //scope
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)
+                    ->whereHas('Main_subject', function($query){
+                        $query->where('status', 1);
+                    });
     }
 
     //
@@ -61,11 +65,11 @@ class Subject extends Model implements TranslatableContract
         }
     }
 
-    public function getImage(){
-        if($this->Image != null){
-            return url('public/uploads/subjects/' . $this->Image->src);
-        } else {
-            return url('public/uploads/subjects/default.jpg');
-        }
-    }
+    // public function getImage(){
+    //     if($this->Image != null){
+    //         return url('public/uploads/subjects/' . $this->Image->src);
+    //     } else {
+    //         return url('public/uploads/subjects/default.jpg');
+    //     }
+    // }
 }

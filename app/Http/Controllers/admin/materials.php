@@ -122,7 +122,7 @@ class materials extends Controller
         ]);
     }
 
-    public function edit($material_id, edit $request){
+    public function edit($material_id,edit $request){
         $parms= 'curriculum=' . $_GET['curriculum'] .
                 '&&level=' . $_GET['level'] .
                 '&&year=' . $_GET['year'] .

@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\site\guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\answersResource;
 use App\Http\Resources\classTypeResource;
 use App\Http\Resources\countryResource;
 use App\Http\Resources\curriculumResource;
+use App\Http\Resources\main_subjectResource;
 use App\Http\Resources\materialResource;
+use App\Http\Resources\questionsResource;
 use App\Http\Resources\teacher_classesTypeResourc;
-use App\Http\Resources\teacherResource;
+use App\Models\Answer;
 use App\Models\Class_type;
 use App\Models\Country;
 use App\Models\Curriculum;
+use App\Models\Main_subject;
+use App\Models\Question;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Traits\response;
@@ -30,20 +35,24 @@ class home extends Controller
         if($validator->fails()){
             return response::faild($validator->errors()->first(), 403, 'E03');
         }
+        //gey subject
+        $subject = Subject::find($request->subject_id);
 
         //online
         $online_teachers = Teacher::active()
                                     ->where('online', 1)
-                                    ->whereHas('Subject_teachers', function($q) use($request){
-                                        $q->where('subject_id', $request->get('subject_id'));
+                                    ->where('main_subject_id', $subject->main_subject_id)
+                                    ->whereHas('Teacher_years', function($qeury) use($subject){
+                                        $qeury->where('year_id', $subject->Term->year_id);
                                     })
                                     ->limit(5)
                                     ->get();
         //offline
         $offline_teachers = Teacher::active()
                                     ->where('online', 0)
-                                    ->whereHas('Subject_teachers', function($q) use($request){
-                                        $q->where('subject_id', $request->get('subject_id'));
+                                    ->where('main_subject_id', $subject->main_subject_id)
+                                    ->whereHas('Teacher_years', function($qeury) use($subject){
+                                        $qeury->where('year_id', $subject->Term->year_id);
                                     })
                                     ->paginate(5);
         // ->inRandomOrder()
@@ -51,7 +60,7 @@ class home extends Controller
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
-            'online_teachers'   => teacherResource::collection($online_teachers),
+            'online_teachers'   => teacher_classesTypeResourc::collection($online_teachers),
             'offline_teachers'  => teacher_classesTypeResourc::collection($offline_teachers)->response()->getData(true),
         ], 200);
     }
@@ -65,12 +74,16 @@ class home extends Controller
         if($validator->fails()){
             return response::faild($validator->errors()->first(), 403, 'E03');
         }
+        
+        //get subject
+        $subject = Subject::find($request->subject_id);
 
         //online
         $online_teachers = Teacher::active()
                                     ->where('online', 1)
-                                    ->whereHas('Subject_teachers', function($q) use($request){
-                                        $q->where('subject_id', $request->get('subject_id'));
+                                    ->where('main_subject_id', $subject->main_subject_id)
+                                    ->whereHas('Teacher_years', function($qeury) use($subject){
+                                        $qeury->where('year_id', $subject->Term->year_id);
                                     })
                                     ->limit(5)
                                     ->get();
@@ -145,5 +158,64 @@ class home extends Controller
             'curriculums',
             curriculumResource::collection($curriculums)
         );
+    }
+
+    public function main_subjects(){
+        $main_subjects = Main_subject::active()->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'subjects',
+            main_subjectResource::collection($main_subjects)
+        );
+    }
+
+    public function answers(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'question_id'    => 'required|exists:questions,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        //get answers
+        $answers = Answer::active()
+                            ->where('question_id', $request->get('question_id'))
+                            ->orderBy('id', 'desc')
+                            ->paginate(5);
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'answers_count'     => Answer::where('question_id', $request->get('question_id'))->count(),
+            'answers'           => answersResource::collection($answers)->response()->getData(true),
+        ], 200);
+    }
+
+    public function questions(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'subject_id'       => 'required|exists:subjects,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        //get questions
+        $questions = Question::active()
+                                ->where('subject_id', $request->get('subject_id'))
+                                ->orderBy('id', 'desc')
+                                ->paginate(5);
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'questions_count'   => Question::where('subject_id', $request->get('subject_id'))->count(),
+            'questions'         => questionsResource::collection($questions)->response()->getData(true),
+        ], 200);
     }
 }

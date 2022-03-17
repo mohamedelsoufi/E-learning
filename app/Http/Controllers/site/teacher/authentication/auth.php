@@ -59,7 +59,7 @@ class auth extends Controller
         if($teacher['status'] == 0)
             return $this->faild(trans('auth.you are blocked'), 402, 'E02');
         
-        // check if student not active
+        // check if teatcher not active
         if($teacher['verified'] == 0){
             $this->verification->sendCode($request);
 
@@ -71,11 +71,11 @@ class auth extends Controller
         }
 
         // check if setup_profile
-        if(count($teacher->Subject_teachers) == 0){
+        if(count($teacher->Teacher_years) == 0){
             return response()->json([
                 'successful'=> false,
                 'step'      => 'setup_profile',
-                'student'   => new teacherResource($teacher),
+                'teacher'   => new teacherResource($teacher),
                 'token'     => $token,
             ], 200);
         }
@@ -114,8 +114,8 @@ class auth extends Controller
             'confirm_password' => 'required|string|same:password',
             'country_id'       => 'required|exists:countries,id',
             'curriculum_id'    => 'required|exists:curriculums,id',
+            'subject_id'       => 'required|exists:main_subjects,id', //main subject
             'gender'           => ['required',Rule::in(0,1)],//0->male  1->female
-            'token_firebase'   => $request->get('token_firebase'),
             'token_firebase'   => 'nullable|string',
         ]);
 
@@ -130,6 +130,8 @@ class auth extends Controller
             'phone'             => $request->get('phone'),
             'password'          => Hash::make($request->get('password')),
             'country_id'        => $request->get('country_id'),
+            'curriculum_id'     => $request->get('curriculum_id'),
+            'main_subject_id'   => $request->get('subject_id'),
             'gender'            => $request->get('gender'),
         ]);
 

@@ -28,7 +28,7 @@ class liveResource extends JsonResource
             'company_percentage'=> $this->company_percentage,
             'subject'           => [    
                                         'id'    => $this->subject_id,
-                                        'name'  => $this->Subject->translate($lang)->name,
+                                        'name'  => $this->subject->Main_subject->translate($lang)->name,
                                     ],
             'teacher'           => [
                                         'id'        => $this->Teacher->id,

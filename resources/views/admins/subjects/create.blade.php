@@ -34,18 +34,6 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>image</label>
-                                <input type="file" class="form-control"  name="image"
-                                    required autocomplete="off">
-                                @error('image')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
                                 <label>terms</label>
                                 <select name="term_id" class="form-control">
                                     @foreach ($terms as $term)
@@ -60,20 +48,21 @@
                             </div>
                         </div>
 
-                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>name in {{$properties['native']}}</label>
-                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="subjects[{{$localeCode}}][name]"
-                                        placeholder="name" value="{{ old('name') }}" required autocomplete="off">
-                                    @error('name')
-                                        <small class=" text text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </small>
-                                    @enderror
-                                </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>main subject</label>
+                                <select name="main_subject_id" class="form-control">
+                                    @foreach ($main_subjects as $main_subject)
+                                        <option value="{{$main_subject->id}}">{{$main_subject->translate('en')->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('main_subject_id')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
-                        @endforeach
+                        </div>
 
                         {{-- status --}}
                         <div class="col-md-12">

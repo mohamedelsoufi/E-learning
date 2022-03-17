@@ -68,7 +68,7 @@
                                     <tr>
                                         <td>{{$question->id}}</td>
                                         <td>{{$question->Student->username}}</td>
-                                        <td>{{$question->Subject->translate('en')->name}}</td>
+                                        <td>{{$question->subject->Main_subject->translate('en')->name}}</td>
                                         <td>{{$question->question}}</td>
                                         <td><a href="answers?question={{$question->id}}">{{count($question->Answers)}}</a></td>
                                         <td>

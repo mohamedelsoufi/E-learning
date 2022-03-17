@@ -53,7 +53,7 @@ return [
     'Either your phone or code is wrong.'   => 'Either your phone or code is wrong.',
     'You must choose year'        => 'You must choose year',
     'your code is wrong.'        => 'your code is wrong.',
-    ''        => '',
+    'faild'        => 'faild',
     ''        => '',
     ''        => '',
     ''        => '',

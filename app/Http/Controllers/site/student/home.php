@@ -4,11 +4,14 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\classType_availableClassResource;
+use App\Http\Resources\offersResource;
 use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
 use App\Http\Resources\term_SubjectResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
+use App\Models\Offer;
+use App\Models\Promo_code;
 use App\Models\Subject;
 use App\Models\Term;
 use App\Models\Video;
@@ -36,20 +39,13 @@ class home extends Controller
         if($student->year_id == null)
             return $this::faild(trans('site.student must choose his grade'), 400, 'E00');
 
-        $terms = Term::where('status', 1)
-                        ->whereHas('Year', function($query) use($student){
-                            $query->where('id', $student->year_id);
-                        })->with(['Subjects' => function($q){
-                            $q->active();
-                        }])
-                        ->get();
-        // $subject = Subject::whereHas('Term', function($query) use($student){
-        //                         $query->where('year_id', $student->year_id);
-        //                     })
-        //                     ->active()
-        //                     ->get();
+        $subjects = Subject::whereHas('Term', function($query) use($student){
+                                $query->where('year_id', $student->year_id);
+                            })
+                            ->active()
+                            ->get();
 
-        return $this::success(trans('auth.success'), 400, 'terms', term_SubjectResource::collection($terms));
+        return $this::success(trans('auth.success'), 400, 'subjects', subjectsResource::collection($subjects));
     }
 
     public function leave(){
@@ -86,6 +82,7 @@ class home extends Controller
         // validate registeration request
         $validator = Validator::make($request->all(), [
             'available_class_id'     => 'required|integer|exists:available_classes,id',
+            'promo_code'             => 'nullable|string',
         ]);
 
         if($validator->fails()){
@@ -110,16 +107,26 @@ class home extends Controller
                 return $this->faild(trans('site.this class is complete'), 200);
 
             //check if student balance Not enough
-            if($student->balance - $available_class->cost < 0)
+            $available_class_cost = $available_class->Class_type->long * $available_class->Class_type->long_cost; //get price from class type becouse if admin chage class type cost
+            if($student->balance - $available_class_cost < 0)
                 return $this->faild(trans('site.your balance not enough'), 200);
+            
+            //get discount from promo code if exist
+            $discount_percentage = $this->promo_code_percentage($request->get('promo_code'));
+            $available_class_cost_after_discount = $this->get_price_after_discount($available_class_cost, $discount_percentage);
 
             //booking
             DB::table('student_class')->insert([
                 'student_id'            =>  $student->id,
                 'available_class_id'    => $request->get('available_class_id'),
             ]);
-            $student->balance -= $available_class->cost;    //tack class cost from student
+
+            $student->balance       -= $available_class_cost_after_discount;    //take class cost from student
             $student->save();
+
+            $available_class->cost                  = $available_class_cost;    //change avilable class cost becouse if we want to return mony for student (know what student bay)
+            $available_class->promoCode_percentage  = $discount_percentage;    
+            $available_class->save();
 
             DB::commit();
             return $this->success(trans('auth.success'), 200);

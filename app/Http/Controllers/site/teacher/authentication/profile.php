@@ -5,9 +5,10 @@ namespace App\Http\Controllers\site\teacher\authentication;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\teacherResource;
 use App\Models\Image;
-use App\Models\Subject_teacher;
+use App\Models\Teacher_years;
 use App\Models\Tag;
 use App\Models\Teacher;
+use App\Models\Teacher_year;
 use App\Traits\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,8 +129,8 @@ class profile extends Controller
     public function setup_profile(Request $request){
         // validate registeration request
         $validator = Validator::make($request->all(), [
-            'subject_ids'   => 'required',
-            'subject_ids.*' => 'required|exists:subjects,id',
+            'years_id'   => 'required',
+            'years_id.*' => 'required|exists:years,id',
         ]);
 
         if($validator->fails()){
@@ -141,16 +142,16 @@ class profile extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
-        foreach($request->get('subject_ids') as $subject_id){
-            $row = DB::table('subject_teacher')->where([
+        foreach($request->get('years_id') as $year_id){
+            $row = DB::table('teacher_year')->where([
                 'teacher_id'    => $teacher->id,
-                'subject_id'    => $subject_id,
+                'year_id'       => $year_id,
             ])->first();
 
             if($row == null){
-                Subject_teacher::create([
+                Teacher_year::create([
                     'teacher_id' => $teacher->id,
-                    'subject_id' => $subject_id,
+                    'year_id'    => $year_id,
                 ]);
             }
         }
@@ -183,7 +184,7 @@ class profile extends Controller
             return $this::faild($validator->errors()->first(), 403);
         }
 
-        //selet student
+        //selet teatcher
 
         $input = $request->only(
             'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
@@ -215,7 +216,7 @@ class profile extends Controller
             }
         }
 
-        //update student
+        //update teatcher
         if($teacher->update($input)){
             return $this->success(trans('auth.update profile success'), 200, 'teacher', new teacherResource($teacher));
         } else {

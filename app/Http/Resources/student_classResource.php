@@ -21,7 +21,7 @@ class student_classResource extends JsonResource
         }
         return [
             'from'           => $this->Available_class->from,
-            'subject'        => $this->Available_class->Subject->translate($lang)->name,
+            'subject'        => $this->Available_class->subject->Main_subject->translate($lang)->name,
             'long'           => $this->Available_class->long,
             'cost'           => $this->Available_class->cost,
             'teacher'        => [
