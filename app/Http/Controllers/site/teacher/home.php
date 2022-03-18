@@ -30,7 +30,6 @@ class home extends Controller
     public function schedule(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            // 'date'             => 'nullable|date_format:Y-m-d',
             'month'            => 'nullable|min:1|max:12',
         ]);
 
@@ -50,6 +49,7 @@ class home extends Controller
                                 ->schedule()
                                 ->select('from', 'from_date')
                                 ->whereMonth('from','=', $month)
+                                ->whereHas('Student_classes')
                                 ->distinct('from_date')
                                 ->orderBy('from')
                                 ->get();

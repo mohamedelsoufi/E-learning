@@ -4,18 +4,12 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\classType_availableClassResource;
-use App\Http\Resources\offersResource;
 use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
-use App\Http\Resources\term_SubjectResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
-use App\Models\Offer;
-use App\Models\Promo_code;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Teacher_notification;
-use App\Models\Term;
 use App\Models\Video;
 use App\Traits\response;
 use App\Services\AgoraService;
