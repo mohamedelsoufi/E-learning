@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class profile extends Controller
 {
@@ -142,21 +144,32 @@ class profile extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
-        foreach($request->get('years_id') as $year_id){
-            $row = DB::table('teacher_year')->where([
-                'teacher_id'    => $teacher->id,
-                'year_id'       => $year_id,
-            ])->first();
+        //delete old
+        $row = DB::table('teacher_year')->where([
+            'teacher_id'    => $teacher->id,
+        ])->delete();
 
-            if($row == null){
-                Teacher_year::create([
-                    'teacher_id' => $teacher->id,
-                    'year_id'    => $year_id,
-                ]);
-            }
+        foreach($request->get('years_id') as $year_id){
+            Teacher_year::create([
+                'teacher_id' => $teacher->id,
+                'year_id'    => $year_id,
+            ]);
         }
 
-        return $this->success(trans('auth.success'), 200);
+        try {
+            if (! $token = JWTAuth::fromUser($teacher)) { //login
+                return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
+            }
+        } catch (JWTException $e) {
+            return $this->faild(trans('auth.login faild'), 400, 'E00');
+        }
+
+        return response()->json([
+            "successful"=> true,
+            'message'   => trans('auth.success'),
+            'teacher'   => new teacherResource($teacher),
+            'token'     => $token,
+        ], 200);
     }
 
     public function updateProfile(Request $request){
@@ -171,10 +184,10 @@ class profile extends Controller
             'email'             => 'nullable|email|max:255|unique:teachers,email,'. $teacher->id,
             'dialing_code'      => 'nullable|string|max:10',
             'phone'             => 'nullable|string|max:20|unique:teachers,phone,'. $teacher->id,
-            'password'          => 'nullable|string|max:250',
             'country_id'        => 'nullable|integer|exists:countries,id',
             'curriculum_id'     => 'nullable|integer|exists:curriculums,id',
             'gender'            => ['nullable',Rule::in(0,1,2)],    //0->male  1->female
+            'subject_id'        => 'nullable|exists:main_subjects,id', //main subject
             'birth'             => 'nullable|date',
             'about'             => 'nullable|string|max:1000',
             'image'             => 'nullable|mimes:jpeg,jpg,png,gif',
@@ -187,9 +200,14 @@ class profile extends Controller
         //selet teatcher
 
         $input = $request->only(
-            'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
+            'username','email', 'about','dialing_code', 'phone','country_id','curriculum_id','year_id',
             'gender', 'birth'
         );
+
+        if($request->get('subject_id') != null){
+            $teacher->main_subject_id = $request->get('subject_id');
+            $teacher->save();
+        }
 
         if($request->has('image') != null){
             //update image

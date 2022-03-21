@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\availableClassResource;
 use App\Http\Resources\classType_availableClassResource;
 use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
@@ -211,6 +212,52 @@ class home extends Controller
             student_classResource::collection($student->Student_classes)
         );
 
+    }
+
+    public function schedule(){
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        $available_classes = available_class::whereHas('Student_classes', function($query) use($student){
+            $query->where('student_id', $student->id);
+        })
+        ->orderBy('from')
+        ->schedule()
+        ->paginate(5);
+
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'schedules',
+            availableClassResource::collection($available_classes)->response()->getData(true),
+        );
+
+    }
+
+    public function cancel_schedule(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'schedule_id'       => 'required|exists:available_classes,id',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        //get student
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        $oldCode = DB::table('student_class')
+                        ->where('available_class_id', $request->get('schedule_id'))
+                        ->where('student_id', $student->id)
+                        ->delete();
+
+        return $this->success(trans('auth.success'), 200);
     }
 
     public function test(){

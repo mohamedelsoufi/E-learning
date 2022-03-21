@@ -23,7 +23,7 @@ class countryResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->translate($lang)->name,
-            'image'             => url('public/uploads/countries/a1.png'),
+            'image'             => $this->getImage(),
         ];
     }
 }

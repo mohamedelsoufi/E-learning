@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Year;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class teacherResource extends JsonResource
@@ -19,6 +20,10 @@ class teacherResource extends JsonResource
         } else{
             $lang = 'en';
         }
+
+        $years = Year::whereHas('Teacher_years', function($query){
+            $query->where('teacher_id', $this->id);
+        })->get();
 
         return [
             'id'            => $this->id,
@@ -47,6 +52,7 @@ class teacherResource extends JsonResource
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
+            'years'         => yearResource::collection($years),
             'videos'        => videoResource::collection($this->Videos),
         ];
     }

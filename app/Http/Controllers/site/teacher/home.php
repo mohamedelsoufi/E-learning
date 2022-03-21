@@ -10,7 +10,6 @@ use App\Models\Class_type;
 use App\Models\Student;
 use App\Models\student_notification;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Year;
 use App\Services\AgoraService;
 use App\Services\firbaseNotifications;
@@ -49,7 +48,7 @@ class home extends Controller
                                 ->schedule()
                                 ->select('from', 'from_date')
                                 ->whereMonth('from','=', $month)
-                                ->whereHas('Student_classes')
+                                // ->whereHas('Student_classes')
                                 ->distinct('from_date')
                                 ->orderBy('from')
                                 ->get();

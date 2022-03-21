@@ -30,6 +30,7 @@ class availableClassResource extends JsonResource
             'from'              => $this->from,
             'to'                => $this->to,
             'long'              => $this->long,
+            'cost'              => $this->cost,
             'student_number'    => count($this->Student_classes),
             'time_now'          => $time_now,
             'year'              =>  [
@@ -39,7 +40,12 @@ class availableClassResource extends JsonResource
             'subject'           => [
                                         'id'    => $this->subject_id,
                                         'name'  => $this->subject->Main_subject->translate($lang)->name
-                                    ]
+                                    ],
+            'teacher'           => [
+                                        'id'    => $this->Teacher->id,
+                                        'nmae'  => $this->Teacher->username,
+                                        'iamge' => $this->Teacher->getImage(),
+                                    ],
         ];
     }
 }

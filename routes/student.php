@@ -66,6 +66,11 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::get('/', 'App\Http\Controllers\site\student\notificaitons@index');
         });
 
+        Route::group(['prefix' => 'schedules'], function(){
+            Route::get('/', 'App\Http\Controllers\site\student\home@schedule');
+            Route::post('/cancel', 'App\Http\Controllers\site\student\home@cancel_schedule');
+        });
+
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');
 
         Route::post('/reservations', 'App\Http\Controllers\site\student\home@my_reservations');

@@ -19,13 +19,14 @@ class verification extends Controller
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
         // validate
-        $validator = Validator::make($request->all(), [
-            'phone'          => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'phone'          => 'required',
+        // ]);
 
-        if($validator->fails()){
-            return $this::faild($validator->errors()->first(), 403);
-        }
+        // if($validator->fails()){
+        //     return $this::faild($validator->errors()->first(), 403);
+        // }
+        
         
         if (! $teacher = auth('teacher')->user()) {
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
@@ -35,7 +36,7 @@ class verification extends Controller
         }
         
         // code is important in send mail 
-        $code = $this->createCode($request->phone);
+        $code = $this->createCode($teacher->phone);
         // Mail::to($request->email)->send(new MailVerification($code, $request->email));
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);

@@ -18,7 +18,7 @@ class schedules_dateResource extends JsonResource
         $available_class = Available_class::where('teacher_id', $request->teacher_id)
                                     ->whereDate('from', '=', $this->from_date)
                                     ->schedule()
-                                    ->whereHas('Student_classes')
+                                    // ->whereHas('Student_classes')
                                     ->get();
         return [
             'date'              => $this->from_date,

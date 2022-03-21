@@ -160,7 +160,7 @@ class profile extends Controller
         //selet student
 
         $input = $request->only(
-            'username','email','dialing_code', 'phone','password','country_id','curriculum_id','year_id',
+            'username','email','dialing_code', 'phone','country_id','curriculum_id','year_id',
             'gender', 'birth'
         );
 
