@@ -24,7 +24,7 @@ return [
     'student already buy this video'    => 'student already buy this video',
     'delete main_subject success' => 'delete main_subject success',
     'your subject not in this year' => 'your subject not in this year',
-    '' => '',
+    'this year not has your subject' => 'this year not has your subject',
     '' => '',
     '' => '',
     '' => '',
