@@ -78,7 +78,11 @@ class answers extends Controller
             $answer->save();
         }
 
-        return $this->success(trans('site.add answer success'), 200);
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
+
+        return $this->success(trans('site.add answer success'), 200, 'answer', new answersResource($answer));
     }
 
     public function delete(Request $request){
@@ -143,9 +147,13 @@ class answers extends Controller
             $answer->save();
         }
 
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
+
         //update answer
         if($answer->update(['answer'=> $request->get('answer')]))
-            return $this->success(trans('site.update answer success'), 200);
+            return $this->success(trans('site.update answer success'), 200,'answer', new answersResource($answer));
 
         return $this::faild(trans('site.update answer faild'), 400, 'E00');
     }

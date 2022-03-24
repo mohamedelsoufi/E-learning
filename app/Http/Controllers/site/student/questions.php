@@ -79,7 +79,11 @@ class questions extends Controller
             $question->save();
         }
 
-        return $this->success(trans('site.add question success'), 200);
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
+
+        return $this->success(trans('site.add question success'), 200, 'question', new questionsResource($question));
     }
 
     public function delete(Request $request){
@@ -140,9 +144,13 @@ class questions extends Controller
             $question->save();
         }
 
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
+
         //update question
         if($question->update(['question'=> $request->get('question')]))
-            return $this->success(trans('site.update question success'), 200);
+            return $this->success(trans('site.update question success'), 200, 'question', new questionsResource($question));
 
         return $this::faild(trans('site.update question faild'), 400, 'E00');
     }

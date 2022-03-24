@@ -82,6 +82,7 @@ class auth extends Controller
         
         return response()->json([
             'successful'=> true,
+            'step'      => true,
             'message'   => 'success',
             'teacher'   => new teacherResource($teacher),
             'token'     => $token,

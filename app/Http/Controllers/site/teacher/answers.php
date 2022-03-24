@@ -30,12 +30,12 @@ class answers extends Controller
                             ->paginate(5);
 
         //get teacher or vender
-        if (! $student = auth('teacher')->user()) {
+        if (! $teacher = auth('teacher')->user()) {
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
         //to check if teacher question owner
-        $request->user_id   = $student->id;
+        $request->user_id   = $teacher->id;
         $request->guard     = 'Teacher';
 
         return response()->json([
@@ -80,7 +80,11 @@ class answers extends Controller
             $answer->save();
         }
 
-        return $this->success(trans('site.add answer success'), 200);
+        //to check if teacher question owner
+        $request->user_id   = $teacher->id;
+        $request->guard     = 'Teacher';
+
+        return $this->success(trans('site.add answer success'), 200, 'answer', new answersResource($answer));
     }
 
     public function delete(Request $request){
@@ -145,9 +149,13 @@ class answers extends Controller
             $answer->save();
         }
 
+        //to check if teacher question owner
+        $request->user_id   = $teacher->id;
+        $request->guard     = 'Teacher';
+
         //update answer
         if($answer->update(['answer'=> $request->get('answer')]))
-            return $this->success(trans('site.update answer success'), 200);
+            return $this->success(trans('site.update answer success'), 200, 'answer', new answersResource($answer));
 
         return $this::faild(trans('site.update answer faild'), 400, 'E00');
     }
