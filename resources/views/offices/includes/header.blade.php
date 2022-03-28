@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('public/admin/theme2/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/admin/theme2/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/admin/theme2/css/skin-blue.min.css') }}">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
     @if (app()->getLocale() == 'ar')
         <link rel="stylesheet" href="{{ asset('public/admin/theme2/css/font-awesome-rtl.min.css') }}">

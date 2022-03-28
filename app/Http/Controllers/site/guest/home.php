@@ -45,23 +45,23 @@ class home extends Controller
                                     ->whereHas('Teacher_years', function($qeury) use($subject){
                                         $qeury->where('year_id', $subject->Term->year_id);
                                     })
-                                    ->limit(5)
-                                    ->get();
+                                    ->limit(5);
         //offline
         $offline_teachers = Teacher::active()
                                     ->where('online', 0)
                                     ->where('main_subject_id', $subject->main_subject_id)
                                     ->whereHas('Teacher_years', function($qeury) use($subject){
                                         $qeury->where('year_id', $subject->Term->year_id);
-                                    })
-                                    ->paginate(5);
+                                    });
         // ->inRandomOrder()
 
         return response()->json([
-            'successful'        => true,
-            'message'           => trans('auth.success'),
-            'online_teachers'   => teacher_classesTypeResourc::collection($online_teachers),
-            'offline_teachers'  => teacher_classesTypeResourc::collection($offline_teachers)->response()->getData(true),
+            'successful'                => true,
+            'message'                   => trans('auth.success'),
+            'online_teachers_count'     => $online_teachers->count(),
+            'offline_teachers_count'     => $offline_teachers->count(),
+            'online_teachers'   => teacher_classesTypeResourc::collection($online_teachers->get()),
+            'offline_teachers'  => teacher_classesTypeResourc::collection($offline_teachers->paginate(5))->response()->getData(true),
         ], 200);
     }
 
@@ -85,13 +85,13 @@ class home extends Controller
                                     ->whereHas('Teacher_years', function($qeury) use($subject){
                                         $qeury->where('year_id', $subject->Term->year_id);
                                     })
-                                    ->limit(5)
-                                    ->get();
+                                    ->limit(5);
 
         return response()->json([
-            'successful'        => true,
-            'message'           => trans('auth.success'),
-            'online_teachers'   => teacher_classesTypeResourc::collection($online_teachers),
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'online_teachers_count' => $online_teachers->count(),
+            'online_teachers'       => teacher_classesTypeResourc::collection($online_teachers->get()),
         ], 200);
     }
 

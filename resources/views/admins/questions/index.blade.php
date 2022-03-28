@@ -27,15 +27,10 @@
 
                         <div class="row">
 
-                            <div class="col-md-4">
-                                <input type="text" name="search" value="search" class="form-control"
-                                    placeholder="search">
-                            </div>
+                             
 
                             <div class="col-md-4">
-                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
-                                    search
-                                </button>
+                                 
                                 {{-- @if (auth('admin')->user()->isAbleTo('create-questions'))
                                     <a href="{{url('admins/questions/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
@@ -50,7 +45,7 @@
 
                 <div class="box-body">
 
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="myTable">
 
                         <thead class="thead-dark">
                                 <tr>

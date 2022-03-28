@@ -3,8 +3,7 @@
 @section('title', 'teachers')
 
 
-@section('content')
-
+@section('content')    
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -28,14 +27,6 @@
                         <div class="row">
 
                             <div class="col-md-4">
-                                <input type="text" name="search" value="search" class="form-control"
-                                    placeholder="search">
-                            </div>
-
-                            <div class="col-md-4">
-                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
-                                    search
-                                </button>
                                 <a href="{{url('offices/teachers/create')}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add
                                     </a>
@@ -46,7 +37,7 @@
 
                 <div class="box-body">
 
-                    <table class="table table-hover">
+                    <table class="table table-hover " id="myTable">
 
                         <thead class="thead-dark">
                                 <tr>

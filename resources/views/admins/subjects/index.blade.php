@@ -35,15 +35,10 @@
 
                         <div class="row">
 
-                            <div class="col-md-4">
-                                <input type="text" name="search" value="search" class="form-control"
-                                    placeholder="search">
-                            </div>
+                             
 
                             <div class="col-md-4">
-                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>
-                                    search
-                                </button>
+                                 
                                 @if (auth('admin')->user()->isAbleTo('create-curriculums'))
                                     <a href="{{url('admins/subjects/create?' . $parms)}}"
                                     class="btn btn-primary"><i class="fa fa-plus"></i>add

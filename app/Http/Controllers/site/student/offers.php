@@ -4,6 +4,7 @@ namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\offersResource;
+use App\Http\Resources\studentResource;
 use App\Models\Offer;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class offers extends Controller
             $student->save();
 
             DB::commit();
-            return $this->success(trans('auth.success'), 200);
+            return $this->success(trans('auth.success'), 200, 'student', new studentResource($student));
         } catch(\Exception $ex){
             //if there are error
             return $this->faild(trans('auth.faild'), 200);
