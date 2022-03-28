@@ -55,6 +55,7 @@
                                     <th>phone</th>
                                     <th>country</th>
                                     <th>gender</th>
+                                    <th>completed classes</th>
                                     <th>balance</th>
                                     <th>status</th>
                                 </tr>
@@ -68,6 +69,7 @@
                                         <td>{{$teacher->dialing_code}} => {{$teacher->phone}}</td>
                                         <td>{{$teacher->Country->translate('en')->name}}</td>
                                         <td>{{$teacher->getGender()}}</td>
+                                        <td>{{$teacher->Completed_classes->count()}}</td>
                                         <td>{{$teacher->balance}}</td>
                                         <td>
                                             {{-- block --}}

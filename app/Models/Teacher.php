@@ -57,6 +57,13 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->hasMany(Available_class::class, 'teacher_id');
     }
 
+    public function Completed_classes()
+    {
+        return $this->hasMany(Available_class::class, 'teacher_id')
+                        ->where('status', 3)
+                        ->where('to', '>', date('Y-m-d',strtotime('-1 Sunday')));
+    }
+
     public function Rating(){
         return $this->hasMany(Rating::class, 'teacher_id');
     }
