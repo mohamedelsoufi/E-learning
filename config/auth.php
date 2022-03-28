@@ -48,6 +48,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'students',
         ],
+        'office' => [
+            'driver' => 'session',
+            'provider' => 'offices',
+        ],
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -85,6 +89,11 @@ return [
         'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
+        ],
+
+        'offices' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Office::class,
         ],
 
         'admins' => [

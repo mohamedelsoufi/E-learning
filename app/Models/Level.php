@@ -19,6 +19,7 @@ class Level extends Model implements TranslatableContract
         'id'            => 'integer',
         'curriculum_id' => 'integer',
         'parent'        => 'integer',
+        'status'        => 'string',
     ];
 
     //relations

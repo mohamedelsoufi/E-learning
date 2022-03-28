@@ -7,7 +7,7 @@
                 <img src="{{auth('admin')->user()->getImage()}}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>ahmed maher</p>
+                <p>{{auth('admin')->user()->username}}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i>statue</a>
             </div>
         </div>

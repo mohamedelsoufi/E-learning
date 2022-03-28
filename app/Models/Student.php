@@ -26,6 +26,7 @@ class Student extends Authenticatable implements JWTSubject
         'online'        => 'integer',
         'gender'        => 'integer',
         'status'        => 'integer',
+        'free'          => 'string',
     ];
 
     //relations

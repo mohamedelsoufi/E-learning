@@ -93,16 +93,16 @@
                 <li class="dropdown user user-menu">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-                        <img src="{{auth('admin')->user()->getImage()}}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">{{auth('admin')->user()->username}}</span>
+                        <img src="{{auth('office')->user()->getImage()}}" class="user-image" alt="User Image">
+                        <span class="hidden-xs">{{auth('office')->user()->username}}</span>
                     </a>
                     <ul class="dropdown-menu">
 
                         {{--<!-- User image -->--}}
                         <li class="user-header">
-                            <img src="{{auth('admin')->user()->getImage()}}" class="img-circle" alt="User Image">
+                            <img src="{{auth('office')->user()->getImage()}}" class="img-circle" alt="User Image">
                             <p>
-                                {{auth('admin')->user()->username}}
+                                {{auth('office')->user()->username}}
                             </p>
                         </li>
 
@@ -110,7 +110,7 @@
                         <li class="user-footer">
 
 
-                            <a href="{{url('admins/logout')}}" class="btn btn-default btn-flat">logout</a>
+                            <a href="{{url('offices/logout')}}" class="btn btn-default btn-flat">logout</a>
 
                             <form id="logout-form" action="#" method="POST" style="display: none;">
                                 @csrf

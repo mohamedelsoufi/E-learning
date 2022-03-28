@@ -49,6 +49,10 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->hasMany(Teacher_year::class, 'teacher_id');
     }
 
+    public function Office_teacher(){
+        return $this->hasMany(Office_teacher::class, 'teacher_id');
+    }
+
     public function Available_classes(){
         return $this->hasMany(Available_class::class, 'teacher_id');
     }
