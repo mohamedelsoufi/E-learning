@@ -43,7 +43,7 @@ class home extends Controller
                             ->active()
                             ->get();
 
-        return $this::success(trans('auth.success'), 400, 'subjects', subjectsResource::collection($subjects));
+        return $this::success(trans('auth.success'), 200, 'subjects', subjectsResource::collection($subjects));
     }
 
     public function leave(){
@@ -227,15 +227,20 @@ class home extends Controller
             $query->where('student_id', $student->id);
         })
         ->orderBy('from')
-        ->schedule()
-        ->paginate(5);
+        ->schedule();
 
+        return response()->json([
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'schedules_count'       => $available_classes->count(),
+            'schedules'             => availableClassResource::collection($available_classes->paginate(5))->response()->getData(true),
+        ], 200);
 
         return $this->success(
             trans('auth.success'),
             200,
             'schedules',
-            availableClassResource::collection($available_classes)->response()->getData(true),
+            
         );
 
     }

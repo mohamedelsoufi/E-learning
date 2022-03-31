@@ -43,7 +43,7 @@ class availableClassResource extends JsonResource
                                     ],
             'teacher'           => [
                                         'id'    => $this->Teacher->id,
-                                        'nmae'  => $this->Teacher->username,
+                                        'name'  => $this->Teacher->username,
                                         'iamge' => $this->Teacher->getImage(),
                                     ],
         ];

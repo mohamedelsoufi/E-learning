@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\site\teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\schedules_dateResource;
+use App\Http\Resources\availableClassResource;
 use App\Http\Resources\yearResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
@@ -26,7 +26,7 @@ class home extends Controller
         $this->firbaseNotifications = $firbaseNotifications;
     }
 
-    public function schedule(Request $request){
+    public function schedule_date(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
             'month'            => 'nullable|min:1|max:12',
@@ -46,7 +46,7 @@ class home extends Controller
         ($request->get('month') == null) ? $month = Carbon::today()->month : $month = $request->get('month');
         $schedules_date = Available_class::where('teacher_id', $teacher->id)
                                 ->schedule()
-                                ->select('from', 'from_date')
+                                ->select('from_date as date')
                                 ->whereMonth('from','=', $month)
                                 // ->whereHas('Student_classes')
                                 ->distinct('from_date')
@@ -56,8 +56,37 @@ class home extends Controller
         return response()->json([
             'successful'    => true,
             'message'       => trans('auth.success'),
-            'schedules'     => schedules_dateResource::collection($schedules_date),
-        ], 200);
+            'schedules_date'     => $schedules_date,
+        ], 200);                       
+    }
+
+    public function schedule(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'date'      => 'required|date_format:Y-m-d',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors()->first(), 403, 'E03');
+        }
+        
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+        //get schedules_date
+        $available_class = Available_class::where('teacher_id', $teacher->id)
+                                    ->whereDate('from', '=', $request->get('date'))
+                                    ->schedule()
+                                    // ->whereHas('Student_classes')
+                                    ->orderBy('from')
+                                    ->get();
+
+        return response()->json([
+            'successful'    => true,
+            'message'       => trans('auth.success'),
+            'schedules'     => availableClassResource::collection($available_class),
+        ], 200);                       
     }
 
     public function add_schedule(Request $request){
