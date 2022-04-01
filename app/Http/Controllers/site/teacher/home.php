@@ -13,7 +13,6 @@ use App\Models\Subject;
 use App\Models\Year;
 use App\Services\AgoraService;
 use App\Services\firbaseNotifications;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -43,20 +42,30 @@ class home extends Controller
         $request->teacher_id = $teacher->id;
 
         //get schedules_date
-        ($request->get('month') == null) ? $month = Carbon::today()->month : $month = $request->get('month');
-        $schedules_date = Available_class::where('teacher_id', $teacher->id)
+        // ($request->get('month') == null) ? $month = Carbon::today()->month : $month = $request->get('month');
+        if($request->get('month') == null){
+            $schedules_date = Available_class::where('teacher_id', $teacher->id)
                                 ->schedule()
                                 ->select('from_date as date')
-                                ->whereMonth('from','=', $month)
                                 // ->whereHas('Student_classes')
                                 ->distinct('from_date')
                                 ->orderBy('from')
                                 ->get();
+        } else {
+            $schedules_date = Available_class::where('teacher_id', $teacher->id)
+            ->schedule()
+            ->select('from_date as date')
+            ->whereMonth('from','=', $request->get('month'))
+            // ->whereHas('Student_classes')
+            ->distinct('from_date')
+            ->orderBy('from')
+            ->get();
+        }
 
         return response()->json([
             'successful'    => true,
             'message'       => trans('auth.success'),
-            'schedules_date'     => $schedules_date,
+            'schedules_date'     => $schedules_date->pluck('date'),
         ], 200);                       
     }
 
@@ -87,6 +96,12 @@ class home extends Controller
             'message'       => trans('auth.success'),
             'schedules'     => availableClassResource::collection($available_class),
         ], 200);                       
+    }
+
+    public function class_type(){
+        $classes_type = Class_type::select('id', 'long')->active()->get();
+
+        return $this->success(trans('auth.success'), 200, 'classes_type', $classes_type);
     }
 
     public function add_schedule(Request $request){
@@ -125,7 +140,7 @@ class home extends Controller
         $to =  date('Y-m-d H:i:s', $newtimestamp);
 
 
-        Available_class::create([
+        $schedule = Available_class::create([
             'teacher_id'            => $teacher->id,
             'subject_id'            => $subject->id,
             'class_type_id'         => $request->get('class_type_id'),
@@ -138,7 +153,7 @@ class home extends Controller
             'cost'                  => $class_type->long * $class_type->long_cost,
         ]);
 
-        return $this->success(trans('auth.success'), 200);
+        return $this->success(trans('auth.success'), 200, 'schedule', new availableClassResource($schedule));
     }
 
     public function cancel_schedule(Request $request){

@@ -63,6 +63,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
         Route::group(['prefix' => 'schedules'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\home@schedule');
             Route::get('/date', 'App\Http\Controllers\site\teacher\home@schedule_date');
+            Route::get('/classes_type', 'App\Http\Controllers\site\teacher\home@class_type');
             Route::post('add', 'App\Http\Controllers\site\teacher\home@add_schedule');
             Route::post('cancel', 'App\Http\Controllers\site\teacher\home@cancel_schedule');
             Route::post('/start', 'App\Http\Controllers\site\teacher\home@start_class');

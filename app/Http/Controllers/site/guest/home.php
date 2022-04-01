@@ -135,7 +135,6 @@ class home extends Controller
             'classes_type',
             classTypeResource::collection($classes_type)
         );
-        
     }
 
     public function countries(){
