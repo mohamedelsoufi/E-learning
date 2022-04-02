@@ -17,6 +17,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 date_default_timezone_set('Africa/cairo');
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(){
+    Route::get('/test', 'App\Http\Controllers\site\teacher\home@test');
+
+
     Route::post('login', 'App\Http\Controllers\site\teacher\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\teacher\authentication\auth@register');
 

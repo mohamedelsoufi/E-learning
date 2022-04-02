@@ -64,6 +64,13 @@ class Teacher extends Authenticatable implements JWTSubject
                         ->where('to', '>', date('Y-m-d',strtotime('-1 Sunday')));
     }
 
+    public function CompleteNotPay()
+    {
+        return $this->hasMany(Available_class::class, 'teacher_id')
+                    ->where('status', '3')
+                    ->where('teacher_mony', 0);
+    }
+
     public function Rating(){
         return $this->hasMany(Rating::class, 'teacher_id');
     }
@@ -87,6 +94,7 @@ class Teacher extends Authenticatable implements JWTSubject
         return $query->where('status', 1);
     }
     //
+
     public function getGender(){
         if($this->gender == 0){
             return trans('auth.female');

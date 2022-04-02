@@ -5,11 +5,13 @@ namespace App\Http\Controllers\site\teacher;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\availableClassResource;
 use App\Http\Resources\yearResource;
+use App\Jobs\teacherSalary;
 use App\Models\Available_class;
 use App\Models\Class_type;
 use App\Models\Student;
 use App\Models\student_notification;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\Year;
 use App\Services\AgoraService;
 use App\Services\firbaseNotifications;
@@ -267,5 +269,14 @@ class home extends Controller
         })->get();
         
         return $this->success(trans('auth.success'), 200, 'years', yearResource::collection($years));
+    }
+
+    public function test(){
+        Teacher::whereHas('Available_classes', function($query){
+            $query->where('teacher_mony', 0)->where('status', 3);
+        })
+        ->chunk(30, function($data){
+            dispatch(new teacherSalary($data));
+        });
     }
 }
