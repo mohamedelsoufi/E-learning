@@ -19,9 +19,11 @@ class Available_class extends Model
         'class_type_id'         => 'integer',
         'long'                  => 'integer',
         'company_percentage'    => 'integer',
-        'cost'                  => 'float',
         'promoCode_percentage'  => 'integer',
+        'cost'                  => 'float',
+        'teacher_mony'          => 'integer',
         'status'                => 'integer',
+        'addition'              => 'integer',
 
     ];
     //relations

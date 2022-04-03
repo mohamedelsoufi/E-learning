@@ -16,8 +16,8 @@ class student_notification extends Model
         'id'                => 'integer',
         'student_id'        => 'integer',
         'teacher_id'        => 'integer',
-        'type'              => 'integer',
         'available_class_id'=> 'integer',
+        'type'              => 'integer',
         'seen'              => 'integer',
     ];
 }

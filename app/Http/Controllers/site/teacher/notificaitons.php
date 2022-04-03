@@ -18,14 +18,13 @@ class notificaitons extends Controller
 
         //get teacher notifications
         $notifications = Teacher_notification::where('teacher_id', $teacher->id)
-                                ->orderBy('id', 'desc')
-                                ->get();
+                                ->orderBy('id', 'desc');
 
-        return $this->success(
-            trans('auth.success'),
-            200,
-            'notifications',
-            notificationResource::collection($notifications)
-        );
+        return response()->json([
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'new_notifications'     => $notifications->where('seen', 0)->count(),
+            'notifications'         => notificationResource::collection($notifications->get()),
+        ], 200);
     }
 }

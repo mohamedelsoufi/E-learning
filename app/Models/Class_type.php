@@ -17,7 +17,6 @@ class Class_type extends Model
         'long'                  => 'integer',
         'long_cost'             => 'float',
         'status'                => 'integer',
-
     ];
 
     //relations

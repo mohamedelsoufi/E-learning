@@ -18,7 +18,6 @@ class Level extends Model implements TranslatableContract
     protected $casts = [
         'id'            => 'integer',
         'curriculum_id' => 'integer',
-        'parent'        => 'integer',
         'status'        => 'string',
     ];
 

@@ -13,7 +13,9 @@ class Offer extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'                => 'integer',
         'price'             => 'float',
+        'discount'          => 'integer',
         'classes_count'     => 'integer',
     ];
 }

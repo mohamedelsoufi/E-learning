@@ -13,8 +13,8 @@ class File extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'     => 'integer',
     ];
-    //relations
     //relations
     public function fileable()
     {

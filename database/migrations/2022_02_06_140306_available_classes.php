@@ -43,6 +43,7 @@ class AvailableClasses extends Migration
             $table->dateTime('to')->nullable();
             $table->unsignedBigInteger('promocode_id')->nullable();
             $table->integer('promocode_descount')->nullable();
+            $table->tinyInteger('pay')->default(0)->comment('0->from balance, 1-> from free classes');
             $table->tinyInteger('status')->default(0);
 
             //relations

@@ -14,6 +14,8 @@ class Rating extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id'             => 'integer',
+        'stars'          => 'integer',
         'teacher_id'     => 'integer',
     ];
     //relations

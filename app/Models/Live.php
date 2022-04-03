@@ -13,12 +13,12 @@ class Live extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'id'            => 'integer',
-        'teacher_id'    => 'integer',
-        'subject_id'    => 'integer',
-        'cost'          => 'float',
-        'company_percentage'    => 'integer',
-        'status'    => 'integer',
+        'id'                => 'integer',
+        'teacher_id'        => 'integer',
+        'subject_id'        => 'integer',
+        'cost'              => 'float',
+        'company_percentage'=> 'integer',
+        'status'            => 'integer',
     ];
 
     //relations

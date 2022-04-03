@@ -15,6 +15,8 @@ class Student_class extends Model
     protected $casts = [
         'student_id'            => 'integer',
         'available_class_id'    => 'integer',
+        'promocode_id'          => 'integer',
+        'promocode_descount'    => 'integer',
     ];
 
     //relations

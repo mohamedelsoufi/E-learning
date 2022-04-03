@@ -18,6 +18,7 @@ use App\Services\firbaseNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Null_;
 
 class home extends Controller
 {
@@ -173,13 +174,36 @@ class home extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
-        $available_class = Available_class::where('teacher_id', $teacher->id)->find($request->get('schedule_id'));
+        $available_class = Available_class::where('status','!=' ,-1)
+                                            ->where('teacher_id', $teacher->id)
+                                            ->find($request->get('schedule_id'));
         //if availble_class is empty
         if($available_class == null)
             return $this->faild(trans('site.schedule not found'), 400, 'E04');
         
+        //cansel class
         $available_class->status = -1;
         $available_class->save();
+
+        //if student booking class return mony for him
+        $students_class = DB::table('student_class')
+                        ->where('available_class_id', $request->get('schedule_id'))
+                        ->get();
+
+        if($students_class != Null){
+            foreach($students_class as $student_class){
+                $student = Student::find($student_class->student_id);
+
+                if($student_class->pay == 1){ //if student booking by free_classes
+                    $student->free +=1;
+                    $student->save();
+                } else {    //if student booking by mony in balance
+                    $available_class = Available_class::find($student_class->available_class_id);
+                    $student->balance += $available_class->cost;
+                    $student->save();
+                }
+            }
+        }
 
         return $this->success(trans('auth.success'), 200);
     }

@@ -109,9 +109,11 @@ class home extends Controller
             $discount_percentage = $this->promo_code_percentage($request->get('promo_code'));
             $available_class_cost_after_discount = $this->get_price_after_discount($available_class->cost, $discount_percentage);
 
+            //take booking mony
             if($student->free > 0){  //if student have free classes
                 $student->free -= 1;
                 $student->save();
+                $pay = 1;
             } else {            
                 //check if student balance Not enough
                 // $available_class_cost = $available_class->Class_type->long * $available_class->Class_type->long_cost; //get price from class type becouse if admin chage class type cost
@@ -120,6 +122,7 @@ class home extends Controller
 
                 $student->balance       -= $available_class_cost_after_discount;    //take class cost from student
                 $student->save();
+                $pay = 0;
             }
 
             //booking
@@ -127,6 +130,7 @@ class home extends Controller
                 'student_id'            =>  $student->id,
                 'available_class_id'    =>  $request->get('available_class_id'),
                 'promocode_descount'    =>  $discount_percentage,
+                'pay'                   =>  $pay,
             ]);
 
             //create notification to teacher
@@ -260,10 +264,10 @@ class home extends Controller
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
 
-        $oldCode = DB::table('student_class')
-                        ->where('available_class_id', $request->get('schedule_id'))
-                        ->where('student_id', $student->id)
-                        ->delete();
+        DB::table('student_class')
+            ->where('available_class_id', $request->get('schedule_id'))
+            ->where('student_id', $student->id)
+            ->delete();
 
         return $this->success(trans('auth.success'), 200);
     }

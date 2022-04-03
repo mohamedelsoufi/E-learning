@@ -19,13 +19,14 @@ class Teacher extends Authenticatable implements JWTSubject
     protected $casts = [
         'id'            => 'integer',
         'verified'      => 'integer',
-        'gender'        => 'integer',
         'status'        => 'integer',
+        'gender'        => 'integer',
         'country_id'    => 'integer',
         'curriculum_id' => 'integer',
+        'main_subject_id'    => 'integer',
         'balance'       => 'float',
         'online'        => 'integer',
-        'main_subject_id'    => 'integer',
+        'type'          => 'integer',
     ];
 
     //relations

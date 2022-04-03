@@ -19,6 +19,7 @@ class Curriculum extends Model implements TranslatableContract
     protected $casts = [
         'id'            => 'integer',
         'country_id'    => 'integer',
+        'status'        => 'integer',
     ];
 
     //relations

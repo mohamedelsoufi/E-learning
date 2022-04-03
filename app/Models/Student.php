@@ -18,15 +18,15 @@ class Student extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'id'            => 'integer',
+        'free'          => 'string',
         'country_id'    => 'integer',
         'curriculum_id' => 'integer',
         'year_id'       => 'integer',
         'balance'       => 'float',
         'verified'      => 'integer',
+        'status'        => 'integer',
         'online'        => 'integer',
         'gender'        => 'integer',
-        'status'        => 'integer',
-        'free'          => 'string',
     ];
 
     //relations
