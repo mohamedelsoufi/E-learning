@@ -5,6 +5,7 @@ namespace App\Http\Controllers\office;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\login;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class authentication extends Controller
