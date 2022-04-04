@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Available_class;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,8 +33,9 @@ class teacherSalary implements ShouldQueue
     public function handle()
     {
         foreach($this->teachers as $teacher){
-            $teacher->balance = $teacher->CompleteNotPay->count() * 2; //every class 2 in balance
+            $teacher->balance += $teacher->CompleteNotPay->count() * 2; //every class 2 in balance
             $teacher->save();
+            Available_class::where('teacher_id', 1)->completeNotPay()->update(['teacher_mony' => 1]);
         }
     }
 }

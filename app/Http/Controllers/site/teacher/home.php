@@ -5,7 +5,6 @@ namespace App\Http\Controllers\site\teacher;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\availableClassResource;
 use App\Http\Resources\yearResource;
-use App\Jobs\teacherSalary;
 use App\Models\Available_class;
 use App\Models\Class_type;
 use App\Models\Student;
@@ -19,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Types\Null_;
+use App\Jobs\teacherSalary as JobsTeacherSalary;
+
 
 class home extends Controller
 {
@@ -300,7 +301,10 @@ class home extends Controller
             $query->where('teacher_mony', 0)->where('status', 3);
         })
         ->chunk(30, function($data){
-            dispatch(new teacherSalary($data));
+            dispatch(new JobsTeacherSalary($data));
         });
+
+        // Teacher::where('id', '!=', 1000)->update(['balance' => 2]);
+        // return 'good';
     }
 }

@@ -57,6 +57,12 @@ class Available_class extends Model
         return $query->where('to', '>', date('Y-m-d H:i:s'));
     }
 
+    public function scopeCompleteNotPay($query) //if i edit this function edit it in teacher
+    {
+        return $query->where('status', '3')
+                        ->where('teacher_mony', 0);
+    }
+
     public function scopeSchedule($query)
     {
         return $query->where('status', '!=','0')

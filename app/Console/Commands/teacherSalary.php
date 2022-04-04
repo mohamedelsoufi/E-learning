@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\teacherSalary as JobsTeacherSalary;
+use App\Models\Available_class;
 use App\Models\Teacher;
 use Illuminate\Console\Command;
 
@@ -38,15 +40,11 @@ class teacherSalary extends Command
      */
     public function handle()
     {
-        // $teacher = Teacher::firt();
-        // $teacher->balance = 1000;
-        // $teacher->save();
-
         Teacher::whereHas('Available_classes', function($query){
             $query->where('teacher_mony', 0)->where('status', 3);
         })
         ->chunk(30, function($data){
-            dispatch(new teacherSalary($data));
+            dispatch(new JobsTeacherSalary($data));
         });
     }
 }

@@ -65,7 +65,7 @@ class Teacher extends Authenticatable implements JWTSubject
                         ->where('to', '>', date('Y-m-d',strtotime('-1 Sunday')));
     }
 
-    public function CompleteNotPay()
+    public function CompleteNotPay()  //if i edit this function edit it in Available_class
     {
         return $this->hasMany(Available_class::class, 'teacher_id')
                     ->where('status', '3')
