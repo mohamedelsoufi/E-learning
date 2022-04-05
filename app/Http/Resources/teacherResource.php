@@ -23,6 +23,10 @@ class teacherResource extends JsonResource
 
         $years = Year::whereHas('Teacher_years', function($query){
             $query->where('teacher_id', $this->id);
+        })->whereHas('Terms', function($query){
+            $query->whereHas('Subjects', function($q){
+                $q->where('main_subject_id', $this->main_subject_id);
+            });
         })->get();
 
         return [

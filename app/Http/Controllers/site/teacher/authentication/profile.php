@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\site\teacher\authentication;
 
+use App\Http\Controllers\admin\subjects;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\teacherResource;
 use App\Models\Image;
+use App\Models\Subject;
 use App\Models\Teacher_years;
 use App\Models\Tag;
 use App\Models\Teacher;
@@ -150,6 +152,11 @@ class profile extends Controller
         ])->delete();
 
         foreach($request->get('years_id') as $year_id){
+            // $subject = Subject::where('main_subject_id', $teacher->main_subject_id)
+            //         ->whereHas('Term', function($qeury) use($year_id){
+            //             $qeury->where('year_id', $year_id);
+            //         })->first();
+
             Teacher_year::create([
                 'teacher_id' => $teacher->id,
                 'year_id'    => $year_id,

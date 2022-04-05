@@ -227,8 +227,14 @@ class home extends Controller
         //get available_classes
         $available_class = Available_class::find($request->get('schedule_id'));
 
+        //creat agora room
+        $agora_token    = $this->AgoraService->generateToken()['token'];
+        $channel_name   = $this->AgoraService->generateToken()['channel_name'];
+
         //make avilable class start
         $available_class->status = 2;
+        $available_class->agora_token  = $agora_token;
+        $available_class->channel_name = $channel_name;
         $available_class->save();
 
         
@@ -237,8 +243,7 @@ class home extends Controller
                             ->get();
                             // ->update(['from' => Carbon::now()]);
 
-        $agora_token    = $this->AgoraService->generateToken()['token'];
-        $channel_name   = $this->AgoraService->generateToken()['channel_name'];
+        
 
         foreach($student_classes as $student_class){
             //if teacher already make call
@@ -291,7 +296,13 @@ class home extends Controller
         // return $teacher->Teacher_years;
         $years = Year::whereHas('Teacher_years', function($query) use($teacher){
             $query->where('teacher_id', $teacher->id);
-        })->get();
+        })
+        ->whereHas('Terms', function($query) use($teacher){
+            $query->whereHas('Subjects', function($q) use($teacher){
+                $q->where('main_subject_id', $teacher->main_subject_id);
+            });
+        })
+        ->get();
         
         return $this->success(trans('auth.success'), 200, 'years', yearResource::collection($years));
     }

@@ -20,6 +20,15 @@ class availableClassResource extends JsonResource
             $lang = 'en';
         }
 
+        if($this->agora_token == null){
+            $agora = null;
+        } else {
+            $agora = [
+                'agora_token'       => $this->agora_token,
+                'channel_name'      => $this->channel_name,
+            ];
+        }
+
         $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->from);
         $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', now());
 
@@ -33,6 +42,7 @@ class availableClassResource extends JsonResource
             'cost'              => $this->cost,
             'student_number'    => count($this->Student_classes),
             'time_now'          => $time_now,
+            'agora'             => $agora,
             'year'              =>  [
                                         'id'    => $this->Subject->Term->Year->id,
                                         'name'  => $this->Subject->Term->Year->translate($lang)->name
