@@ -304,6 +304,7 @@ class home extends Controller
         })
         ->get();
         
+        
         return $this->success(trans('auth.success'), 200, 'years', yearResource::collection($years));
     }
 
