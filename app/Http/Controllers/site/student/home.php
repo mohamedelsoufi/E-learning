@@ -84,7 +84,11 @@ class home extends Controller
         ]);
 
         if($validator->fails()){
-            return $this::faild($validator->errors()->first(), 403);
+            return response()->json([
+                'successful'=> false,
+                'not_enough' => false,
+                'message'    => $validator->errors()->first(),
+            ], 400);
         }
 
         try{
@@ -102,8 +106,13 @@ class home extends Controller
                 'available_class_id'   => $request->get('available_class_id'),
             ])->first();
 
-            if($row != null)
-                return $this->faild(trans('site.this class is complete'), 200);
+            if($row != null){
+                return response()->json([
+                    'successful'=> false,
+                    'not_enough' => false,
+                    'message'    => trans('site.this class is complete'),
+                ], 400);
+            }
             
             //get discount from promo code if exist
             $discount_percentage = $this->promo_code_percentage($request->get('promo_code'));
@@ -117,8 +126,13 @@ class home extends Controller
             } else {            
                 //check if student balance Not enough
                 // $available_class_cost = $available_class->Class_type->long * $available_class->Class_type->long_cost; //get price from class type becouse if admin chage class type cost
-                if($student->balance - $available_class_cost_after_discount < 0)
-                    return $this->faild(trans('site.your balance not enough'), 200);
+                if($student->balance - $available_class_cost_after_discount < 0){
+                    return response()->json([
+                        'successful'    => false,
+                        'not_enough'    => true,
+                        'message'       => trans('site.your balance not enough'),
+                    ], 400);
+                }
 
                 $student->balance       -= $available_class_cost_after_discount;    //take class cost from student
                 $student->save();
@@ -244,7 +258,6 @@ class home extends Controller
             trans('auth.success'),
             200,
             'schedules',
-            
         );
 
     }

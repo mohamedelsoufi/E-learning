@@ -17,7 +17,6 @@ use App\Services\firbaseNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Null_;
 use App\Jobs\teacherSalary as JobsTeacherSalary;
 
 
@@ -233,8 +232,6 @@ class home extends Controller
 
         //make avilable class start
         $available_class->status = 2;
-        $available_class->agora_token  = $agora_token;
-        $available_class->channel_name = $channel_name;
         $available_class->save();
 
         
@@ -274,6 +271,9 @@ class home extends Controller
                 'agora_channel_name'=> $channel_name,
             ]);
 
+            $available_class->agora_token  = $agora_token;
+            $available_class->channel_name = $channel_name;
+            $available_class->save();
             //send firbase notifications
             $student = Student::find($student_class->student_id);
             $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);

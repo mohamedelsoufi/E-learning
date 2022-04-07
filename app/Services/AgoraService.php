@@ -53,7 +53,7 @@ class AgoraService
     public function generateToken()
     {
         try {
-            $channelName = 'agora';
+            $channelName = 'agora_' . rand(10000,99999);
             // Rtc token dùng để video call
 
             $token = $this->getRtcToken($channelName);
