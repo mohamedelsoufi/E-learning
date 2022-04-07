@@ -79,7 +79,7 @@
                                             {{$subject->Term->Year->translate('en')->name}} ->
                                             {{$subject->Term->translate('en')->name}}
                                         </td>
-                                        <td>{{$subject->Main_subject->getStatus()}}</td>
+                                        <td>{{$subject->getStatus()}}</td>
                                         <td><img src='{{$subject->Main_subject->getImage()}}' style="width: 100px"></td>
                                         <td><a href="materials?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term_id}}&&subject={{$subject->id}}">{{count($subject->Materials->where('status', '!=', -1))}}</a></td>
                                         <td>

@@ -292,14 +292,14 @@ class home extends Controller
         if (! $teacher = auth('teacher')->user()) {
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
-
+        
         // return $teacher->Teacher_years;
         $years = Year::whereHas('Teacher_years', function($query) use($teacher){
             $query->where('teacher_id', $teacher->id);
         })
         ->whereHas('Terms', function($query) use($teacher){
             $query->whereHas('Subjects', function($q) use($teacher){
-                $q->where('main_subject_id', $teacher->main_subject_id);
+                $q->active()->where('main_subject_id', $teacher->main_subject_id);
             });
         })
         ->get();

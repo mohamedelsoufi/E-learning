@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class availableClassResource extends JsonResource
 {
@@ -32,7 +33,19 @@ class availableClassResource extends JsonResource
         $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->from);
         $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', now());
 
-        ($to->diffInMinutes($from) <= 5)? $time_now = 1:  $time_now = 0;
+        //get time now
+        if($this->from > date('Y-m-d H:i:s')){  //date npt come
+            //if there are less than 5 minutes for class 
+            ($to->diffInMinutes($from) <= 5)? $time_now = 1:  $time_now = 0;
+        } else {
+            //date already come
+            $time_now = 1;
+        }
+
+        //if no student booking this class
+        if(DB::table('student_class')->where('available_class_id', $this->id)->count() == 0){
+            $time_now = 0;
+        }
 
         return [
             'id'                => $this->id,
