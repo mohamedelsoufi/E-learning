@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\level_year_subjectsResource;
 use App\Http\Resources\level_yearResource;
 use App\Http\Resources\subjectsResource;
+use App\Http\Resources\teacherResource;
 use App\Models\Level;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Traits\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -72,6 +74,26 @@ class search extends Controller
             200,
             'subjects',
             subjectsResource::collection($subjects),
+        );
+    }
+
+    public function search(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'username'    => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        $teachers = Teacher::active()->where('username', 'LIKE', '%' . $request->get('username') . '%')->take(5)->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'teachers',
+            teacherResource::collection($teachers),
         );
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\site\student;
 
+use App\Events\teacherNotification;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\availableClassResource;
 use App\Http\Resources\classType_availableClassResource;
+use App\Http\Resources\notificationResource;
 use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
 use App\Models\Available_class;
@@ -81,6 +83,7 @@ class home extends Controller
         $validator = Validator::make($request->all(), [
             'available_class_id'     => 'required|integer|exists:available_classes,id',
             'promo_code'             => 'nullable|string',
+            'pusher'                 => 'nullable|integer',
         ]);
 
         if($validator->fails()){
@@ -148,7 +151,7 @@ class home extends Controller
             ]);
 
             //create notification to teacher
-            Teacher_notification::create([
+            $teacher_notification = Teacher_notification::create([
                 'title'             => 'title',
                 'content'           => 'content',
                 'teacher_id'        => $available_class->teacher_id,
@@ -158,7 +161,11 @@ class home extends Controller
             ]);
 
             //sent firbase notifications
-            $this->firbaseNotifications->send_notification('title', 'body', $available_class->Teacher->token_firebase);
+            if($request->get('pusher') == 1){
+                event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
+            } else {
+                $this->firbaseNotifications->send_notification('title', 'body', $available_class->Teacher->token_firebase);
+            }
 
             DB::commit();
             return $this->success(trans('auth.success'), 200);

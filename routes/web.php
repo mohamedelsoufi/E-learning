@@ -16,6 +16,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 date_default_timezone_set('Africa/cairo');
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
+    Route::get('/teachers_search', 'App\Http\Controllers\site\guest\search@search');
+
     Route::get('/level_year', 'App\Http\Controllers\site\guest\search@level_year');
     Route::get('/level_year_subjects', 'App\Http\Controllers\site\guest\search@level_year_subjects');
 

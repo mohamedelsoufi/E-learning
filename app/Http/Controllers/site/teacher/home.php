@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\site\teacher;
 
+use App\Events\MyEvent;
+use App\Events\studentNotification;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\availableClassResource;
+use App\Http\Resources\notificationResource;
 use App\Http\Resources\yearResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
@@ -233,14 +236,11 @@ class home extends Controller
         //make avilable class start
         $available_class->status = 2;
         $available_class->save();
-
         
         $student_classes = DB::table('student_class')
                             ->where('available_class_id', ($available_class->id))
                             ->get();
                             // ->update(['from' => Carbon::now()]);
-
-        
 
         foreach($student_classes as $student_class){
             //if teacher already make call
@@ -260,7 +260,7 @@ class home extends Controller
 
             //if teacher don not make call
             //make notification to student 
-            student_notification::create([
+            $student_notification = student_notification::create([
                 'title'             => 'title',
                 'content'           => 'content',
                 'teacher_id'        => $teacher->id,
@@ -275,8 +275,12 @@ class home extends Controller
             $available_class->channel_name = $channel_name;
             $available_class->save();
             //send firbase notifications
-            $student = Student::find($student_class->student_id);
-            $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);
+            if($request->get('pusher') == 1){
+                event(new studentNotification($student_class->student_id,new notificationResource($student_notification)));
+            } else {
+                $student = Student::find($student_class->student_id);
+                $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);
+            }
         }
 
         $data = [
@@ -309,12 +313,14 @@ class home extends Controller
     }
 
     public function test(){
-        Teacher::whereHas('Available_classes', function($query){
-            $query->where('teacher_mony', 0)->where('status', 3);
-        })
-        ->chunk(30, function($data){
+        event(new MyEvent('hello world'));
+
+        return 'asd';
+        Teacher::chunk(30, function($data){
             dispatch(new JobsTeacherSalary($data));
         });
+
+        return 'good';
 
         // Teacher::where('id', '!=', 1000)->update(['balance' => 2]);
         // return 'good';

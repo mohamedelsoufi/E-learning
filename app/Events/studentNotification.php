@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class studentNotification
+class studentNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,12 @@ class studentNotification
      *
      * @return void
      */
-    public function __construct()
+    public $student_id;
+    public $student_notification;
+    public function __construct($student_id, $student_notification)
     {
-        //
+        $this->student_id = $student_id;
+        $this->student_notification = $student_notification;
     }
 
     /**
@@ -31,6 +34,18 @@ class studentNotification
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return ['studentNotification']; //channel 
+    }
+  
+    public function broadcastAs()
+    {
+        return 'studentNotification_' . $this->student_id; //event
+    }
+  
+    public function broadcastWith()
+    {
+        return [
+            'notification' => $this->student_notification,
+        ];
     }
 }
