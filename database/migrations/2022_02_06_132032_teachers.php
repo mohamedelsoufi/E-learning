@@ -19,12 +19,12 @@ class Teachers extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('dialing_code')->nullable();
             $table->string('phone')->unique();
-            $table->bigInteger('main_subject_id');
             $table->string('password');
             $table->boolean('verified')->comment('0 ->not verified, 1 -> verified')->default(0);
             $table->boolean('status')->comment('1->active, 0->bloked')->default(1);
             $table->tinyInteger('gender')->comment('1->male, 0 ->female')->default(0);
             $table->date('birth')->nullable();
+            $table->unsignedBigInteger('main_subject_id');
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('curriculum_id')->nullable();
             $table->float('balance')->default(0);
