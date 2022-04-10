@@ -313,9 +313,14 @@ class home extends Controller
 
     public function test(){
         event(new MyEvent('hello world'));
+        return 'dd';
 
-        return 'asd';
-        Teacher::chunk(30, function($data){
+        // return DB::select('select * from jobs');
+
+        Teacher::whereHas('Available_classes', function($query){
+            $query->where('teacher_mony', 0);
+        })
+        ->chunk(30, function($data){
             dispatch(new JobsTeacherSalary($data));
         });
 

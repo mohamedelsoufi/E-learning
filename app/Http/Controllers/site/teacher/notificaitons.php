@@ -23,6 +23,7 @@ class notificaitons extends Controller
 
         $notifications = Teacher_notification::where('teacher_id', $teacher->id)
                                 ->orderBy('id', 'desc')
+                                ->limit(15)
                                 ->get();
 
         Teacher_notification::where('teacher_id', $teacher->id)
