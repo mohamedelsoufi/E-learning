@@ -230,8 +230,7 @@ class home extends Controller
         $available_class = Available_class::find($request->get('schedule_id'));
 
         //creat agora room
-        $agora_token    = $this->AgoraService->generateToken()['token'];
-        $channel_name   = $this->AgoraService->generateToken()['channel_name'];
+        $agora          = $this->AgoraService->generateToken();
 
         //make avilable class start
         $available_class->status = 2;
@@ -267,12 +266,12 @@ class home extends Controller
                 'student_id'        => $student_class->student_id,
                 'available_class_id'=> $student_class->available_class_id,
                 'type'              => 3,
-                'agora_token'       => $agora_token,
-                'agora_channel_name'=> $channel_name,
+                'agora_token'       => $agora['token'],
+                'agora_channel_name'=> $agora['channel_name'],
             ]);
 
-            $available_class->agora_token  = $agora_token;
-            $available_class->channel_name = $channel_name;
+            $available_class->agora_token  = $agora['token'];
+            $available_class->channel_name = $agora['channel_name'];
             $available_class->save();
             //send firbase notifications
             if($request->get('pusher') == 1){
@@ -284,8 +283,8 @@ class home extends Controller
         }
 
         $data = [
-            'token'         => $agora_token,
-            'channel_name'  => $channel_name,
+            'token'         => $agora['token'],
+            'channel_name'  => $agora['channel_name'],
         ];
         
         return $this->success(trans('auth.success'), 200, 'agora', $data);

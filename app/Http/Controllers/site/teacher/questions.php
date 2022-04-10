@@ -16,8 +16,7 @@ class questions extends Controller
     public function index(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
-            // 'subject_id'       => 'required|exists:subjects,id',
-            'year_id'          => 'required|exists:years,id',
+            'year_id'          => 'nullable|exists:years,id',
         ]);
 
         if($validator->fails()){
@@ -29,28 +28,37 @@ class questions extends Controller
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
 
-        $subject = Subject::active()
+        if($request->get('year_id') == null){//if teacher not enter year_id
+            //get questions
+            $questions = Question::active()
+                                    ->whereHas('Subject', function($query) use($teacher){
+                                        $query->where('main_subject_id', $teacher->main_subject_id);
+                                    })
+                                    ->orderBy('id', 'desc');
+
+        } else {    //if teacher enter year_id
+            $subject = Subject::active()
                             ->where('main_subject_id', $teacher->main_subject_id)
                             ->whereHas('Term', function($query) use($request){
                                 $query->where('year_id', $request->get('year_id'));
                             })
                             ->first();
 
-        if($subject == null){
-            return $this->faild(trans('site.this year not has your subject'), 404,'E04');
+            if($subject == null){
+                return $this->faild(trans('site.this year not has your subject'), 404,'E04');
+            }
+
+            //get questions
+            $questions = Question::active()
+                                    ->where('subject_id', $subject->id)
+                                    ->orderBy('id', 'desc');
         }
 
-        //get questions
-        $questions = Question::active()
-                                ->where('subject_id', $subject->id)
-                                ->orderBy('id', 'desc')
-                                ->paginate(5);
-
         return response()->json([
-                                'successful'        => true,
-                                'message'           => trans('auth.success'),
-                                'questions_count'   => Question::where('subject_id', $subject->id)->count(),
-                                'questions'         => questionsResource::collection($questions)->response()->getData(true),
-                            ], 200);
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'questions_count'   => $questions->count(),
+            'questions'         => questionsResource::collection($questions->paginate(5))->response()->getData(true),
+        ], 200);
     }
 }

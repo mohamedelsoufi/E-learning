@@ -64,6 +64,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
         Route::group(['prefix' => 'notifications'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\notificaitons@index');
+            Route::get('/notifications-count', 'App\Http\Controllers\site\student\notificaitons@notification_count');
         });
 
         Route::group(['prefix' => 'schedules'], function(){

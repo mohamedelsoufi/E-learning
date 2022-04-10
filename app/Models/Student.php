@@ -84,17 +84,17 @@ class Student extends Authenticatable implements JWTSubject
         }
     }
 
-    public function getYear(){
+    public function getYear($lang = 'en'){
         if($this->Year != null){
-            return $this->Year->translate('en')->name;
+            return $this->Year->translate($lang)->name;
         } else {
             return null;
         }
     }
 
-    public function getCurriculum(){
+    public function getCurriculum($lang = 'en'){
         if($this->Curriculum != null){
-            return $this->Curriculum->translate('en')->name;
+            return $this->Curriculum->translate($lang)->name;
         } else {
             return null;
         }

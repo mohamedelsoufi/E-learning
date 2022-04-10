@@ -32,9 +32,9 @@ class studentResource extends JsonResource
                                     'name' => $this->Country->translate($lang)->name,
                                 ],
             'curriculum'    => [
-                                    'id'   => $this->curriculum_id,
-                                    'name' => $this->getCurriculum($lang),
-                                ],
+                                'id'   => $this->curriculum_id,
+                                'name' => $this->getCurriculum($lang),
+                            ],
             'year'          => [
                                     'id'   => $this->year_id,
                                     'name' => $this->getYear($lang),

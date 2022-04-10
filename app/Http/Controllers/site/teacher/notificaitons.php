@@ -17,14 +17,41 @@ class notificaitons extends Controller
         }
 
         //get teacher notifications
+        $new_notifications = Teacher_notification::where('teacher_id', $teacher->id)
+                                ->where('seen', 0)
+                                ->count();
+
         $notifications = Teacher_notification::where('teacher_id', $teacher->id)
-                                ->orderBy('id', 'desc');
+                                ->orderBy('id', 'desc')
+                                ->get();
+
+        Teacher_notification::where('teacher_id', $teacher->id)
+                                ->where('seen', 0)
+                                ->update(['seen'=> 1]);
 
         return response()->json([
             'successful'            => true,
             'message'               => trans('auth.success'),
-            'new_notifications'     => $notifications->where('seen', 0)->count(),
-            'notifications'         => notificationResource::collection($notifications->get()),
+            'new_notifications'     => $new_notifications,
+            'notifications'         => notificationResource::collection($notifications),
+        ], 200);
+    }
+
+    public function notification_count(){
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //get teacher notifications
+        $notifications_count = Teacher_notification::where('teacher_id', $teacher->id)
+                                ->where('seen', 0)
+                                ->count();
+
+        return response()->json([
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'notifications_count'   => $notifications_count,
         ], 200);
     }
 }

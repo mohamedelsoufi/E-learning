@@ -86,6 +86,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
 
         Route::group(['prefix' => 'notifications'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\notificaitons@index');
+            Route::get('/notifications-count', 'App\Http\Controllers\site\teacher\notificaitons@notification_count');
         });
 
         Route::get('/years', 'App\Http\Controllers\site\teacher\home@teacher_years');
