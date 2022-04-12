@@ -52,7 +52,7 @@ class teacherResource extends JsonResource
             'balance'       => $this->balance,
             'birth'         => $this->birth,
             'about'         => $this->about,
-            'class_count'   => count($this->Available_classes->where('to', '<', date('Y-m-d H:i:s'))),
+            'class_count'   => count($this->Available_classes->where('status', 2)),
             'gender'        => $this->getGender(),
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),

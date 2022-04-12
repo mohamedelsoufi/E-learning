@@ -40,8 +40,10 @@ class teacherSalary extends Command
      */
     public function handle()
     {
+        config(['queue.default' => 'database']);
+
         Teacher::whereHas('Available_classes', function($query){
-            $query->where('teacher_mony', 0)->where('status', 3);
+            $query->where('teacher_mony', 0)->where('status', 2);
         })
         ->chunk(30, function($data){
             dispatch(new JobsTeacherSalary($data));

@@ -15,12 +15,14 @@ class availableClassResource extends JsonResource
      */
     public function toArray($request)
     {
+        //lang
         if($request->header('lang') == 'ar'){
             $lang = 'ar';
         } else{
             $lang = 'en';
         }
 
+        //agora response
         if($this->agora_token == null){
             $agora = null;
         } else {

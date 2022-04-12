@@ -312,13 +312,10 @@ class home extends Controller
     }
 
     public function test(){
-        event(new MyEvent('hello world'));
-        return 'dd';
-
-        // return DB::select('select * from jobs');
+        config(['queue.default' => 'database']);
 
         Teacher::whereHas('Available_classes', function($query){
-            $query->where('teacher_mony', 0);
+            $query->where('teacher_mony', 0)->where('status', 2);
         })
         ->chunk(30, function($data){
             dispatch(new JobsTeacherSalary($data));
