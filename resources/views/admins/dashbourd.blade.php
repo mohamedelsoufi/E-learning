@@ -23,16 +23,112 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>10</h3>
+                            <h3>{{App\Models\Admin::count()}}</h3>
 
                             <p>admins</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            {{-- @if (auth()->user()->hasPermission('read-admins')) --}}
+                            @if (auth()->user()->hasPermission('read-admins'))
                                 <a href="{{url('admins/admins')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            {{-- @endif --}}
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{App\Models\Country::active()->count()}}</h3>
+
+                            <p>Countries</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-countries'))
+                                <a href="{{url('admins/countries')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{App\Models\Student::count()}}</h3>
+
+                            <p>Students</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-students'))
+                                <a href="{{url('admins/students')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-black">
+                        <div class="inner">
+                            <h3>{{App\Models\Teacher::count()}}</h3>
+
+                            <p>Teachers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-teachers'))
+                                <a href="{{url('admins/teachers')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-black">
+                        <div class="inner">
+                            <h3>{{App\Models\Question::count()}}</h3>
+
+                            <p>questions</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-questions'))
+                                <a href="{{url('admins/questions')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{App\Models\Offer::count()}}</h3>
+
+                            <p>offers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-offers'))
+                                <a href="{{url('admins/offers')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{App\Models\Role::count()}}</h3>
+
+                            <p>Roles</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div> 
+                            @if (auth()->user()->hasPermission('read-roles'))
+                                <a href="{{url('admins/roles')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
+                            @endif
                     </div>
                 </div>
 

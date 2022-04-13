@@ -98,7 +98,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label>company video percentage</label>
                                 <input type="number" class="form-control  @error('video_company_percentage') is-invalid @enderror" name="video_company_percentage"
@@ -109,9 +109,9 @@
                                     </small>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label>company live percentage</label>
                                 <input type="number" class="form-control  @error('live_company_percentage') is-invalid @enderror" name="live_company_percentage"
@@ -122,7 +122,7 @@
                                     </small>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row" style="margin: 0 !important;">
                             <div class="col-md-12">

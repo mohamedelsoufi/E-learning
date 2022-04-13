@@ -10,6 +10,7 @@ use App\Http\Resources\curriculumResource;
 use App\Http\Resources\main_subjectResource;
 use App\Http\Resources\materialResource;
 use App\Http\Resources\questionsResource;
+use App\Http\Resources\subjectsResource;
 use App\Http\Resources\teacher_classesTypeResourc;
 use App\Models\Answer;
 use App\Models\Class_type;
@@ -167,6 +168,17 @@ class home extends Controller
             200,
             'subjects',
             main_subjectResource::collection($main_subjects)
+        );
+    }
+
+    public function subjects(){
+        $subject = Subject::active()->get();
+
+        return $this->success(
+            trans('auth.success'),
+            200,
+            'subjects',
+            subjectsResource::collection($subject)
         );
     }
 

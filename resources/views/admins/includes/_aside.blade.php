@@ -47,11 +47,11 @@
                 </li>
             @endif
 
-            @if (auth('admin')->user()->isAbleTo('read-promo_codes'))
+            {{-- @if (auth('admin')->user()->isAbleTo('read-promo_codes'))
                 <li class="{{(request()->is('admins/promo_codes')|| request()->is('admins/promo_codes/*'))? 'active':''}}">
                     <a href="{{url('admins/promo_codes')}}"><i class="fa fa-users"></i><span>promo_codes</span></a>
                 </li>
-            @endif
+            @endif --}}
 
             @if (auth('admin')->user()->isAbleTo('read-questions'))
                 <li class="{{(request()->is('admins/questions') || request()->is('admins/questions/*'))? 'active':''}}">

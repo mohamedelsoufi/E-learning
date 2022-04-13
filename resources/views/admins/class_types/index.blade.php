@@ -29,7 +29,7 @@
 
                              
 
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                  
                                 @if (auth('admin')->user()->isAbleTo('create-class_types'))
                                     <a href="{{url('admins/class_types/create')}}"
@@ -38,7 +38,7 @@
                                 @else
                                     <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>Add </button>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
                     </form>
                 </div> {{-- end of box header --}}
@@ -80,7 +80,7 @@
                                             @endif
 
                                             {{-- delete --}}
-                                            @if (auth('admin')->user()->isAbleTo('delete-class_types'))
+                                            {{-- @if (auth('admin')->user()->isAbleTo('delete-class_types'))
                                                 <a href="{{url('admins/class_types/delete/' . $class_types->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
                                                     <i class="fa fa-1x fa-trash">delete</i>
                                                 </a> 
@@ -88,7 +88,7 @@
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
                                                     <i class="fa fa-trash">delete</i>
                                                 </button>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                     </tr>
                                 @endforeach

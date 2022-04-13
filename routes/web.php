@@ -23,6 +23,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
 
     Route::get('/subjects_year', 'App\Http\Controllers\site\guest\search@subjects_year');
     Route::get('/subjects', 'App\Http\Controllers\site\guest\home@main_subjects');
+    Route::get('/all-subjects', 'App\Http\Controllers\site\guest\home@subjects');
 
     //get teacher by subject_id
     Route::get('/teachers', 'App\Http\Controllers\site\guest\home@teachersBysubject');

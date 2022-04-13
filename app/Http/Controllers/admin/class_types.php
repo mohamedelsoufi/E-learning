@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class class_types extends Controller
 {
     public function index(){
-        $class_types = Class_type::active()->get();
+        $class_types = Class_type::where('status', '!=', -1)->get();
         return view('admins.class_types.index')->with('class_types', $class_types);
     }
 

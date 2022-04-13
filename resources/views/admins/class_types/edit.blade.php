@@ -70,7 +70,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        add</button>
+                                        save</button>
                                 </div>
                             </div>
                         </div>
