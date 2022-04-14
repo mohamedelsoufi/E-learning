@@ -49,6 +49,7 @@ class teacher_classesTypeResourc extends JsonResource
             'about'         => $this->about,
             'class_count'   => count($this->Available_classes->where('to', '>', date('Y-m-d H:i:s'))),
             'gender'        => $this->getGender(),
+            'gender_boolean'=> $this->gender,
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
             'classes_type'  => Class_type::active()->get()->map(function($data){

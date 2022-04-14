@@ -72,6 +72,13 @@ class Teacher extends Authenticatable implements JWTSubject
                     ->where('teacher_mony', 0);
     }
 
+    public function startNotPay()  //if i edit this function edit it in Available_class
+    {
+        return $this->hasMany(Available_class::class, 'teacher_id')
+                    ->where('status', '2')
+                    ->where('teacher_mony', 0);
+    }
+
     public function Rating(){
         return $this->hasMany(Rating::class, 'teacher_id');
     }

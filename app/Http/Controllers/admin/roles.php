@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\roles\addRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class roles extends Controller
         return view('admins.roles.create');
     }
 
-    public function create(Request $request){
+    public function create(addRequest $request){
         //create role
         $role = Role::create([
             'name'          => $request->name,
@@ -55,7 +56,7 @@ class roles extends Controller
         return view('admins.roles.edit')->with('role', $role);
     }
 
-    public function edit($role_id, Request $request){
+    public function edit($role_id, addRequest $request){
         $role = Role::find($role_id);
 
         //if admin not found

@@ -43,6 +43,7 @@ class studentResource extends JsonResource
             'birth'         => $this->birth,
             'free_classes'  =>$this->free,
             'gender'        => $this->getGender(),
+            'gender_boolean'=> $this->gender,
             'image'         => $this->getImage(),
         ];
     }

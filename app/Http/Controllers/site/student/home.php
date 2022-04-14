@@ -162,6 +162,7 @@ class home extends Controller
 
             //sent firbase notifications
             if($request->get('pusher') == 1){
+                config(['queue.default' => 'sync']);
                 event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
             } else {
                 $this->firbaseNotifications->send_notification('title', 'body', $available_class->Teacher->token_firebase);
@@ -291,9 +292,4 @@ class home extends Controller
 
         return $this->success(trans('auth.success'), 200);
     }
-
-    public function test(){
-        return $this->AgoraService->generateToken();
-    }
-    
 }

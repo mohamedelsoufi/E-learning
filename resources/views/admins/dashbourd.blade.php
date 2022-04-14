@@ -30,9 +30,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-admins'))
-                                <a href="{{url('admins/admins')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -46,9 +43,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-countries'))
-                                <a href="{{url('admins/countries')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -62,9 +56,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-students'))
-                                <a href="{{url('admins/students')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -78,9 +69,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-teachers'))
-                                <a href="{{url('admins/teachers')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -94,9 +82,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-questions'))
-                                <a href="{{url('admins/questions')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -110,9 +95,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-offers'))
-                                <a href="{{url('admins/offers')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 
@@ -126,9 +108,6 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div> 
-                            @if (auth()->user()->hasPermission('read-roles'))
-                                <a href="{{url('admins/roles')}}" class="small-box-footer">read<i class="fa fa-arrow-circle-right"></i></a>
-                            @endif
                     </div>
                 </div>
 

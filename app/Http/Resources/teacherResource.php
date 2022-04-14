@@ -54,6 +54,7 @@ class teacherResource extends JsonResource
             'about'         => $this->about,
             'class_count'   => count($this->Available_classes->where('status', 2)),
             'gender'        => $this->getGender(),
+            'gender_boolean'=> $this->gender,
             'rating'        => $this->getRating(),
             'image'         => $this->getImage(),
             'years'         => yearResource::collection($years),

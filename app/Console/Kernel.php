@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('teacher_salary')->everyFourHours();
+        $schedule->command('queue:work')->everyMinute();
+        $schedule->command('queue:restart')->everyFiveMinutes();
     }
 
     /**

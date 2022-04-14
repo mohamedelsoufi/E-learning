@@ -22,6 +22,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Traits\response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class home extends Controller
@@ -50,6 +51,11 @@ class home extends Controller
         //offline
         $offline_teachers = Teacher::active()
                                     ->where('online', 0)
+                                    ->whereHas('Available_classes', function($qeury){
+                                        $qeury->where('to', '>', date('Y-m-d H:i:s'))->whereHas('Class_type', function($q){
+                                            $q->active();
+                                        });
+                                    })
                                     ->where('main_subject_id', $subject->main_subject_id)
                                     ->whereHas('Teacher_years', function($qeury) use($subject){
                                         $qeury->where('year_id', $subject->Term->year_id);

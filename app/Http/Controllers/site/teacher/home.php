@@ -275,6 +275,7 @@ class home extends Controller
             $available_class->save();
             //send firbase notifications
             if($request->get('pusher') == 1){
+                config(['queue.default' => 'sync']);
                 event(new studentNotification($student_class->student_id,new notificationResource($student_notification)));
             } else {
                 $student = Student::find($student_class->student_id);
@@ -312,7 +313,10 @@ class home extends Controller
     }
 
     public function test(){
-        config(['queue.default' => 'database']);
+        // config(['queue.default' => 'sync']);
+        // event(new MyEvent('test'));
+
+        // return 'good';
 
         Teacher::whereHas('Available_classes', function($query){
             $query->where('teacher_mony', 0)->where('status', 2);
@@ -322,8 +326,5 @@ class home extends Controller
         });
 
         return 'good';
-
-        // Teacher::where('id', '!=', 1000)->update(['balance' => 2]);
-        // return 'good';
     }
 }

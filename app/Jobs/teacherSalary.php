@@ -33,9 +33,9 @@ class teacherSalary implements ShouldQueue
     public function handle()
     {
         foreach($this->teachers as $teacher){
-            $teacher->balance += $teacher->CompleteNotPay->count() * 2; //every class 2 in balance
+            $teacher->balance += $teacher->startNotPay->count() * 2; //every class 2 in balance
             $teacher->save();
-            Available_class::where('teacher_id', 1)->completeNotPay()->update(['teacher_mony' => 1]);
+            Available_class::where('teacher_id', $teacher->id)->startNotPay()->update(['teacher_mony' => 1]);
         }
     }
 }

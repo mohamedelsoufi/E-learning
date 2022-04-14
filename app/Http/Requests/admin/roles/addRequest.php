@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\admin\materials;
+namespace App\Http\Requests\admin\roles;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class add extends FormRequest
+class addRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class add extends FormRequest
     public function rules()
     {
         return [
-            'materials.*.name'  => 'required|string|min:2',
-            'file'              => 'required|file|mimes:pdf',
+            'permissions' => 'required|array|min:1',
         ];
     }
 }
