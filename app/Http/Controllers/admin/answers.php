@@ -19,10 +19,10 @@ class answers extends Controller
         $answer = Answer::find($answer_id);
 
         if($answer == null)
-            return redirect('admins/answers')->with('error', 'delete answer faild');
+            return redirect('admins/answers?question='. $answer->question_id)->with('error', 'delete answer faild');
 
         $answer->delete();
 
-        return redirect('admins/answers')->with('success', 'delete answer success');
+        return redirect('admins/answers?question='. $answer->question_id)->with('success', 'delete answer success');
     }
 }

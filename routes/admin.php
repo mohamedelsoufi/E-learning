@@ -16,207 +16,210 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 date_default_timezone_set('Africa/cairo');
 
 Route::group(['prefix' => 'admins'], function(){
-    Route::get('/', 'App\Http\Controllers\admin\dashbourd@index')->middleware('auth:admin');
 
     Route::get('/login', 'App\Http\Controllers\admin\authentication@loginView')->name('adminlogin')->middleware('guest:admin');
     Route::post('/login', 'App\Http\Controllers\admin\authentication@login')->middleware('guest:admin');
 
-    Route::get('/logout', 'App\Http\Controllers\admin\authentication@logout')->middleware('auth:admin');
 
-    Route::group(['prefix' => 'admins'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\admins@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\admins@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\admins@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\admins@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\admins@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\admins@edit')->middleware('auth:admin');
-    });
+    Route::group(['middleware' => 'auth:admin'], function () {
+        Route::get('/', 'App\Http\Controllers\admin\dashbourd@index');
+        Route::get('/logout', 'App\Http\Controllers\admin\authentication@logout');
+        
+        Route::group(['prefix' => 'admins'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\admins@index')->middleware('adminPermations:read-admins');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\admins@delete')->middleware('adminPermations:delete-admins');
+            Route::get('/create', 'App\Http\Controllers\admin\admins@createView')->middleware('adminPermations:create-admins');
+            Route::post('/create', 'App\Http\Controllers\admin\admins@create')->middleware('adminPermations:create-admins');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\admins@editView')->middleware('adminPermations:update-admins');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\admins@edit')->middleware('adminPermations:update-admins');
+        });
 
-    Route::group(['prefix' => 'roles'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\roles@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\roles@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\roles@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\roles@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\roles@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\roles@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'roles'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\roles@index')->middleware('adminPermations:read-roles');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\roles@delete')->middleware('adminPermations:delete-roles');
+            Route::get('/create', 'App\Http\Controllers\admin\roles@createView')->middleware('adminPermations:create-roles');
+            Route::post('/create', 'App\Http\Controllers\admin\roles@create')->middleware('adminPermations:create-roles');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\roles@editView')->middleware('adminPermations:update-roles');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\roles@edit')->middleware('adminPermations:update-roles');
+        });
 
-    Route::group(['prefix' => 'countries'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\country@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\country@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\country@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\country@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\country@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\country@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'countries'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\country@index')->middleware('adminPermations:read-countries');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\country@delete')->middleware('adminPermations:delete-countries');
+            Route::get('/create', 'App\Http\Controllers\admin\country@createView')->middleware('adminPermations:create-countries');
+            Route::post('/create', 'App\Http\Controllers\admin\country@create')->middleware('adminPermations:create-countries');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\country@editView')->middleware('adminPermations:update-countries');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\country@edit')->middleware('adminPermations:update-countries');
+        });
 
-    Route::group(['prefix' => 'main_subjects'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\main_subjects@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\main_subjects@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\main_subjects@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\main_subjects@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'main_subjects'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\main_subjects@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\main_subjects@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\main_subjects@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\main_subjects@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\main_subjects@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'curriculums'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\curriculums@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\curriculums@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\curriculums@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\curriculums@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\curriculums@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\curriculums@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'curriculums'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\curriculums@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\curriculums@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\curriculums@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\curriculums@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\curriculums@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\curriculums@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'levels'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\levels@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\levels@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\levels@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\levels@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\levels@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'levels'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\levels@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\levels@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\levels@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\levels@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\levels@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'years'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\years@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\years@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\years@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\years@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\years@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\years@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'years'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\years@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\years@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\years@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\years@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\years@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\years@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'terms'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\terms@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\terms@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\terms@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\terms@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\terms@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\terms@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'terms'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\terms@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\terms@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\terms@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\terms@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\terms@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\terms@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'terms'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\terms@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\terms@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\terms@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\terms@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\terms@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\terms@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'terms'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\terms@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\terms@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\terms@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\terms@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\terms@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\terms@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'subjects'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\subjects@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\subjects@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\subjects@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\subjects@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\subjects@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\subjects@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'subjects'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\subjects@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\subjects@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\subjects@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\subjects@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\subjects@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\subjects@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'materials'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\materials@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\materials@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\materials@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\materials@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\materials@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\materials@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'materials'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\materials@index')->middleware('adminPermations:read-curriculums');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\materials@delete')->middleware('adminPermations:delete-curriculums');
+            Route::get('/create', 'App\Http\Controllers\admin\materials@createView')->middleware('adminPermations:create-curriculums');
+            Route::post('/create', 'App\Http\Controllers\admin\materials@create')->middleware('adminPermations:create-curriculums');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\materials@editView')->middleware('adminPermations:update-curriculums');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\materials@edit')->middleware('adminPermations:update-curriculums');
+        });
 
-    Route::group(['prefix' => 'promo_codes'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\promo_codes@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\promo_codes@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\promo_codes@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\promo_codes@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@edit')->middleware('auth:admin');
-    });
-    
-    Route::group(['prefix' => 'questions'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\questions@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\questions@delete')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'promo_codes'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\promo_codes@index')->middleware('adminPermations:read-promo_codes');
+            Route::get('/create', 'App\Http\Controllers\admin\promo_codes@createView')->middleware('adminPermations:create-promo_codes');
+            Route::post('/create', 'App\Http\Controllers\admin\promo_codes@create')->middleware('adminPermations:create-promo_codes');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\promo_codes@delete')->middleware('adminPermations:delete-promo_codes');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@editView')->middleware('adminPermations:update-promo_codes');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\promo_codes@edit')->middleware('adminPermations:update-promo_codes');
+        });
+        
+        Route::group(['prefix' => 'questions'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\questions@index')->middleware('adminPermations:read-questions');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\questions@delete')->middleware('adminPermations:delete-questions');
+        });
 
-    Route::group(['prefix' => 'answers'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\answers@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\answers@delete')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'answers'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\answers@index')->middleware('adminPermations:read-questions');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\answers@delete')->middleware('adminPermations:delete-questions');
+        });
 
-    Route::group(['prefix' => 'students'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\students@index')->middleware('auth:admin');
-        Route::get('/block/{id}', 'App\Http\Controllers\admin\students@block')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'students'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\students@index')->middleware('adminPermations:read-students');
+            Route::get('/block/{id}', 'App\Http\Controllers\admin\students@block')->middleware('adminPermations:delete-students');
+        });
 
-    Route::group(['prefix' => 'teachers'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\teachers@index')->middleware('auth:admin');
-        Route::get('/block/{id}', 'App\Http\Controllers\admin\teachers@block')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'teachers'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\teachers@index')->middleware('adminPermations:read-teachers');
+            Route::get('/block/{id}', 'App\Http\Controllers\admin\teachers@block')->middleware('adminPermations:delete-teachers');
+        });
 
-    Route::group(['prefix' => 'levels_cost'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\levels_cost@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\levels_cost@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\levels_cost@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\levels_cost@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'levels_cost'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\levels_cost@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\levels_cost@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\levels_cost@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\levels_cost@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\levels_cost@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'years_cost'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\years_cost@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\years_cost@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\years_cost@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\years_cost@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\years_cost@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\years_cost@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'years_cost'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\years_cost@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\years_cost@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\years_cost@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\years_cost@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\years_cost@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\years_cost@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'countries_cost'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\countries_cost@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\countries_cost@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\countries_cost@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\countries_cost@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'countries_cost'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\countries_cost@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\countries_cost@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\countries_cost@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\countries_cost@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\countries_cost@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'company_percentages'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\company_percentages@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\company_percentages@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\company_percentages@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\company_percentages@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'company_percentages'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\company_percentages@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\company_percentages@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\company_percentages@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\company_percentages@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\company_percentages@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'students_numbers_cost'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\students_numbers_cost@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\students_numbers_cost@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\students_numbers_cost@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\students_numbers_cost@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'students_numbers_cost'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\students_numbers_cost@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\students_numbers_cost@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\students_numbers_cost@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\students_numbers_cost@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\students_numbers_cost@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'settings'],function(){
-        Route::get('/edit', 'App\Http\Controllers\admin\settings@editView')->middleware('auth:admin');
-        Route::post('/edit', 'App\Http\Controllers\admin\settings@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'settings'],function(){
+            Route::get('/edit', 'App\Http\Controllers\admin\settings@editView')->middleware('adminPermations:update-settings');
+            Route::post('/edit', 'App\Http\Controllers\admin\settings@edit')->middleware('adminPermations:update-settings');
+        });
 
-    Route::group(['prefix' => 'class_types'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\class_types@index')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\class_types@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\class_types@create')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\class_types@delete')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\class_types@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\class_types@edit')->middleware('auth:admin');
-    });
+        Route::group(['prefix' => 'class_types'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\class_types@index')->middleware('adminPermations:read-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\class_types@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\class_types@create')->middleware('adminPermations:create-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\class_types@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\class_types@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\class_types@edit')->middleware('adminPermations:update-class_types');
+        });
 
-    Route::group(['prefix' => 'offers'],function(){
-        Route::get('/', 'App\Http\Controllers\admin\offers@index')->middleware('auth:admin');
-        Route::get('/delete/{id}', 'App\Http\Controllers\admin\offers@delete')->middleware('auth:admin');
-        Route::get('/create', 'App\Http\Controllers\admin\offers@createView')->middleware('auth:admin');
-        Route::post('/create', 'App\Http\Controllers\admin\offers@create')->middleware('auth:admin');
-        Route::get('/edit/{id}', 'App\Http\Controllers\admin\offers@editView')->middleware('auth:admin');
-        Route::post('/edit/{id}', 'App\Http\Controllers\admin\offers@edit')->middleware('auth:admin');
+        Route::group(['prefix' => 'offers'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\offers@index')->middleware('adminPermations:read-class_types');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\offers@delete')->middleware('adminPermations:delete-class_types');
+            Route::get('/create', 'App\Http\Controllers\admin\offers@createView')->middleware('adminPermations:create-class_types');
+            Route::post('/create', 'App\Http\Controllers\admin\offers@create')->middleware('adminPermations:create-class_types');
+            Route::get('/edit/{id}', 'App\Http\Controllers\admin\offers@editView')->middleware('adminPermations:update-class_types');
+            Route::post('/edit/{id}', 'App\Http\Controllers\admin\offers@edit')->middleware('adminPermations:update-class_types');
+        });
     });
 });
 

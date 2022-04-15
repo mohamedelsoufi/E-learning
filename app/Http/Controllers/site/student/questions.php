@@ -154,4 +154,24 @@ class questions extends Controller
 
         return $this::faild(trans('site.update question faild'), 400, 'E00');
     }
-}
+
+    public function myQuestion(Request $request){
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+
+        $questions = $student->Questions();
+
+        //to check if student question owner
+        $request->user_id   = $student->id;
+        $request->guard     = 'Student';
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'questions_count'   => $questions->count(),
+            'questions'         => questionsResource::collection($questions->paginate(5))->response()->getData(true),
+        ], 200);    }
+    }
