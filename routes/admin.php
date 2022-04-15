@@ -220,6 +220,11 @@ Route::group(['prefix' => 'admins'], function(){
             Route::get('/edit/{id}', 'App\Http\Controllers\admin\offers@editView')->middleware('adminPermations:update-class_types');
             Route::post('/edit/{id}', 'App\Http\Controllers\admin\offers@edit')->middleware('adminPermations:update-class_types');
         });
+
+        Route::group(['prefix' => 'classes'],function(){
+            Route::get('/', 'App\Http\Controllers\admin\classes@index')->middleware('adminPermations:read-questions');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\classes@delete')->middleware('adminPermations:delete-questions');
+        });
     });
 });
 

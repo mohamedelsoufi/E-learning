@@ -118,6 +118,12 @@
                     <a href="{{url('admins/offers')}}"><i class="fa fa-users"></i><span>offers</span></a>
                 </li>
             @endif
+            
+            @if (auth('admin')->user()->isAbleTo('read-questions'))
+                <li class="{{(request()->is('admins/classes') || request()->is('admins/classes/*'))? 'active':''}}">
+                    <a href="{{url('admins/classes')}}"><i class="fa fa-users"></i><span>classes</span></a>
+                </li>
+            @endif
         </ul>
     </section>
 </aside>
