@@ -25,6 +25,9 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
     Route::get('/subjects', 'App\Http\Controllers\site\guest\home@main_subjects');
     Route::get('/all-subjects', 'App\Http\Controllers\site\guest\home@subjects');
 
+    Route::get('/teacher-answers', 'App\Http\Controllers\site\teacher\answers@teacher_answers');
+
+
     //get teacher by subject_id
     Route::get('/teachers', 'App\Http\Controllers\site\guest\home@teachersBysubject');
     Route::get('/onlineTeachers', 'App\Http\Controllers\site\guest\home@online_teachers_bysubject');
@@ -44,7 +47,3 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
 
     Route::get('/materials', 'App\Http\Controllers\site\guest\home@materials');
 });
-
-
-
-

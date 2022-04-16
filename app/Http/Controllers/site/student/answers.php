@@ -25,8 +25,7 @@ class answers extends Controller
         //get answers
         $answers = Answer::active()
                             ->where('question_id', $request->get('question_id'))
-                            ->orderBy('id', 'desc')
-                            ->paginate(5);
+                            ->orderBy('id', 'desc');
 
         //get student or vender
         if (! $student = auth('student')->user()) {
@@ -40,8 +39,8 @@ class answers extends Controller
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
-            'answers_count'     => Answer::where('question_id', $request->get('question_id'))->count(),
-            'questions'         => answersResource::collection($answers)->response()->getData(true),
+            'answers_count'     => $answers->count(),
+            'questions'         => answersResource::collection($answers->paginate(5))->response()->getData(true),
         ], 200);
     }
 

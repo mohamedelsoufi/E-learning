@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\answersResource;
 use App\Models\Answer;
 use App\Models\Image;
+use App\Models\Teacher;
 use App\Traits\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,8 +27,7 @@ class answers extends Controller
         //get answers
         $answers = Answer::active()
                             ->where('question_id', $request->get('question_id'))
-                            ->orderBy('id', 'desc')
-                            ->paginate(5);
+                            ->orderBy('id', 'desc');
 
         //get teacher or vender
         if (! $teacher = auth('teacher')->user()) {
@@ -41,8 +41,8 @@ class answers extends Controller
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
-            'answers_count'     => Answer::where('question_id', $request->get('question_id'))->count(),
-            'answers'           => answersResource::collection($answers)->response()->getData(true),
+            'answers_count'     => $answers->count(),
+            'answers'           => answersResource::collection($answers->paginate(5))->response()->getData(true),
         ], 200);
     }
 
@@ -158,5 +158,54 @@ class answers extends Controller
             return $this->success(trans('site.update answer success'), 200, 'answer', new answersResource($answer));
 
         return $this::faild(trans('site.update answer faild'), 400, 'E00');
+    }
+
+    public function myAnswers(Request $request){
+        //get teacher or vender
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //get answers
+        $answers = $teacher->Answer()
+                            ->active()
+                            ->orderBy('id', 'desc');
+
+        // to check if teacher question owner
+        $request->user_id   = $teacher->id;
+        $request->guard     = 'Teacher';
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'answers_count'     => $answers->count(),
+            'answers'           => answersResource::collection($answers->paginate(5))->response()->getData(true),
+        ], 200);
+    }
+
+    public function teacher_answers(Request $request){
+        //validation
+        $validator = Validator::make($request->all(), [
+            'teacher_id'    => 'required|exists:teachers,id',
+        ]);
+
+        if($validator->fails()){
+            return response::faild($validator->errors()->first(), 403, 'E03');
+        }
+
+        //get teacher or vender
+        $teacher = Teacher::find($request->get('teacher_id'));
+
+        //get answers
+        $answers = $teacher->Answer()
+                            ->active()
+                            ->orderBy('id', 'desc');
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'answers_count'     => $answers->count(),
+            'answers'           => answersResource::collection($answers->paginate(5))->response()->getData(true),
+        ], 200);
     }
 }

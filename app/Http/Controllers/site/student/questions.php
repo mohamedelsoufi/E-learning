@@ -27,8 +27,7 @@ class questions extends Controller
         //get questions
         $questions = Question::active()
                                 ->where('subject_id', $request->get('subject_id'))
-                                ->orderBy('id', 'desc')
-                                ->paginate(5);
+                                ->orderBy('id', 'desc');
         
         //get student or vender
         if (! $student = auth('student')->user()) {
@@ -42,8 +41,8 @@ class questions extends Controller
         return response()->json([
             'successful'        => true,
             'message'           => trans('auth.success'),
-            'questions_count'   => Question::where('subject_id', $request->get('subject_id'))->count(),
-            'questions'         => questionsResource::collection($questions)->response()->getData(true),
+            'questions_count'   => $questions->count(),
+            'questions'         => questionsResource::collection($questions->paginate(5))->response()->getData(true),
         ], 200);
     }
 
@@ -162,7 +161,9 @@ class questions extends Controller
         }
 
 
-        $questions = $student->Questions();
+        $questions = $student->Questions()
+                                ->active()
+                                ->orderBy('id', 'desc');
 
         //to check if student question owner
         $request->user_id   = $student->id;
@@ -173,5 +174,6 @@ class questions extends Controller
             'message'           => trans('auth.success'),
             'questions_count'   => $questions->count(),
             'questions'         => questionsResource::collection($questions->paginate(5))->response()->getData(true),
-        ], 200);    }
+        ], 200);    
     }
+}

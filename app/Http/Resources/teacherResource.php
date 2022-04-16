@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\site\teacher\answers;
+use App\Models\Answer;
 use App\Models\Year;
 use Illuminate\Http\Resources\Json\JsonResource;
 

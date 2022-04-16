@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\years\add;
 use App\Models\Level;
+use App\Models\Term;
+use App\Models\TermTranslation;
 use App\Models\Year;
 use App\Models\YearTranslation;
 use Illuminate\Http\Request;
@@ -69,6 +71,18 @@ class years extends Controller
                         'year_id'          => $new_year['id'],
                     ]);
                 }
+
+                //create term
+                $new_term = Term::create([
+                    'status'            => 1,
+                    'year_id'           => $new_year->id,
+                ]);
+                $data = [
+                    ['name' => 'first term' , 'locale' => 'en','term_id' => $new_term['id']],
+                    ['name' => 'الترم الاول', 'locale' => 'ar','term_id' => $new_term['id']],
+                ];
+                TermTranslation::insert($data);
+
             DB::commit();
             return redirect('admins/years?' . $parms)->with('success', 'add year success');
         } catch(\Exception $ex){

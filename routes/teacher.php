@@ -55,6 +55,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
 
         Route::group(['prefix' => 'answers'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\answers@index');
+            Route::get('/my-answers', 'App\Http\Controllers\site\teacher\answers@myAnswers');
             Route::post('/create', 'App\Http\Controllers\site\teacher\answers@create');
             Route::post('/delete', 'App\Http\Controllers\site\teacher\answers@delete');
             Route::post('/edit', 'App\Http\Controllers\site\teacher\answers@update');

@@ -6,17 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\addAdmin;
 use App\Models\Admin;
 use App\Models\Role;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class admins extends Controller
 {
     public function index(){
-        // if (auth('admin')->user()->isAbleTo('read-admins') == false)
-        //     return redirect('admins');
-
         //select all admin
         $admins = Admin::where('id', '!=', auth('admin')->user()->id)->get();
+        
         return view('admins.admins.index')->with('admins', $admins);
     }
 
@@ -35,9 +34,6 @@ class admins extends Controller
     }
 
     public function createView(){
-        // if (auth('admin')->user()->isAbleTo('create-admins') == false)
-        //     return redirect('admins');
-
         $roles = Role::all();
         return view('admins.admins.create')->with('roles', $roles);
     }
@@ -55,10 +51,6 @@ class admins extends Controller
     }
 
     public function editView($id){
-        //redirect if not has permation
-        // if (auth('admin')->user()->isAbleTo('create-admins') == false)
-        //     return redirect('admins');
-
         $roles = Role::all();
         $admin = Admin::find($id);
 
