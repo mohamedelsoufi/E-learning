@@ -71,7 +71,7 @@ class answers extends Controller
 
         if($request->has('image') != null){
             //update image
-            $path = $this->upload_image($request->file('image'),'uploads/answers', 150, 100);
+            $path = $this->upload_image($request->file('image'),'uploads/answers', 450, 300);
 
             $answer->image = $path;
             $answer->save();

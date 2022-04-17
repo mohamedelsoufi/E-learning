@@ -160,12 +160,15 @@ class home extends Controller
                 'type'              => 1,
             ]);
 
+            $title = 'تم الحجز';
+            $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
+
             //sent firbase notifications
             if($request->get('pusher') == 1){
                 config(['queue.default' => 'sync']);
                 event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
             } else {
-                $this->firbaseNotifications->send_notification('title', 'body', $available_class->Teacher->token_firebase);
+                $this->firbaseNotifications->send_notification($title, $body, $available_class->Teacher->token_firebase);
             }
 
             DB::commit();

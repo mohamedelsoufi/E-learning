@@ -26,6 +26,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
     Route::get('/all-subjects', 'App\Http\Controllers\site\guest\home@subjects');
 
     Route::get('/teacher-answers', 'App\Http\Controllers\site\teacher\answers@teacher_answers');
+    Route::get('/teachers-answers-questions', 'App\Http\Controllers\site\teacher\questions@myAnswersQuestions');
 
 
     //get teacher by subject_id

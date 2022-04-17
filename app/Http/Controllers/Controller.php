@@ -34,8 +34,8 @@ class Controller extends BaseController
             $image_name = rand(0,1000000) . time() . '.' . $image->getClientOriginalExtension();
         
             $image_resize = Image::make($image->getRealPath());   
-            $image_resize->resize($width, $height);
-            $image_resize->save(public_path($path . '/' . $image_name));
+            // $image_resize->resize($width, $height);
+            $image_resize->save(public_path($path . '/' . $image_name), 10);
             
             return $image_name;
             

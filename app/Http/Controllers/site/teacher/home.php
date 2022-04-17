@@ -273,13 +273,17 @@ class home extends Controller
             $available_class->agora_token  = $agora['token'];
             $available_class->channel_name = $agora['channel_name'];
             $available_class->save();
+
+            $title = 'يوجد حصه الان';
+            $body  = 'حصه قمت بحجزها سارع بالانضمام ' . $teacher->username . ' بدأ';
+
             //send firbase notifications
             if($request->get('pusher') == 1){
                 config(['queue.default' => 'sync']);
                 event(new studentNotification($student_class->student_id,new notificationResource($student_notification)));
             } else {
                 $student = Student::find($student_class->student_id);
-                $this->firbaseNotifications->send_notification('title', 'body', $student->token_firebase);
+                $this->firbaseNotifications->send_notification($title, $body, $student->token_firebase);
             }
         }
 

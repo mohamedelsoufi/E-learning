@@ -87,13 +87,13 @@ class search extends Controller
             return response::faild($validator->errors()->first(), 403, 'E03');
         }
 
-        $teachers = Teacher::active()->where('username', 'LIKE', '%' . $request->get('username') . '%')->take(5)->get();
+        $teachers = Teacher::active()->where('username', 'LIKE', '%' . $request->get('username') . '%');
 
-        return $this->success(
-            trans('auth.success'),
-            200,
-            'teachers',
-            teacherResource::collection($teachers),
-        );
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+            'teachers_count'    => $teachers->count(),
+            'teachers'          => teacherResource::collection($teachers->paginate(5))->response()->getData(true),
+        ], 200);
     }
 }
