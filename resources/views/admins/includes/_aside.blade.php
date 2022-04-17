@@ -119,7 +119,7 @@
                 </li>
             @endif
             
-            @if (auth('admin')->user()->isAbleTo('read-questions'))
+            @if (auth('admin')->user()->isAbleTo('read-classes'))
                 <li class="{{(request()->is('admins/classes') || request()->is('admins/classes/*'))? 'active':''}}">
                     <a href="{{url('admins/classes')}}"><i class="fa fa-users"></i><span>classes</span></a>
                 </li>

@@ -222,8 +222,8 @@ Route::group(['prefix' => 'admins'], function(){
         });
 
         Route::group(['prefix' => 'classes'],function(){
-            Route::get('/', 'App\Http\Controllers\admin\classes@index')->middleware('adminPermations:read-questions');
-            Route::get('/delete/{id}', 'App\Http\Controllers\admin\classes@delete')->middleware('adminPermations:delete-questions');
+            Route::get('/', 'App\Http\Controllers\admin\classes@index')->middleware('adminPermations:read-classes');
+            Route::get('/delete/{id}', 'App\Http\Controllers\admin\classes@delete')->middleware('adminPermations:delete-classes');
         });
     });
 });

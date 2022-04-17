@@ -36,6 +36,7 @@ class LaratrustSeeder extends Seeder
                         'class_types',
                         'settings',
                         'offers',
+                        'classes',
                     ];
         
                 foreach($rols as $rol){
