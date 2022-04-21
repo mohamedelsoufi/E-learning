@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Student;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
@@ -26,9 +27,20 @@ class availableClassResource extends JsonResource
         if($this->agora_token == null){
             $agora = null;
         } else {
+            $student = Student::find($this->Student_classes->first()->student_id);
             $agora = [
                 'agora_token'       => $this->agora_token,
                 'channel_name'      => $this->channel_name,
+                'teacher'       => [
+                    'id'        => $this->Teacher->id,
+                    'username'  => $this->Teacher->username,
+                    'image'     => $this->Teacher->getImage(),
+                ],
+                'student'       => [
+                    'id'        => $student->id,
+                    'username'  => $student->username,
+                    'image'     => $student->getImage(),
+                ],
             ];
         }
 

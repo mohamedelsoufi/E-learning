@@ -51,15 +51,15 @@ class home extends Controller
         //offline
         $offline_teachers = Teacher::active()
                                     ->where('online', 0)
-                                    ->whereHas('Available_classes', function($qeury) use($request){
-                                        $qeury->where('to', '>', date('Y-m-d H:i:s'))
-                                                ->where('subject_id', $request->get('subject_id'))
-                                                ->whereDoesntHave('Student_classes')
-                                                ->whereHas('Class_type', function($q){
-                                                    $q->active();
-                                                });
-                                    })
-                                    // ->where('main_subject_id', $subject->main_subject_id)
+                                    // ->whereHas('Available_classes', function($qeury) use($request){
+                                    //     $qeury->where('to', '>', date('Y-m-d H:i:s'))
+                                    //             ->where('subject_id', $request->get('subject_id'))
+                                    //             ->whereDoesntHave('Student_classes')
+                                    //             ->whereHas('Class_type', function($q){
+                                    //                 $q->active();
+                                    //             });
+                                    // })
+                                    ->where('main_subject_id', $subject->main_subject_id)
                                     ->whereHas('Teacher_years', function($qeury) use($subject){
                                         $qeury->where('year_id', $subject->Term->year_id);
                                     });

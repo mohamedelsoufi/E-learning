@@ -34,12 +34,12 @@ class teacherNotification implements ShouldBroadcast
      */
     public function broadcastOn()
   {
-      return ['teacherNotification']; //channel 
+      return ['teacherNotification_'. $this->teacher_id]; //channel 
   }
 
   public function broadcastAs()
   {
-      return 'teacherNotification_' . $this->teacher_id; //event
+      return 'teacherNotification'; //event
   }
 
   public function broadcastWith()

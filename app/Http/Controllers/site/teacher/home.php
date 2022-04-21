@@ -216,7 +216,6 @@ class home extends Controller
         $validator = Validator::make($request->all(), [
             'schedule_id'       => 'required|exists:available_classes,id',
         ]);
-
         if($validator->fails()){
             return $this::faild($validator->errors()->first(), 403, 'E03');
         }
@@ -225,43 +224,56 @@ class home extends Controller
         if (! $teacher = auth('teacher')->user()) {
             return $this::faild(trans('auth.teacher not found'), 404, 'E04');
         }
-
         //get available_classes
         $available_class = Available_class::find($request->get('schedule_id'));
+        
+        //check if ther are student booking this class
+        $student_classes = DB::table('student_class')
+                            ->where('available_class_id', ($available_class->id))
+                            ->get();
+        
+        if(count($student_classes) == 0){
+            return $this->faild(trans('auth.no student booking this class'), 400);
+        }
 
         //creat agora room
         $agora          = $this->AgoraService->generateToken();
 
-        //make avilable class start
+        //change available_class status
         $available_class->status = 2;
         $available_class->save();
-        
-        $student_classes = DB::table('student_class')
-                            ->where('available_class_id', ($available_class->id))
-                            ->get();
-                            // ->update(['from' => Carbon::now()]);
 
         foreach($student_classes as $student_class){
-            //if teacher already make call
-            $notification = student_notification::where('teacher_id', $teacher->id)
-                                    ->where('available_class_id', $student_class->available_class_id)
-                                    ->where('type', 3)
-                                    ->first();
-
-            if($notification != null){
+            
+            $student = Student::find($student_classes->first()->student_id);
+            if($available_class->agora_token != null){  //if teacher already make call
                 $data = [
-                    'token'         => $notification->agora_token,
-                    'channel_name'  => $notification->agora_channel_name,
+                    'token'         => $available_class->agora_token,
+                    'channel_name'  => $available_class->channel_name,
+                    'teacher'       => [
+                        'id'        => $teacher->id,
+                        'username'  => $teacher->username,
+                        'image'     => $teacher->getImage(),
+                    ],
+                    'student'       => [
+                        'id'        => $student->id,
+                        'username'  => $student->username,
+                        'image'     => $student->getImage(),
+                    ],
                 ];
                 
                 return $this->success(trans('auth.success'), 200, 'agora', $data);
             }
 
-            //if teacher don not make call
-            //make notification to student 
+            //if teacher do not make call
+
+            $title = 'يوجد حصه الان';
+            $body  = 'حصه قمت بحجزها سارع بالانضمام ' . $teacher->username . ' بدأ';
+
+            //make notification to student
             $student_notification = student_notification::create([
-                'title'             => 'title',
-                'content'           => 'content',
+                'title'             => $title,
+                'content'           => $body,
                 'teacher_id'        => $teacher->id,
                 'student_id'        => $student_class->student_id,
                 'available_class_id'=> $student_class->available_class_id,
@@ -269,13 +281,10 @@ class home extends Controller
                 'agora_token'       => $agora['token'],
                 'agora_channel_name'=> $agora['channel_name'],
             ]);
-
+            //save agora_token in class
             $available_class->agora_token  = $agora['token'];
             $available_class->channel_name = $agora['channel_name'];
             $available_class->save();
-
-            $title = 'يوجد حصه الان';
-            $body  = 'حصه قمت بحجزها سارع بالانضمام ' . $teacher->username . ' بدأ';
 
             //send firbase notifications
             if($request->get('pusher') == 1){
@@ -290,6 +299,16 @@ class home extends Controller
         $data = [
             'token'         => $agora['token'],
             'channel_name'  => $agora['channel_name'],
+            'teacher'       => [
+                'id'        => $teacher->id,
+                'username'  => $teacher->username,
+                'image'     => $teacher->getImage(),
+            ],
+            'student'       => [
+                'id'        => $student->id,
+                'username'  => $student->username,
+                'image'     => $student->getImage(),
+            ],
         ];
         
         return $this->success(trans('auth.success'), 200, 'agora', $data);
@@ -317,8 +336,8 @@ class home extends Controller
     }
 
     public function test(){
-        // config(['queue.default' => 'sync']);
-        // event(new MyEvent('test'));
+        config(['queue.default' => 'sync']);
+        event(new MyEvent('test'));
 
         // return 'good';
 

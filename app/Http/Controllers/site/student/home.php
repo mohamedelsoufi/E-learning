@@ -11,6 +11,7 @@ use App\Http\Resources\student_classResource;
 use App\Http\Resources\subjectsResource;
 use App\Models\Available_class;
 use App\Models\Class_type;
+use App\Models\Rating;
 use App\Models\Subject;
 use App\Models\Teacher_notification;
 use App\Models\Video;
@@ -150,18 +151,18 @@ class home extends Controller
                 'pay'                   =>  $pay,
             ]);
 
+            $title = 'تم الحجز';
+            $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
+
             //create notification to teacher
             $teacher_notification = Teacher_notification::create([
-                'title'             => 'title',
-                'content'           => 'content',
+                'title'             => $title,
+                'content'           => $body,
                 'teacher_id'        => $available_class->teacher_id,
                 'student_id'        => $student->id,
                 'available_class_id'=> $available_class->id,
                 'type'              => 1,
             ]);
-
-            $title = 'تم الحجز';
-            $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
 
             //sent firbase notifications
             if($request->get('pusher') == 1){
@@ -292,6 +293,34 @@ class home extends Controller
             ->where('available_class_id', $request->get('schedule_id'))
             ->where('student_id', $student->id)
             ->delete();
+
+        return $this->success(trans('auth.success'), 200);
+    }
+
+    public function add_rating(Request $request){
+        // validate registeration request
+        $validator = Validator::make($request->all(), [
+            'teacher_id'     => 'required|integer|exists:teachers,id',
+            'rating'             => 'required|integer|min:0|max:5',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'successful'=> false,
+                'not_enough' => false,
+                'message'    => $validator->errors()->first(),
+            ], 400);
+        }
+
+        //get student or vender
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        Rating::create([
+            'teacher_id'    => $request->get('teacher_id'),
+            'stars'         => $request->get('rating'),
+        ]);
 
         return $this->success(trans('auth.success'), 200);
     }

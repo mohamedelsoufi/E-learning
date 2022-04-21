@@ -43,13 +43,15 @@ class notificationResource extends JsonResource
         }
 
         $available_class = Available_class::find($this->available_class_id );
+
         if($available_class != null){
             $available_class = [
                 'id'        => $available_class->id,
+                'to'    => $available_class->to,
+                'from'  => $available_class->from,
                 'subject'   => [
                                     'id'    => $available_class->Subject->id,
                                     'name'  => $available_class->Subject->Main_subject->translate($lang)->name,
-                                    'from'  => $available_class->from,
                                 ],
             ];
         } else {
@@ -58,8 +60,9 @@ class notificationResource extends JsonResource
 
         if($this->agora_token != null){
             $agora = [
-                        'token'         => $this->agora_token,
-                        'channel_name'  => $this->agora_channel_name,
+                        'token'             => $this->agora_token,
+                        'channel_name'      => $this->agora_channel_name,
+                        'available_class'   => $available_class,
             ];
         } else {
             $agora = null;

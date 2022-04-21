@@ -36,6 +36,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
             Route::post('sendCode', 'App\Http\Controllers\site\student\authentication\verification@sendCode');
         });
 
+        Route::post('/rating/add', 'App\Http\Controllers\site\student\home@add_rating');
+
         Route::group(['prefix' => 'myProfile'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\authentication\profile@myProfile');
             Route::post('/setup_profile', 'App\Http\Controllers\site\student\authentication\profile@updateYear');

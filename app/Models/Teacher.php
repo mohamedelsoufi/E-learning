@@ -153,7 +153,7 @@ class Teacher extends Authenticatable implements JWTSubject
 
     public function getRating(){
         if(count($this->Rating) > 0){
-            return $this->Rating->sum('stars') / count($this->Rating);
+            return ceil($this->Rating->sum('stars') / count($this->Rating));
         } else {
             return 0;
         }

@@ -54,7 +54,7 @@ return [
     'You must choose year'                  => 'يجب عليك اختيار السنة',
     'your code is wrong.'                   => 'الكود الخاص بك غير صحيح',
     'faild'                                 => 'فشل',
-    ''        => '',
+    'no student booking this class'        => 'لم يحجز تلك الحصه اي طالب',
     ''        => '',
     ''        => '',
     ''        => '',

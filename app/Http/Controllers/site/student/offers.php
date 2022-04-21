@@ -45,8 +45,13 @@ class offers extends Controller
             $offer = Offer::find($request->get('offer_id'));
 
             //check if student balance Not enough
-            if($student->balance - $offer->price < 0)
-                return $this->faild(trans('site.your balance not enough'), 200);
+            if($student->balance - $offer->price < 0){
+                return response()->json([
+                    'successful'    => false,
+                    'not_enough'    => true,
+                    'message'       => trans('site.your balance not enough'),
+                ], 200);
+            }
 
             //tacke offer
             $student->free      += $offer->classes_count;

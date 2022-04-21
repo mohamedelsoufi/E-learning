@@ -54,7 +54,7 @@ return [
     'You must choose year'        => 'You must choose year',
     'your code is wrong.'        => 'your code is wrong.',
     'faild'        => 'faild',
-    ''        => '',
+    'no student booking this class'        => 'no student booking this class',
     ''        => '',
     ''        => '',
     ''        => '',
