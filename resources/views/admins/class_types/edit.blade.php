@@ -34,7 +34,7 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>percentage</label>
+                                <label>long</label>
                                 <input type="number" class="form-control  @error('long') is-invalid @enderror" name="long"
                                     placeholder="long" value="{{$class_type->long }}" required autocomplete="off">
                                 @error('long')

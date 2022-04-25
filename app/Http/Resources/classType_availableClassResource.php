@@ -22,9 +22,15 @@ class classType_availableClassResource extends JsonResource
                                             ->where('subject_id', $request->get('subject_id'))
                                             ->where('teacher_id', $request->get('teacher_id'))
                                             ->where('to', '>', date('Y-m-d H:i:s'))
-                                            ->doesntHave('Student_classes')
+                                            ->withCount('Student_classes')
+                                            // ->doesntHave('Student_classes')
+                                            ->whereDoesntHave('Student_classes', function($query) use($request){
+                                                $query->where('student_id', '=', $request->student_id);
+                                            })
                                             ->orderBy('from')
-                                            ->get();
+                                            ->get()
+                                            ->where('student_classes_count', '<', 7);
+
         // $subject = Subject::find($request->get('subject_id'));
         // $teacher = Teacher::find($request->get('teacher_id'));
         return [

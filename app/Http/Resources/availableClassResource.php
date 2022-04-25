@@ -23,11 +23,24 @@ class availableClassResource extends JsonResource
             $lang = 'en';
         }
 
+        Student::WhereHas('Student_classes', function($query){
+            $query->where('available_class_id', $this->id);
+        })->get()->map(function ($data) {
+            return [
+                'id'        => $data->id,
+                'username'  => $data->username,
+                'image'     => $data->getImage(),
+            ];
+        });
+
+        $students = Student::WhereHas('Student_classes', function($query){
+            $query->where('available_class_id', $this->id);
+        })->get();
+
         //agora response
         if($this->agora_token == null){
             $agora = null;
         } else {
-            $student = Student::find($this->Student_classes->first()->student_id);
             $agora = [
                 'agora_token'       => $this->agora_token,
                 'channel_name'      => $this->channel_name,
@@ -36,11 +49,13 @@ class availableClassResource extends JsonResource
                     'username'  => $this->Teacher->username,
                     'image'     => $this->Teacher->getImage(),
                 ],
-                'student'       => [
-                    'id'        => $student->id,
-                    'username'  => $student->username,
-                    'image'     => $student->getImage(),
-                ],
+                'students'       => $students->map(function ($data) {
+                    return [
+                        'id'        => $data->id,
+                        'username'  => $data->username,
+                        'image'     => $data->getImage(),
+                    ];
+                }),
             ];
         }
 
@@ -83,6 +98,13 @@ class availableClassResource extends JsonResource
                                         'name'  => $this->Teacher->username,
                                         'iamge' => $this->Teacher->getImage(),
                                     ],
+            'students'       => $students->map(function ($data) {
+                                        return [
+                                            'id'        => $data->id,
+                                            'username'  => $data->username,
+                                            'image'     => $data->getImage(),
+                                        ];
+                                    }),
         ];
     }
 }

@@ -46,7 +46,7 @@ class notificationResource extends JsonResource
 
         if($available_class != null){
             $available_class = [
-                'id'        => $available_class->id,
+                'id'    => $available_class->id,
                 'to'    => $available_class->to,
                 'from'  => $available_class->from,
                 'subject'   => [
@@ -78,7 +78,7 @@ class notificationResource extends JsonResource
             'agora'                 => $agora,
             'student'               => $student,
             'teacher'               => $teacher,
-            'class'                 => $available_class,
+            // 'class'                 => $available_class,
         ];
     }
 }

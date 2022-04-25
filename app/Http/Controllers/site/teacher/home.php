@@ -226,13 +226,41 @@ class home extends Controller
         }
         //get available_classes
         $available_class = Available_class::find($request->get('schedule_id'));
+
+        $students = Student::WhereHas('Student_classes', function($query) use($request){
+            $query->where('available_class_id', $request->get('schedule_id'));
+        })->get();
+
+        //if teacher already make call
+        if($available_class->agora_token != null){  
+            $data = [
+                'token'         => $available_class->agora_token,
+                'channel_name'  => $available_class->channel_name,
+                'teacher'       => [
+                    'id'        => $teacher->id,
+                    'username'  => $teacher->username,
+                    'image'     => $teacher->getImage(),
+                ],
+                'students'       => $students->map(function ($data) {
+                    return [
+                        'id'        => $data->id,
+                        'username'  => $data->username,
+                        'image'     => $data->getImage(),
+                    ];
+                }),
+            ];
+            
+            return $this->success(trans('auth.success'), 200, 'agora', $data);
+        }
+
+        //if teacher do not make call
         
-        //check if ther are student booking this class
-        $student_classes = DB::table('student_class')
+        
+        $student_classes = DB::table('student_class')   
                             ->where('available_class_id', ($available_class->id))
                             ->get();
         
-        if(count($student_classes) == 0){
+        if(count($student_classes) == 0){       //check if there are student booking this class
             return $this->faild(trans('auth.no student booking this class'), 400);
         }
 
@@ -244,29 +272,6 @@ class home extends Controller
         $available_class->save();
 
         foreach($student_classes as $student_class){
-            
-            $student = Student::find($student_classes->first()->student_id);
-            if($available_class->agora_token != null){  //if teacher already make call
-                $data = [
-                    'token'         => $available_class->agora_token,
-                    'channel_name'  => $available_class->channel_name,
-                    'teacher'       => [
-                        'id'        => $teacher->id,
-                        'username'  => $teacher->username,
-                        'image'     => $teacher->getImage(),
-                    ],
-                    'student'       => [
-                        'id'        => $student->id,
-                        'username'  => $student->username,
-                        'image'     => $student->getImage(),
-                    ],
-                ];
-                
-                return $this->success(trans('auth.success'), 200, 'agora', $data);
-            }
-
-            //if teacher do not make call
-
             $title = 'يوجد حصه الان';
             $body  = 'حصه قمت بحجزها سارع بالانضمام ' . $teacher->username . ' بدأ';
 
@@ -281,6 +286,7 @@ class home extends Controller
                 'agora_token'       => $agora['token'],
                 'agora_channel_name'=> $agora['channel_name'],
             ]);
+
             //save agora_token in class
             $available_class->agora_token  = $agora['token'];
             $available_class->channel_name = $agora['channel_name'];
@@ -304,11 +310,13 @@ class home extends Controller
                 'username'  => $teacher->username,
                 'image'     => $teacher->getImage(),
             ],
-            'student'       => [
-                'id'        => $student->id,
-                'username'  => $student->username,
-                'image'     => $student->getImage(),
-            ],
+            'students'       => $students->map(function ($data) {
+                return [
+                    'id'        => $data->id,
+                    'username'  => $data->username,
+                    'image'     => $data->getImage(),
+                ];
+            }),
         ];
         
         return $this->success(trans('auth.success'), 200, 'agora', $data);
@@ -336,6 +344,8 @@ class home extends Controller
     }
 
     public function test(){
+        // return date("Y-m-d h:i:s",'1650795048');
+        // return $this->AgoraService->generateToken();
         config(['queue.default' => 'sync']);
         event(new MyEvent('test'));
 

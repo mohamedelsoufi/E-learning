@@ -73,6 +73,13 @@ class home extends Controller
             return $this::faild($validator->errors()->first(), 403);
         }
 
+        //get student
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        $request->student_id     = $student->id;
+
         //get get class type available class
         $class_type = Class_type::active()->get();
 
@@ -108,9 +115,9 @@ class home extends Controller
             //check if class is complete
             $row = DB::table('student_class')->where([
                 'available_class_id'   => $request->get('available_class_id'),
-            ])->first();
+            ])->count();
 
-            if($row != null){
+            if($row > 7){
                 return response()->json([
                     'successful'=> false,
                     'not_enough' => false,
@@ -248,6 +255,7 @@ class home extends Controller
     }
 
     public function schedule(){
+        
         //get student or vender
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
