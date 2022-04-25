@@ -254,12 +254,14 @@ class home extends Controller
 
     }
 
-    public function schedule(){
+    public function schedule(Request $request){
         
         //get student or vender
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
+
+        $request->student = $student;
 
         $available_classes = available_class::whereHas('Student_classes', function($query) use($student){
             $query->where('student_id', $student->id);

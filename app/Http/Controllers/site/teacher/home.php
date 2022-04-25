@@ -235,6 +235,7 @@ class home extends Controller
         if($available_class->agora_token != null){  
             $data = [
                 'token'         => $available_class->agora_token,
+                'rtm_token'     => $available_class->agora_rtm_token,
                 'channel_name'  => $available_class->channel_name,
                 'teacher'       => [
                     'id'        => $teacher->id,
@@ -254,7 +255,6 @@ class home extends Controller
         }
 
         //if teacher do not make call
-        
         
         $student_classes = DB::table('student_class')   
                             ->where('available_class_id', ($available_class->id))
@@ -284,11 +284,13 @@ class home extends Controller
                 'available_class_id'=> $student_class->available_class_id,
                 'type'              => 3,
                 'agora_token'       => $agora['token'],
+                'agora_rtm_token'         => $agora['rtm_token'],
                 'agora_channel_name'=> $agora['channel_name'],
             ]);
 
             //save agora_token in class
             $available_class->agora_token  = $agora['token'];
+            $available_class->agora_rtm_token  = $agora['rtm_token'];
             $available_class->channel_name = $agora['channel_name'];
             $available_class->save();
 
@@ -304,6 +306,7 @@ class home extends Controller
 
         $data = [
             'token'         => $agora['token'],
+            'rtm_token'=> $available_class->agora_rtm_token,
             'channel_name'  => $agora['channel_name'],
             'teacher'       => [
                 'id'        => $teacher->id,

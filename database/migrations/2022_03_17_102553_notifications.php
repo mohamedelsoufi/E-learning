@@ -22,6 +22,7 @@ class Notifications extends Migration
             $table->text('content')->nullable();
             $table->integer('type')->nullable()->comment('1->student book class ,2->canel class ,3->join class');
             $table->text('agora_token')->nullable();
+            $table->text('agora_rtm_token')->nullable();
             $table->text('agora_channel_name')->nullable();
             $table->tinyInteger('seen')->default(0);
             $table->timestamps();
@@ -41,6 +42,7 @@ class Notifications extends Migration
             $table->text('content')->nullable();
             $table->integer('type')->nullable()->comment('1->join class, 2->canel class');
             $table->text('agora_token')->nullable();
+            $table->text('agora_rtm_token')->nullable();
             $table->text('agora_channel_name')->nullable();
             $table->tinyInteger('seen')->default(0);
             $table->timestamps();

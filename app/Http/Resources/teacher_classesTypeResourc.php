@@ -18,11 +18,7 @@ class teacher_classesTypeResourc extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->header('lang') == 'ar'){
-            $lang = 'ar';
-        } else{
-            $lang = 'en';
-        }
+        ($request->header('lang') == 'ar')? $lang = 'ar': $lang = 'en';
         // $subject = Subject::find($request->get('subject_id'));
         return [
             'id'            => $this->id,

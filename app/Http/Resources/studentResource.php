@@ -14,11 +14,7 @@ class studentResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->header('lang') == 'ar'){
-            $lang = 'ar';
-        } else{
-            $lang = 'en';
-        }
+        ($request->header('lang') == 'ar')? $lang = 'ar': $lang = 'en';
         return [
             'id'            => $this->id,
             'username'      => $this->username,

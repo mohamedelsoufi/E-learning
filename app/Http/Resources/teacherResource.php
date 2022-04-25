@@ -17,11 +17,7 @@ class teacherResource extends JsonResource
      */
     public function toArray($request)
     {
-        if($request->header('lang') == 'ar'){
-            $lang = 'ar';
-        } else{
-            $lang = 'en';
-        }
+        ($request->header('lang') == 'ar')? $lang = 'ar': $lang = 'en';
 
         $years = Year::whereHas('Teacher_years', function($query){
             $query->where('teacher_id', $this->id);

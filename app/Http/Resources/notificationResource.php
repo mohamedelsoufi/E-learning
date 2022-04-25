@@ -61,6 +61,7 @@ class notificationResource extends JsonResource
         if($this->agora_token != null){
             $agora = [
                         'token'             => $this->agora_token,
+                        'agora_rtm_token'   => $this->agora_rtm_token,
                         'channel_name'      => $this->agora_channel_name,
                         'available_class'   => $available_class,
             ];
