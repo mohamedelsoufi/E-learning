@@ -117,7 +117,7 @@ class home extends Controller
                 'available_class_id'   => $request->get('available_class_id'),
             ])->count();
 
-            if($row > 7){
+            if($row > env('MAX_STUDENT_IN_CLASS')){
                 return response()->json([
                     'successful'=> false,
                     'not_enough' => false,

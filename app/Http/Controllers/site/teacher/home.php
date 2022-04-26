@@ -255,7 +255,6 @@ class home extends Controller
         }
 
         //if teacher do not make call
-        
         $student_classes = DB::table('student_class')   
                             ->where('available_class_id', ($available_class->id))
                             ->get();
@@ -265,7 +264,7 @@ class home extends Controller
         }
 
         //creat agora room
-        $agora          = $this->AgoraService->generateToken();
+        $agora          = $this->AgoraService->generateToken('teacher_' . $teacher->id);
 
         //change available_class status
         $available_class->status = 2;
@@ -348,7 +347,7 @@ class home extends Controller
 
     public function test(){
         // return date("Y-m-d h:i:s",'1650795048');
-        // return $this->AgoraService->generateToken();
+        return $this->AgoraService->generateToken();
         config(['queue.default' => 'sync']);
         event(new MyEvent('test'));
 

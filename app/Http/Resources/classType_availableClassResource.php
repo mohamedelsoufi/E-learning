@@ -29,7 +29,7 @@ class classType_availableClassResource extends JsonResource
                                             })
                                             ->orderBy('from')
                                             ->get()
-                                            ->where('student_classes_count', '<', 7);
+                                            ->where('student_classes_count', '<', env('MAX_STUDENT_IN_CLASS'));
 
         // $subject = Subject::find($request->get('subject_id'));
         // $teacher = Teacher::find($request->get('teacher_id'));

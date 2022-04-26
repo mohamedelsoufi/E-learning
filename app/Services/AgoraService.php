@@ -2,6 +2,7 @@
 namespace App\Services;
 use App\Libs\Agora\AccessToken;
 use App\Libs\Agora\RtmTokenBuilder;
+use App\Libs\Agora\RtmTokenBuilderSample;
 use Log;
 use Exception;
 
@@ -30,16 +31,10 @@ class AgoraService
         }
     }
 
-    public function getRtmToken(string $channelName, int $expireTimestamp = 0)
+    public function getRtmToken($Rtm_user_id)
     {
         try {
-            $token = RtmTokenBuilder::buildToken(
-                $this->appID,
-                $this->appCertificate,
-                $channelName,
-                RtmTokenBuilder::ROLE_RTM_USER,
-                $expireTimestamp
-            );
+            $token = RtmTokenBuilder::buildToken($Rtm_user_id);
 
             return $token;
         } catch (\Exception $e) {
@@ -50,7 +45,7 @@ class AgoraService
     }
 
     //creat token
-    public function generateToken()
+    public function generateToken($Rtm_user_id)
     {
         try {
             $channelName = 'agora_' . rand(10000,99999);
@@ -59,7 +54,7 @@ class AgoraService
             $token = $this->getRtcToken($channelName);
             // Rtm token dùng để chat
 
-            $rtmToken = $this->getRtmToken($channelName);
+            $rtmToken = $this->getRtmToken($Rtm_user_id);
 
             if (!$token || !$rtmToken) {
                 $this->error('Generate token error');
