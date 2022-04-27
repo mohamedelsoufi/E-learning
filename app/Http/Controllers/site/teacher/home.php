@@ -347,7 +347,7 @@ class home extends Controller
 
     public function test(){
         // return date("Y-m-d h:i:s",'1650795048');
-        return $this->AgoraService->generateToken();
+        return $this->AgoraService->generateToken('teacher_id');
         config(['queue.default' => 'sync']);
         event(new MyEvent('test'));
 

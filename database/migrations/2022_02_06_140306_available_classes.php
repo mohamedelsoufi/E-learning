@@ -47,6 +47,7 @@ class AvailableClasses extends Migration
             $table->unsignedBigInteger('promocode_id')->nullable();
             $table->integer('promocode_descount')->nullable();
             $table->tinyInteger('pay')->default(0)->comment('0->from balance, 1-> from free classes');
+            $table->string('agora_rtm_token')->nullable();
             $table->tinyInteger('status')->default(0);
 
             //relations

@@ -16,6 +16,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 date_default_timezone_set('Africa/cairo');
+Route::post('/balanceCharging/{student_id}', 'App\Http\Controllers\site\student\payment@balance_charging');
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(){
     Route::get('/', 'App\Http\Controllers\Controller@test');
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     });
 
     Route::get('/offers', 'App\Http\Controllers\site\student\offers@index');
+    Route::post('generate_agora_rtm_token', 'App\Http\Controllers\site\student\home@generate_agora_rtm_token')->middleware('checkJWTToken:student');
 
     Route::group(['middleware' => 'checkJWTToken:student'], function(){
         Route::group(['prefix' => 'verification'], function(){
@@ -73,6 +75,10 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
         Route::group(['prefix' => 'schedules'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\home@schedule');
             Route::post('/cancel', 'App\Http\Controllers\site\student\home@cancel_schedule');
+        });
+
+        Route::group(['prefix' => 'payment'], function(){
+            Route::post('/request', 'App\Http\Controllers\site\student\payment@payment_request')->middleware('checkJWTToken:student');
         });
 
         Route::get('/home', 'App\Http\Controllers\site\student\home@index');

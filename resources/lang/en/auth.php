@@ -55,7 +55,7 @@ return [
     'your code is wrong.'        => 'your code is wrong.',
     'faild'        => 'faild',
     'no student booking this class'        => 'no student booking this class',
-    ''        => '',
+    'you do not booking'        => 'you do not booking',
     ''        => '',
     ''        => '',
     ''        => '',

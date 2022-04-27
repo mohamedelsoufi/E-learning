@@ -55,7 +55,7 @@ return [
     'your code is wrong.'                   => 'الكود الخاص بك غير صحيح',
     'faild'                                 => 'فشل',
     'no student booking this class'        => 'لم يحجز تلك الحصه اي طالب',
-    ''        => '',
+    'you do not booking'        => 'لم تفم بالحجز',
     ''        => '',
     ''        => '',
     ''        => '',

@@ -86,6 +86,51 @@ class home extends Controller
         return $this->success(trans('auth.success'), 200, 'class_types', classType_availableClassResource::collection($class_type));
     }
 
+    public function generate_agora_rtm_token(Request $request){
+        $validator = Validator::make($request->all(), [
+            'schedule_id'       => 'required|exists:available_classes,id',
+        ]);
+
+        if($validator->fails()){
+            return $this::faild($validator->errors()->first(), 403);
+        }
+
+        //get student
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+        $user_id =  'student_' . $student->id;
+
+        $student_class = DB::table('student_class')   
+                            ->where('available_class_id', $request->get('schedule_id'))
+                            ->where('student_id', $student->id);
+
+        if($student_class->first() == null){
+            return $this->faild(trans('auth.you do not booking'), 200);
+        }
+
+        if($student_class->first()->agora_rtm_token != null){
+            return response()->json([
+                'successful'                => true,
+                'message'                   => trans('auth.success'),
+                'agora_rtm_token'           => $student_class->first()->agora_rtm_token,
+                'user_id'                   => $user_id,
+            ], 200);
+        }
+
+        $agora_rtm_token = $this->AgoraService->generateToken($user_id)['rtm_token'];
+        $student_class->update([
+            'agora_rtm_token'   => $agora_rtm_token,
+        ]);
+
+        return response()->json([
+            'successful'                => true,
+            'message'                   => trans('auth.success'),
+            'agora_rtm_token'           => $agora_rtm_token,
+            'user_id'                   => $user_id,
+        ], 200);
+    }
+
     public function booking(Request $request){  //class
         // validate registeration request
         $validator = Validator::make($request->all(), [
