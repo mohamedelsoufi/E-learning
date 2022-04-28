@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Billing;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -27,10 +28,10 @@ class payment extends Controller
         }
 
         $response = Http::withHeaders([
-            'authorization' => 'SBJNDHHR62-JDJKRB2RJT-G9ZDKK2LJZ',
+            'authorization' => env('paytabs_key'),
             'Content-Type'  => 'application/json'
         ])->post('https://secure-egypt.paytabs.com/payment/request', [
-            "profile_id"=>         94917,
+            "profile_id"=>         env('paytabs_profile_id'),
             "tran_type"=>          "sale",
             "tran_class"=>         "ecom",
             "cart_description"=>   "AS SDAs",
@@ -53,15 +54,23 @@ class payment extends Controller
         $student = Student::find($student_id);
 
         $response = Http::withHeaders([
-            'authorization' => 'SBJNDHHR62-JDJKRB2RJT-G9ZDKK2LJZ',
+            'authorization' => env('paytabs_key'),
             'Content-Type'  => 'application/json'
         ])->post('https://secure-egypt.paytabs.com/payment/query', [
-            "profile_id"=>         94917,
+            "profile_id"=>         env('paytabs_profile_id'),
             "tran_ref"=>           $request->get('tran_ref'),
         ]);
 
         $student->balance += $response["cart_amount"];
         $student->save();
+
+        Billing::create([
+            'type' => 0,
+            'amount' => $response["cart_amount"],
+            'massage'   => 'massage',
+            'billingable_id' => $student_id,
+            'billingable_type' => 'App\Models\Student',
+        ]);
 
         return true;
     }

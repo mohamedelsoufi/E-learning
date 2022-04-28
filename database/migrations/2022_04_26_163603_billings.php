@@ -16,7 +16,10 @@ class Billings extends Migration
         Schema::create('billings', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->tinyInteger('type')->default(0)->comment('0-> student but in balance');
+            $table->float('amount')->default(0);
             $table->text('massage')->nullable();
+            $table->bigInteger('billingable_id')->nullable();
+            $table->string('billingable_type')->nullable();
             $table->timestamps();
         });
     }

@@ -62,8 +62,8 @@
                                 @foreach ($curriculums as $curriculum)
                                     <tr>
                                         <td>{{$curriculum->id}}</td>
-                                        <td>{{$curriculum->translate('en')->name}}</td>
-                                        <td>{{$curriculum->Country->translate('en')->name}}</td>
+                                        <td>{{$curriculum->translate('ar')->name}}</td>
+                                        <td>{{$curriculum->Country->translate('ar')->name}}</td>
                                         <td>{{$curriculum->getStatus()}}</td>
                                         <td><a href="levels?curriculum={{$curriculum->id}}">{{count($curriculum->Levels->where('status', '!=', -1))}}</a></td>
                                         <td>

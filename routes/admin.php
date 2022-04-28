@@ -14,9 +14,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 date_default_timezone_set('Africa/cairo');
+Route::get('/', function(){
+    return redirect('/admins');
+});
 
 Route::group(['prefix' => 'admins'], function(){
-
     Route::get('/login', 'App\Http\Controllers\admin\authentication@loginView')->name('adminlogin')->middleware('guest:admin');
     Route::post('/login', 'App\Http\Controllers\admin\authentication@login')->middleware('guest:admin');
 

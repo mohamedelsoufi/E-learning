@@ -61,9 +61,9 @@
                                 @foreach ($main_subjects as $main_subject)
                                     <tr>
                                         <td>{{$main_subject->id}}</td>
-                                        <td>{{$main_subject->translate('en')->name}}</td>
+                                        <td>{{$main_subject->translate('ar')->name}}</td>
                                         <td>{{$main_subject->getStatus()}}</td>
-                                        <td><img src="{{$main_subject->getImage()}}" style="width: 150"></td>
+                                        <td><img src="{{$main_subject->getImage()}}" style="width: 150px"></td>
                                         <td>
                                             {{-- edit --}}
                                             @if (auth('admin')->user()->isAbleTo('update-curriculums'))

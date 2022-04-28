@@ -15,5 +15,7 @@ class Billing extends Model
     protected $casts = [
         'id'                    => 'integer',
         'type'                  => 'integer',
+        'billingable_id'                  => 'integer',
+        'billingable_type'                  => 'integer',
     ];
 }
