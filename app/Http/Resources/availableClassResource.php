@@ -108,6 +108,7 @@ class availableClassResource extends JsonResource
             $agora = [
                 'agora_token'       => $this->agora_token,
                 'agora_rtm_token'   => $this->agora_rtm_token,
+                'rtm_user_id'       => 'teacher_' . $this->Teacher->id,
                 'channel_name'      => $this->channel_name,
                 'teacher'       => [
                     'id'        => $this->Teacher->id,

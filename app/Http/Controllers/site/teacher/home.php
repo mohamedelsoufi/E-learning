@@ -236,6 +236,7 @@ class home extends Controller
             $data = [
                 'token'         => $available_class->agora_token,
                 'rtm_token'     => $available_class->agora_rtm_token,
+                'rtm_user_id'   => 'teacher_' . $teacher->id,
                 'channel_name'  => $available_class->channel_name,
                 'teacher'       => [
                     'id'        => $teacher->id,
@@ -305,7 +306,8 @@ class home extends Controller
 
         $data = [
             'token'         => $agora['token'],
-            'rtm_token'=> $available_class->agora_rtm_token,
+            'rtm_token'     => $available_class->agora_rtm_token,
+            'rtm_user_id'   => 'teacher_' . $teacher->id,
             'channel_name'  => $agora['channel_name'],
             'teacher'       => [
                 'id'        => $teacher->id,

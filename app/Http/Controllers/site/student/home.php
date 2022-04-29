@@ -44,6 +44,7 @@ class home extends Controller
                                 $query->where('year_id', $student->year_id);
                             })
                             ->active()
+                            ->orderBy('order_by')
                             ->get();
 
         return $this::success(trans('auth.success'), 200, 'subjects', subjectsResource::collection($subjects));

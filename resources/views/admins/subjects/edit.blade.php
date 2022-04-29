@@ -34,13 +34,9 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>term</label>
-                                <select name="term_id" class="form-control">
-                                    @foreach ($terms as $term)
-                                        <option value="{{$term->id}}" @if ($subject->term_id == $term->id) selected @endif>{{$term->translate('en')->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('subject_id')
+                                <label>order by</label>
+                                <input required type="integer" placeholder="order by" class="form-control  @error('order_by') is-invalid @enderror" name="order_by" value="{{$subject->order_by}}">
+                                @error('order_by')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </small>
@@ -48,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label>main subject</label>
                                 <select name="main_subject_id" class="form-control">
@@ -62,7 +58,7 @@
                                     </small>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- status --}}
                         <div class="col-md-12">

@@ -64,6 +64,18 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>order by</label>
+                                <input required type="integer" placeholder="order by" class="form-control  @error('order_by') is-invalid @enderror" name="order_by" value="">
+                                @error('order_by')
+                                    <small class=" text text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+
                         {{-- status --}}
                         <div class="col-md-12">
                             <div class="form-group">

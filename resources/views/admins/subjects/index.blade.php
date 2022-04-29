@@ -62,6 +62,7 @@
                                     <th>description</th>
                                     <th>status</th>
                                     <th>image</th>
+                                    <th>order by</th>
                                     <th>materials cout</th>
                                     <th>action</th>
                                 </tr>
@@ -81,6 +82,7 @@
                                         </td>
                                         <td>{{$subject->getStatus()}}</td>
                                         <td><img src='{{$subject->Main_subject->getImage()}}' style="width: 100px"></td>
+                                        <th>{{$subject->order_by}}</th>
                                         <td><a href="materials?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year_id}}&&term={{$term_id}}&&subject={{$subject->id}}">{{count($subject->Materials->where('status', '!=', -1))}}</a></td>
                                         <td>
                                             {{-- edit --}}

@@ -17,6 +17,7 @@ class subjects extends Controller
     public function index(Request $request){
         $subjects = Subject::where('status', '!=', -1)
                             ->where('term_id', $request->get('term'))
+                            ->orderBy('order_by')
                             ->get();
 
         return view('admins.subjects.index')->with([
@@ -75,6 +76,7 @@ class subjects extends Controller
                     'status'            => $active,
                     'term_id'           => $request->term_id,
                     'main_subject_id'   => $request->main_subject_id,
+                    'order_by'          => $request->order_by,
                 ]);
 
             DB::commit();
@@ -106,7 +108,7 @@ class subjects extends Controller
         ]);
     }
 
-    public function edit($subject_id, add $request){
+    public function edit($subject_id, Request $request){
         $parms= 'curriculum=' . $_GET['curriculum'] .
                 '&&level=' . $_GET['level'] .
                 '&&year=' . $_GET['year'] .
@@ -120,8 +122,7 @@ class subjects extends Controller
 
                 //edit subject
                 $subject->status           = $active;
-                $subject->term_id          = $request->term_id;
-                $subject->main_subject_id  = $request->main_subject_id;
+                $subject->order_by         = $request->order_by;
                 $subject->save();
 
             DB::commit();

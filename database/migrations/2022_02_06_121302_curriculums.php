@@ -100,6 +100,7 @@ class Curriculums extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('main_subject_id');
+            $table->integer('order_by')->default(0);
             $table->tinyInteger('status')->default(1)->comment('1->active, 0-> un active');
             $table->timestamps();
 
