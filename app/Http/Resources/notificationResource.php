@@ -20,29 +20,89 @@ class notificationResource extends JsonResource
     {
         ($request->header('lang') == 'ar')? $lang = 'ar': $lang = 'en';
 
-        $student = Student::find($this->student_id);
-        if($student != null){
-            $student = [
-                'id'        => $student->id,
-                'username'  => $student->username,
-                'image'     => $student->getImage(),
-            ];
-        } else {
+        $teacher       = $this->get_teacher();
+        $classStudents = $this->getclassStudents($request);
+        $agoraResponse = $this->agoraResponse($classStudents['students'], $classStudents['student'], $teacher, $lang);
+        $target_student = $this->get_target_student();
+
+        return [
+            'id'                    => $this->id,
+            'title'                 => $this->title,
+            'content'               => $this->content,
+            'type'                  => $this->type,
+            'seen'                  => $this->seen,
+            'created_at'            => date("Y-m-d H:i:s", strtotime($this->created_at)),
+            'agora'                 => $agoraResponse,
+            'teacher'               => $teacher,
+            'students'              => $classStudents['students']->map(function ($data) {
+                return [
+                    'id'        => $data->id,
+                    'username'  => $data->username,
+                    'image'     => $data->getImage(),
+                ];
+            }),
+            'student'               => $classStudents['student'],
+            'target_student'        => $target_student,
+        ];
+    }
+
+    public function getclassStudents($request){
+        if($request->student == null){
+            $students = Student::WhereHas('Student_classes', function($query){
+                $query->where('available_class_id', $this->available_class_id);//
+            })
+            ->get();
+
             $student = null;
-        }
-
-        $teacher = Teacher::find($this->teacher_id);
-        if($teacher != null){
-            $teacher = [
-                'id'        => $teacher->id,
-                'username'  => $teacher->username,
-                'image'     => $teacher->getImage(),
-            ];
         } else {
-            $teacher = null;
+            $students = Student::WhereHas('Student_classes', function($query){
+                $query->where('available_class_id', $this->available_class_id);//
+            })
+            ->where('id', '!=', $request->student->id)
+            ->get();
+
+            $student = [
+                'id'        => $request->student->id,
+                'username'  => $request->student->username,
+                'image'     => $request->student->getImage(),
+            ];
         }
 
-        $available_class = Available_class::find($this->available_class_id );
+        return [
+            'students'  => $students,
+            'student'   => $student,
+        ];
+    }
+
+    public function agoraResponse($students, $student, $teacher, $lang){
+        if($this->agora_token == null){
+            $agora = null;
+        } else {
+            $available_class = $this->get_available_class($lang);
+
+            $agora = [
+                'token'       => $this->agora_token,
+                'agora_rtm_token'   => $this->agora_rtm_token,
+                'rtm_user_id'       => 'teacher_' . $teacher['id'],
+                'channel_name'      => $this->agora_channel_name,
+                'available_class'   => $available_class,
+                'teacher'           => $teacher,
+                'students'          => $students->map(function ($data) {
+                    return [
+                        'id'        => $data->id,
+                        'username'  => $data->username,
+                        'image'     => $data->getImage(),
+                    ];
+                }),
+                'student'           => $student,
+            ];
+        }
+
+        return $agora;
+    }
+
+    public function get_available_class($lang){
+        $available_class = Available_class::find($this->available_class_id);
 
         if($available_class != null){
             $available_class = [
@@ -57,29 +117,33 @@ class notificationResource extends JsonResource
         } else {
             $available_class = null;
         }
+        return $available_class;
+    }
 
-        if($this->agora_token != null){
-            $agora = [
-                        'token'             => $this->agora_token,
-                        'agora_rtm_token'   => $this->agora_rtm_token,
-                        'channel_name'      => $this->agora_channel_name,
-                        'available_class'   => $available_class,
+    public function get_teacher(){
+        $teacher = Teacher::find($this->teacher_id);
+        if($teacher != null){
+            $teacher = [
+                'id'        => $teacher->id,
+                'username'  => $teacher->username,
+                'image'     => $teacher->getImage(),
             ];
         } else {
-            $agora = null;
+            $teacher = null;
         }
 
+        return $teacher;
+    }
+
+    public function get_target_student(){
+        $target_student = Student::find($this->student_id);
+        if($target_student == null)
+            return null;
+
         return [
-            'id'                    => $this->id,
-            'title'                 => $this->title,
-            'content'               => $this->content,
-            'type'                  => $this->type,
-            'seen'                  => $this->seen,
-            'created_at'            => date("Y-m-d H:i:s", strtotime($this->created_at)),
-            'agora'                 => $agora,
-            'student'               => $student,
-            'teacher'               => $teacher,
-            // 'class'                 => $available_class,
+            'id'        => $target_student->id,
+            'username'  => $target_student->username,
+            'image'     => $target_student->getImage(),
         ];
     }
 }

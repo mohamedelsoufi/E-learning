@@ -25,7 +25,7 @@ return [
     'delete main_subject success'       => 'نجح حذف الماده',
     'your subject not in this year'     => 'الماده التي تدرسها ليست في هذه السنة',
     'this year not has your subject'    => 'هذه السنة لا يوجد بها الماده التي تدرسها',
-    '' => '',
+    'student already booking this schedule' => 'لقد قمت بالفعل يحجز هذا الميعاد',
     '' => '',
     '' => '',
     '' => '',

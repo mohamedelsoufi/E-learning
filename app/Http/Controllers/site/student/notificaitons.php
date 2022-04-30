@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 
 class notificaitons extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         //get student
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
+
+        $request->student = $student;
 
         //get student notifications
         $new_notifications = student_notification::where('student_id', $student->id)

@@ -16,8 +16,8 @@ class Notifications extends Migration
         Schema::create('student_notifications', function(Blueprint $table) {
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('available_class_id');
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->unsignedBigInteger('available_class_id')->nullable();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->integer('type')->nullable()->comment('1->student book class ,2->canel class ,3->join class');
@@ -35,9 +35,9 @@ class Notifications extends Migration
 
         Schema::create('teacher_notifications', function(Blueprint $table) {
             $table->bigIncrements('id')->unique();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_id')->nullable();
             $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('available_class_id');
+            $table->unsignedBigInteger('available_class_id')->nullable();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->integer('type')->nullable()->comment('1->join class, 2->canel class');

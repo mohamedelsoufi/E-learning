@@ -132,8 +132,10 @@ class home extends Controller
         ], 200);
     }
 
+    //***//
+
     public function booking(Request $request){  //class
-        // validate registeration request
+        // validate
         $validator = Validator::make($request->all(), [
             'available_class_id'     => 'required|integer|exists:available_classes,id',
             'promo_code'             => 'nullable|string',
@@ -150,80 +152,53 @@ class home extends Controller
 
         try{
             DB::beginTransaction();
-            //get student
-            if (! $student = auth('student')->user()) {
+            $available_class_id = $request->get('available_class_id');
+
+            $available_class = Available_class::find($available_class_id);
+
+            if (! $student = auth('student')->user())
                 return $this::faild(trans('auth.student not found'), 404, 'E04');
+            
+            if($this->check_if_student_booking_this_schedule($student, $available_class_id) == true){
+                return response()->json([
+                    'successful'=> false,
+                    'not_enough' => false,
+                    'message'    => trans('site.student already booking this schedule'),
+                ], 400);
             }
 
-            //get available class
-            $available_class = Available_class::find($request->get('available_class_id'));
-
             //check if class is complete
-            $row = DB::table('student_class')->where([
-                'available_class_id'   => $request->get('available_class_id'),
-            ])->count();
-
-            if($row > env('MAX_STUDENT_IN_CLASS')){
+            if($this->class_complete($available_class_id) == true){
                 return response()->json([
                     'successful'=> false,
                     'not_enough' => false,
                     'message'    => trans('site.this class is complete'),
                 ], 400);
             }
-            
+
             //get discount from promo code if exist
             $discount_percentage = $this->promo_code_percentage($request->get('promo_code'));
             $available_class_cost_after_discount = $this->get_price_after_discount($available_class->cost, $discount_percentage);
 
-            //take booking mony
-            if($student->free > 0){  //if student have free classes
-                $student->free -= 1;
-                $student->save();
-                $pay = 1;
-            } else {            
-                //check if student balance Not enough
-                // $available_class_cost = $available_class->Class_type->long * $available_class->Class_type->long_cost; //get price from class type becouse if admin chage class type cost
-                if($student->balance - $available_class_cost_after_discount < 0){
-                    return response()->json([
-                        'successful'    => false,
-                        'not_enough'    => true,
-                        'message'       => trans('site.your balance not enough'),
-                    ], 400);
-                }
-
-                $student->balance       -= $available_class_cost_after_discount;    //take class cost from student
-                $student->save();
-                $pay = 0;
+            if($this->check_student_balance_and_freeClasses($student, $available_class_cost_after_discount) == false){
+                return response()->json([
+                    'successful'    => false,
+                    'not_enough'    => true,
+                    'message'       => trans('site.your balance not enough'),
+                ], 400);
             }
 
+            $pay = $this->Take_booking_money($student, $available_class_cost_after_discount);
+            
             //booking
             DB::table('student_class')->insert([
                 'student_id'            =>  $student->id,
-                'available_class_id'    =>  $request->get('available_class_id'),
+                'available_class_id'    =>  $available_class_id,
                 'promocode_descount'    =>  $discount_percentage,
                 'pay'                   =>  $pay,
             ]);
 
-            $title = 'تم الحجز';
-            $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
-
-            //create notification to teacher
-            $teacher_notification = Teacher_notification::create([
-                'title'             => $title,
-                'content'           => $body,
-                'teacher_id'        => $available_class->teacher_id,
-                'student_id'        => $student->id,
-                'available_class_id'=> $available_class->id,
-                'type'              => 1,
-            ]);
-
-            //sent firbase notifications
-            if($request->get('pusher') == 1){
-                config(['queue.default' => 'sync']);
-                event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
-            } else {
-                $this->firbaseNotifications->send_notification($title, $body, $available_class->Teacher->token_firebase);
-            }
+            $this->booking_notigication($student, $available_class, $request);
 
             DB::commit();
             return $this->success(trans('auth.success'), 200);
@@ -232,6 +207,78 @@ class home extends Controller
             return $this->faild(trans('auth.faild'), 200);
         }
     }
+
+    public function check_if_student_booking_this_schedule($student, $available_class_id){
+        $student_class = DB::table('student_class')->where([
+            'available_class_id'   => $available_class_id,
+            'student_id'           => $student->id,
+        ])->count();
+
+        if($student_class > 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function class_complete($available_class_id){
+        $row = DB::table('student_class')->where([
+            'available_class_id'   => $available_class_id,
+        ])->count();
+
+        if($row > env('MAX_STUDENT_IN_CLASS')){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function booking_notigication($student, $available_class,$request){
+        $title = 'تم الحجز';
+        $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
+
+        //create notification to teacher
+        $teacher_notification = Teacher_notification::create([
+            'title'             => $title,
+            'content'           => $body,
+            'teacher_id'        => $available_class->teacher_id,
+            'student_id'        => $student->id,
+            'available_class_id'=> $available_class->id,
+            'type'              => 1,
+        ]);
+
+        //sent firbase notifications
+        if($request->get('pusher') == 1){
+            config(['queue.default' => 'sync']);
+            event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
+        } else {
+            $this->firbaseNotifications->send_notification($title, $body, $available_class->Teacher->token_firebase);
+        }
+    }
+
+    public function check_student_balance_and_freeClasses($student, $available_class_cost_after_discount){
+        //check if student balance Not enough and do not has free classes
+        if(($student->balance - $available_class_cost_after_discount < 0) && $student->free <= 0)
+            return false;
+
+        return true;
+    }
+
+    public function Take_booking_money($student, $available_class_cost_after_discount){
+        if($student->free > 0){  //if student have free classes
+            $student->free -= 1;
+            $student->save();
+            $pay = 1;
+        } else {            
+            $student->balance       -= $available_class_cost_after_discount;    //take class cost from student
+            $student->save();
+            $pay = 0;
+        }
+
+        return $pay;  //if pay == 0 (student has free class) if pay == 1 its mean student buy by mony
+    }
+
+    //****//
 
     public function buy_video(Request $request){ //video
         // validate registeration request
@@ -363,7 +410,6 @@ class home extends Controller
         if($validator->fails()){
             return response()->json([
                 'successful'=> false,
-                'not_enough' => false,
                 'message'    => $validator->errors()->first(),
             ], 400);
         }
