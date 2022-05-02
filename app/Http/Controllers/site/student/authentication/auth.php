@@ -23,9 +23,7 @@ class auth extends Controller
         $this->verification         = $verification;
     }
 
-    public function login(Request $request){
-        $guard = 'student';
-        
+    public function login(Request $request){        
         // //validation
         $validator = Validator::make($request->all(), [
             'phone'             => 'required|string',
@@ -41,24 +39,32 @@ class auth extends Controller
         $credentials = ['phone' => $request->phone, 'password' => $request->password];
         
         try {
-            if (! $token = auth($guard)->attempt($credentials)) { //login
+            if (! $token = auth('student')->attempt($credentials)) { //login
                 return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
 
+        return $this->student_response($request, $token);
+    }
+
+    public static function student_response($request, $token){
         //get student data
-        if (! $student = auth($guard)->user())
-            return $this->faild(trans('auth.student not found'), 404, 'E04');
+        if (! $student = auth('student')->user())
+        return response::faild(trans('auth.student not found'), 404, 'E04');
+
+        //update firbase token
+        $student->token_firebase = $request->get('token_firebase');
+        $student->save();
 
         //check if user blocked
         if($student['status'] == 0)
-            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
+            return response::faild(trans('auth.you are blocked'), 402, 'E02');
         
         // check if student not active
         if($student['verified'] == 0){
-            $this->verification->sendCode($request);
+            (new verification)->sendCode($request);
 
             return response()->json([
                 'successful'=> false,
@@ -77,10 +83,6 @@ class auth extends Controller
                 'token'     => $token,
             ], 200);
         }
-        
-        //update token
-        $student->token_firebase = $request->get('token_firebase');
-        $student->save();
 
         return response()->json([
             'successful'=> true,

@@ -25,7 +25,7 @@ class resetPasswored extends Controller
     }
     ////////sent code /////////////
 
-    public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
+    public function sendCode(Request $request){         
         // validate
         $validator = Validator::make($request->all(), [
             'phone'          => 'required',
@@ -46,7 +46,7 @@ class resetPasswored extends Controller
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }
 
-    public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
+    public function createCode($phone){  
         $oldCode = DB::table('student_password_resets')->where('phone', $phone)->first();
 
         //if user already has code
@@ -59,7 +59,7 @@ class resetPasswored extends Controller
         return $code;
     }
 
-    public function saveCode($code, $phone){  // this function save new password
+    public function saveCode($code, $phone){  
         DB::table('student_password_resets')->insert([
             'phone'      => $phone,
             'code'          => $code,
@@ -67,11 +67,10 @@ class resetPasswored extends Controller
         ]);
     }
 
-    public function validatePhone($phone){  //this is a function to get your email from database
+    public function validatePhone($phone){
         return !!DB::table('students')->where('phone', $phone)->first();
     }
     ///////////////check if code is valid ////////////
-
     public function checkCode(Request $request){
         $validator = Validator::make($request->all(), [
             'phone'             => 'required',
@@ -108,7 +107,7 @@ class resetPasswored extends Controller
         }
     }
 
-    //////////////////////// verification ////////////
+    //////////////////////// resetpasswored ////////////
 
     public function changePasswordProcess(Request $request){
         $validator = Validator::make($request->all(), [
@@ -134,7 +133,6 @@ class resetPasswored extends Controller
         } 
     }
 
-    // Verify if code is valid
     public function passwordResetProcess(Request $request){
         $validator = Validator::make($request->all(), [
             'code'              => 'required',
@@ -162,7 +160,6 @@ class resetPasswored extends Controller
             
     }
 
-    // Verify if code is valid
     private function updatePasswordRow($request){
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
@@ -187,10 +184,6 @@ class resetPasswored extends Controller
         // remove verification data from db
         $this->updatePasswordRow($request)->delete();
 
-        //check if user blocked
-        if($student['status'] == 0)
-            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
-
         //get token
         try {
             if (! $token = JWTAuth::fromUser($student)) { //login
@@ -200,39 +193,6 @@ class resetPasswored extends Controller
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
 
-        //update token
-        $student->token_firebase = $request->get('token_firebase');
-        $student->save();
-        
-        // check if student not active
-        if($student['verified'] == 0){
-            $request->phone = $student->phone;
-            $this->verification->sendCode($request);
-
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'verify',
-                'student'   => new studentResource($student),
-                'token'     => $token,
-            ], 200);
-        }
-
-        // check if student not active
-        if($student['year_id'] == null){
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'setup_profile',
-                'student'   => new studentResource($student),
-                'token'     => $token,
-            ], 200);
-        }
-
-        return response()->json([
-            'successful'=> true,
-            'step'      => true,
-            'message'   => 'success',
-            'student'   => new studentResource($student),
-            'token'     => $token,
-        ], 200);
+        return auth::student_response($request, $token);
     } 
 }

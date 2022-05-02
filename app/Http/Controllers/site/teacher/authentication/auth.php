@@ -24,7 +24,6 @@ class auth extends Controller
         $this->verification         = $verification;
     }
     public function login(Request $request){
-        
         //validation
         $validator = Validator::make($request->all(), [
             'phone'             => 'required',
@@ -47,9 +46,13 @@ class auth extends Controller
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
 
+        return $this->teacher_response($request, $token);
+    }
+
+    public static function teacher_response($request, $token){
         //get teacher data
         if (! $teacher = auth('teacher')->user())
-            return $this->faild(trans('auth.teacher not found'), 404, 'E04');
+            return response::faild(trans('auth.teacher not found'), 404, 'E04');
 
         //update token
         $teacher->token_firebase = $request->get('token_firebase');
@@ -57,16 +60,17 @@ class auth extends Controller
 
         //check if user blocked
         if($teacher['status'] == 0)
-            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
+            return response::faild(trans('auth.you are blocked'), 402, 'E02');
         
         // check if teatcher not active
         if($teacher['verified'] == 0){
-            $this->verification->sendCode($request);
+            (new verification)->sendCode($request);
 
             return response()->json([
                 'successful'=> false,
                 'step'      => 'verify',
                 'token'     => $token,
+                'teacher'   => new teacherResource($teacher),
             ], 200);
         }
 

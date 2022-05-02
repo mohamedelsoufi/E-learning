@@ -19,15 +19,6 @@ class verification extends Controller
     ////////sent email /////////////
 
     public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
-        // validate
-        // $validator = Validator::make($request->all(), [
-        //     'phone'          => 'required',
-        // ]);
-
-        // if($validator->fails()){
-        //     return $this::faild($validator->errors()->first(), 403);
-        // }
-        
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }

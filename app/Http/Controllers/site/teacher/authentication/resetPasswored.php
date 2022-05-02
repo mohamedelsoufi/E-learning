@@ -162,10 +162,6 @@ class resetPasswored extends Controller
         // remove verification data from db
         $this->updatePasswordRow($request)->delete();
 
-        //check if user blocked
-        if($teacher['status'] == 0)
-            return $this->faild(trans('auth.you are blocked'), 402, 'E02');
-
         //get token
         try {
             if (! $token = JWTAuth::fromUser($teacher)) { //login
@@ -175,39 +171,6 @@ class resetPasswored extends Controller
             return $this->faild(trans('auth.login faild'), 400, 'E00');
         }
         
-        // check if teacher not active
-        if($teacher['verified'] == 0){
-            $request->phone = $teacher->phone;
-            $this->verification->sendCode($request);
-
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'verify',
-                'teacher'   => new teacherResource($teacher),
-                'token'     => $token,
-            ], 200);
-        }
-
-        // check if setup_profile
-        if(count($teacher->Teacher_years) == 0){
-            return response()->json([
-                'successful'=> false,
-                'step'      => 'setup_profile',
-                'teatcher'   => new teacherResource($teacher),
-                'token'     => $token,
-            ], 200);
-        }
-        
-        //update token
-        $teacher->token_firebase = $request->get('token_firebase');
-        $teacher->save();
-
-        return response()->json([
-            'successful'=> true,
-            'step'      => true,
-            'message'   => 'success',
-            'teacher'   => new teacherResource($teacher),
-            'token'     => $token,
-        ], 200);
+        return auth::teacher_response($request, $token);
     } 
 }
