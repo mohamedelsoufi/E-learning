@@ -47,7 +47,10 @@ class teacherResource extends JsonResource
                                 'id'      => $this->main_subject_id,
                                 'name' => $this->getMain_subject($lang),
                             ],
-            'balance'       => $this->balance,
+            'balance'              => [
+                                            'value'    => $this->balance, 
+                                            'currency' => trans('site.SAR'), 
+                                        ],
             'birth'         => $this->birth,
             'about'         => $this->about,
             'class_count'   => count($this->Available_classes->where('status', 2)),

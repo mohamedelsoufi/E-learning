@@ -39,6 +39,36 @@ class notificaitons extends Controller
         ], 200);
     }
 
+    public function index_paginate(Request $request){
+        //get student
+        if (! $student = auth('student')->user()) {
+            return $this::faild(trans('auth.student not found'), 404, 'E04');
+        }
+
+        $request->student = $student;
+
+        //get student notifications
+        $new_notifications = student_notification::where('student_id', $student->id)
+                                ->where('seen', 0)
+                                ->count();
+
+        $notifications = student_notification::where('student_id', $student->id)
+                                ->orderBy('id', 'desc');
+
+
+        student_notification::where('student_id', $student->id)
+                                ->where('seen', 0)
+                                ->update(['seen'=> 1]);
+
+        return response()->json([
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'new_notifications'     => $new_notifications,
+            'notifications_count'   => $notifications->count(),
+            'notifications'         => notificationResource::collection($notifications->paginate(5))->response()->getData(true),
+        ], 200);
+    }
+
     public function notification_count(){
         //get student
         if (! $student = auth('student')->user()) {

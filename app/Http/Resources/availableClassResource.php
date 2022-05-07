@@ -46,7 +46,10 @@ class availableClassResource extends JsonResource
             'from'              => $this->from,
             'to'                => $this->to,
             'long'              => $this->long,
-            'cost'              => $this->cost,
+            'cost'              => [
+                                            'value'    => $this->cost, 
+                                            'currency' => trans('site.SAR'), 
+                                        ],
             'student_number'    => count($this->Student_classes),
             'time_now'          => $time_now,
             'agora'             => $agoraResponse,

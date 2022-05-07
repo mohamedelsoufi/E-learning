@@ -18,12 +18,15 @@ class classType_availableClassResource extends JsonResource
      */
     public function toArray($request)
     {
+        // $date = date_create(date('Y-m-d H:i:s'));
+        // date_add($date, date_interval_create_from_date_string('5 minute'));
+        // $new_date = date_format($date, 'Y-m-d H:i:s');
+
         $available_classes = Available_class::where('class_type_id', $this->id)
                                             ->where('subject_id', $request->get('subject_id'))
                                             ->where('teacher_id', $request->get('teacher_id'))
                                             ->where('to', '>', date('Y-m-d H:i:s'))
                                             ->withCount('Student_classes')
-                                            // ->doesntHave('Student_classes')
                                             ->whereDoesntHave('Student_classes', function($query) use($request){
                                                 $query->where('student_id', '=', $request->student_id);
                                             })
@@ -36,7 +39,10 @@ class classType_availableClassResource extends JsonResource
         return [
             'id'                => $this->id,
             'long'              => $this->long,
-            'cost'              => $this->long * $this->long_cost,
+            'cost'              => [
+                                        'value'    => $this->long * $this->long_cost, 
+                                        'currency' => trans('site.SAR'), 
+                                    ],
             'available_classes' => availableClassResource::collection($available_classes),
         ];
     }

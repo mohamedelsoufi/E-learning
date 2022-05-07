@@ -35,7 +35,10 @@ class studentResource extends JsonResource
                                     'id'   => $this->year_id,
                                     'name' => $this->getYear($lang),
                                 ],
-            'balance'       => $this->balance,
+            'balance'              => [
+                                'value'    => $this->balance, 
+                                'currency' => trans('site.SAR'), 
+                            ],
             'birth'         => $this->birth,
             'free_classes'  =>$this->free,
             'gender'        => $this->getGender(),

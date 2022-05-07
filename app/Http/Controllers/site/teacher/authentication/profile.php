@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\site\teacher\authentication;
 
-use App\Http\Controllers\admin\subjects;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\teacherResource;
 use App\Models\Image;
-use App\Models\Subject;
-use App\Models\Teacher_years;
-use App\Models\Tag;
 use App\Models\Teacher;
 use App\Models\Teacher_year;
 use App\Traits\response;

@@ -17,6 +17,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 date_default_timezone_set('Africa/cairo');
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(){
+    Route::post('/whiteboard/token', 'App\Http\Controllers\site\teacher\home@whiteboard');
     Route::get('/test', 'App\Http\Controllers\site\teacher\home@test');
 
 
@@ -87,6 +88,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
 
         Route::group(['prefix' => 'notifications'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\notificaitons@index');
+            Route::get('/pagination', 'App\Http\Controllers\site\teacher\notificaitons@index_paginate');
             Route::get('/notifications-count', 'App\Http\Controllers\site\teacher\notificaitons@notification_count');
         });
 

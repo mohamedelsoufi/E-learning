@@ -38,6 +38,34 @@ class notificaitons extends Controller
         ], 200);
     }
 
+
+    public function index_pagination(){
+        //get teacher
+        if (! $teacher = auth('teacher')->user()) {
+            return $this::faild(trans('auth.teacher not found'), 404, 'E04');
+        }
+
+        //get teacher notifications
+        $new_notifications = Teacher_notification::where('teacher_id', $teacher->id)
+                                ->where('seen', 0)
+                                ->count();
+
+        $notifications = Teacher_notification::where('teacher_id', $teacher->id)
+                                ->orderBy('id', 'desc');
+
+        Teacher_notification::where('teacher_id', $teacher->id)
+                                ->where('seen', 0)
+                                ->update(['seen'=> 1]);
+
+        return response()->json([
+            'successful'            => true,
+            'message'               => trans('auth.success'),
+            'new_notifications'     => $new_notifications,
+            'notifications_count'   => $notifications->count(),
+            'notifications'         => notificationResource::collection($notifications->paginate(5))->response()->getData(true),
+        ], 200);
+    }
+
     public function notification_count(){
         //get teacher
         if (! $teacher = auth('teacher')->user()) {

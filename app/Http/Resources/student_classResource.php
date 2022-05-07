@@ -19,7 +19,10 @@ class student_classResource extends JsonResource
             'from'           => $this->Available_class->from,
             'subject'        => $this->Available_class->subject->Main_subject->translate($lang)->name,
             'long'           => $this->Available_class->long,
-            'cost'           => $this->Available_class->cost,
+            'cost'              => [
+                                    'value'    => $this->price, 
+                                    'currency' => trans('site.SAR'), 
+                                ],
             'teacher'        => [
                                     'id'        => $this->Available_class->Teacher->id,
                                     'username'  => $this->Available_class->Teacher->username,

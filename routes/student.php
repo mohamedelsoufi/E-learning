@@ -17,8 +17,13 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 date_default_timezone_set('Africa/cairo');
 Route::post('/balanceCharging/{student_id}', 'App\Http\Controllers\site\student\payment@balance_charging');
+Route::post('/payment/return', 'App\Http\Controllers\site\student\payment@payment_return');
 
 Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(){
+    Route::post('/payment/check', 'App\Http\Controllers\site\student\payment@payment_check');
+
+    Route::post('/whiteboard/token', 'App\Http\Controllers\site\student\home@whiteboard');
+
     Route::get('/', 'App\Http\Controllers\Controller@test');
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
@@ -69,6 +74,8 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
 
         Route::group(['prefix' => 'notifications'], function(){
             Route::get('/', 'App\Http\Controllers\site\student\notificaitons@index');
+            Route::get('/pagination', 'App\Http\Controllers\site\student\notificaitons@index_paginate');
+
             Route::get('/notifications-count', 'App\Http\Controllers\site\student\notificaitons@notification_count');
         });
 

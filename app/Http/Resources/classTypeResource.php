@@ -23,7 +23,10 @@ class classTypeResource extends JsonResource
         return [
             'id'        => $this->id,
             'long'      => $this->long,
-            'cost'      => $this->long * $this->long_cost,
+            'cost'              => [
+                                        'value'    => $this->long * $this->long_cost, 
+                                        'currency' => trans('site.SAR'), 
+                                    ],
         ];
     }
 }

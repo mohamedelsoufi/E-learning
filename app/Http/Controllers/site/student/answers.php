@@ -40,7 +40,7 @@ class answers extends Controller
             'successful'        => true,
             'message'           => trans('auth.success'),
             'answers_count'     => $answers->count(),
-            'questions'         => answersResource::collection($answers->paginate(5))->response()->getData(true),
+            'answers'         => answersResource::collection($answers->paginate(5))->response()->getData(true),
         ], 200);
     }
 

@@ -19,7 +19,10 @@ class liveResource extends JsonResource
         return [
             'id'                => $this->id,
             'title'             => $this->title,
-            'cost'              => $this->cost,
+            'cost'              => [
+                                        'value'    => $this->cost, 
+                                        'currency' => trans('site.SAR'), 
+                                    ],
             'from'              => $this->from,
             'company_percentage'=> $this->company_percentage,
             'subject'           => [    
