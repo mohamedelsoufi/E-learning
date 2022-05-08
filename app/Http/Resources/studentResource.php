@@ -19,6 +19,12 @@ class studentResource extends JsonResource
             'id'            => $this->id,
             'username'      => $this->username,
             'email'         =>$this->email,
+            'birth'         => $this->birth,
+            'free_classes'  =>$this->free,
+            'questions_count'=>$this->Questions->count(),
+            'gender'        => $this->getGender(),
+            'gender_boolean'=> $this->gender,
+            'image'         => $this->getImage(),
             'phone'         => [
                                 'dialing_code'  =>$this->dialing_code,
                                 'phone'         =>$this->phone,
@@ -39,11 +45,6 @@ class studentResource extends JsonResource
                                 'value'    => $this->balance, 
                                 'currency' => trans('site.SAR'), 
                             ],
-            'birth'         => $this->birth,
-            'free_classes'  =>$this->free,
-            'gender'        => $this->getGender(),
-            'gender_boolean'=> $this->gender,
-            'image'         => $this->getImage(),
         ];
     }
 }

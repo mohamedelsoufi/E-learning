@@ -90,9 +90,9 @@ class payment extends Controller
 
         $signature = hash_hmac('sha256', $query, $serverKey);
         if (hash_equals($signature,$requestSignature) === TRUE) {
-            return $request;
+            return view('success');
         }else{
-            return false;
+            return 'faild';
         }
     }
 
