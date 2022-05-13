@@ -50,7 +50,7 @@ class offers extends Controller
                     'successful'    => false,
                     'not_enough'    => true,
                     'message'       => trans('site.your balance not enough'),
-                ], 200);
+                ], 400);
             }
 
             //tacke offer
@@ -62,7 +62,7 @@ class offers extends Controller
             return $this->success(trans('auth.success'), 200, 'student', new studentResource($student));
         } catch(\Exception $ex){
             //if there are error
-            return $this->faild(trans('auth.faild'), 200);
+            return $this->faild(trans('auth.faild'), 400);
         }
     }
 }

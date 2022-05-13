@@ -26,6 +26,7 @@ class classType_availableClassResource extends JsonResource
                                             ->where('subject_id', $request->get('subject_id'))
                                             ->where('teacher_id', $request->get('teacher_id'))
                                             ->where('to', '>', date('Y-m-d H:i:s'))
+                                            ->where('agora_token', null)
                                             ->withCount('Student_classes')
                                             ->whereDoesntHave('Student_classes', function($query) use($request){
                                                 $query->where('student_id', '=', $request->student_id);
