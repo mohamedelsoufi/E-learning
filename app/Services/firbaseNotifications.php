@@ -14,7 +14,7 @@ class firbaseNotifications
         $this->SERVER_API_KEY = env("FIREBASE_SERVER_API_KEY");
     }
 
-    public function send_notification($title, $body, $user_token){
+    public function send_notification($title, $body, $user_token, $notification){
         $data = [
             "to" => [
                 $user_token
@@ -25,6 +25,8 @@ class firbaseNotifications
                 "body"          => $body,
                 "sound"         => "default"
             ],
+
+            "data" => $notification,
         ];
     
         $dataString = json_encode($data);

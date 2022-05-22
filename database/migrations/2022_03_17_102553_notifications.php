@@ -17,10 +17,11 @@ class Notifications extends Migration
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->unsignedBigInteger('answer_id')->nullable();
             $table->unsignedBigInteger('available_class_id')->nullable();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
-            $table->integer('type')->nullable()->comment('1->student book class ,2->canel class ,3->join class');
+            $table->integer('type')->nullable()->comment('1->student book class ,2->canel class ,3->join class, 4-> some one answer');
             $table->text('agora_token')->nullable();
             $table->text('agora_rtm_token')->nullable();
             $table->text('agora_channel_name')->nullable();
@@ -30,6 +31,7 @@ class Notifications extends Migration
             //relations
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->foreign('available_class_id')->references('id')->on('available_classes')->onDelete('cascade');
         });
 
@@ -37,6 +39,7 @@ class Notifications extends Migration
             $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('student_id')->nullable();
             $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('answer_id')->nullable();
             $table->unsignedBigInteger('available_class_id')->nullable();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
@@ -51,7 +54,7 @@ class Notifications extends Migration
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('available_class_id')->references('id')->on('available_classes')->onDelete('cascade');
-
+            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
         });
     }
 

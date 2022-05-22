@@ -300,7 +300,11 @@ class home extends Controller
                 event(new studentNotification($student_class->student_id,new notificationResource($student_notification)));
             } else {
                 $student = Student::find($student_class->student_id);
-                $this->firbaseNotifications->send_notification($title, $body, $student->token_firebase);
+                $this->firbaseNotifications->send_notification($title,
+                                                                $body,
+                                                                $student->token_firebase,
+                                                                new notificationResource($student_notification),    
+                                                            );
             }
         }
 

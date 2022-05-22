@@ -4,9 +4,12 @@ namespace App\Http\Controllers\site\teacher;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\answersResource;
+use App\Http\Resources\notificationResource;
 use App\Models\Answer;
 use App\Models\Image;
+use App\Models\student_notification;
 use App\Models\Teacher;
+use App\Services\firbaseNotifications;
 use App\Traits\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +17,11 @@ use Illuminate\Support\Facades\Validator;
 class answers extends Controller
 {
     use response;
+    public function __construct(firbaseNotifications $firbaseNotifications)
+    {
+        $this->firbaseNotifications = $firbaseNotifications;
+    }
+
     public function index(Request $request){
         //validation
         $validator = Validator::make($request->all(), [
@@ -84,7 +92,28 @@ class answers extends Controller
         $request->user_id   = $teacher->id;
         $request->guard     = 'Teacher';
 
+        $this->send_notification($answer->Question->Student, $answer->id);
+
         return $this->success(trans('site.add answer success'), 200, 'answer', new answersResource($answer));
+    }
+
+    public function send_notification($question_owner, $answer_id){
+        $title = $question_owner->username .' add answer for your question';
+        $body = $question_owner->username .' add answer for your question';
+
+        $notification = student_notification::create([
+            'student_id'        => $question_owner->id,
+            'answer_id'         => $answer_id,
+            'title'             => $title,
+            'content'           => $body,
+            'type'              => 4,
+        ]);
+
+        $this->firbaseNotifications->send_notification($title, 
+                                                        $body,
+                                                        $question_owner->token_firebase,
+                                                        new notificationResource($notification),    
+                                                    );
     }
 
     public function delete(Request $request){

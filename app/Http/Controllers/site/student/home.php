@@ -134,7 +134,6 @@ class home extends Controller
     }
 
     //***//
-
     public function booking(Request $request){  //class
         // validate
         $validator = Validator::make($request->all(), [
@@ -253,7 +252,12 @@ class home extends Controller
             config(['queue.default' => 'sync']);
             event(new teacherNotification($available_class->teacher_id,new notificationResource($teacher_notification)));
         } else {
-            $this->firbaseNotifications->send_notification($title, $body, $available_class->Teacher->token_firebase);
+            $this->firbaseNotifications->send_notification(
+                    $title,
+                    $body,
+                    $available_class->Teacher->token_firebase,
+                    new notificationResource($teacher_notification),
+                );
         }
     }
 

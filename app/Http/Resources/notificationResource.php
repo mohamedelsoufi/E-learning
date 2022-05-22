@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\admin\students;
+use App\Models\Answer;
 use App\Models\Available_class;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -32,6 +33,7 @@ class notificationResource extends JsonResource
             'type'                  => $this->type,
             'seen'                  => $this->seen,
             'created_at'            => date("Y-m-d H:i:s", strtotime($this->created_at)),
+            'answer'                => $this->get_answer($this->answer_id),
             'agora'                 => $agoraResponse,
             'teacher'               => $teacher,
             'students'              => $classStudents['students']->map(function ($data) {
@@ -146,4 +148,13 @@ class notificationResource extends JsonResource
             'image'     => $target_student->getImage(),
         ];
     }
+
+    public function get_answer($answer_id){
+        if(!$answer_id)
+            return null;
+
+        $answer = Answer::find($answer_id);
+        
+        return new answersResource($answer);
+    }   
 }
