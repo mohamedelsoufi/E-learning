@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\site\student\authentication;
 
+use Aloha\Twilio\Twilio;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\student\authentication\auth as x;
 use App\Http\Resources\studentResource;
@@ -18,26 +19,26 @@ class verification extends Controller
     use response;
     ////////sent email /////////////
 
-    public function sendCode(Request $request){  // this is most important function to send mail and inside of that there are another function        
+    public function sendCode(Request $request){
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
         }
-        if (!$this->validatePhone($student->phone)) {  // this is validate to fail send mail or true
+        if (!$this->validatePhone($student->phone)) {
             return $this::faild(trans('auth.phone not found'), 404, 'E04');
         }
         
         // code is important in send mail 
         $code = $this->createCode($student->phone);
-        // Mail::to($request->email)->send(new MailVerification($code, $request->email));
+        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+        // $twilio->message('+2001151504348', 'your code is ' . $code);
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }
 
-    public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
+    public function createCode($phone){
 
         $oldCode = DB::table('student_verified')->where('phone', $phone)->first();
 
-        //if user already has code
         if ($oldCode)
             return $oldCode->code;
 
@@ -47,7 +48,7 @@ class verification extends Controller
         return $code;
     }
 
-    public function saveCode($code, $phone){  // this function save new password
+    public function saveCode($code, $phone){
         DB::table('student_verified')->insert([
             'phone'      => $phone,
             'code'          => $code,
@@ -55,7 +56,7 @@ class verification extends Controller
         ]);
     }
 
-    public function validatePhone($phone){  //this is a function to get your email from database
+    public function validatePhone($phone){
         return !!DB::table('students')->where('phone', $phone)->first();
     }
     ///////////////check if code is valid ////////////
@@ -102,12 +103,10 @@ class verification extends Controller
         ->where('phone', $student->phone)
         ->update(['verified' => 1]);
 
-        // remove verification data from db
         $this->verificationRow($request)->delete();
 
-        //get token
         try {
-            if (! $token = JWTAuth::fromUser($student)) { //login
+            if (! $token = JWTAuth::fromUser($student)) {
                 return $this->faild(trans('auth.passwored or phone is wrong'), 404, 'E04');
             }
         } catch (JWTException $e) {

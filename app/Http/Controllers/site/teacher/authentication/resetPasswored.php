@@ -34,21 +34,21 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors()->first(), 403);
         }
         
-        if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
+        if (!$this->validatePhone($request->phone)) {
             return $this::faild(trans('auth.phone not found'), 404, 'E04');
         }
         
         // code is important in send mail 
         $code = $this->createCode($request->phone);
-        // Mail::to($request->email)->send(new MailVerification($code, $request->email));
+        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+        // $twilio->message('+2001151504348', 'your code is ' . $code);
 
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }
 
-    public function createCode($phone){  // this is a function to get your request email that there are or not to send mail
+    public function createCode($phone){
         $oldCode = DB::table('teacher_password_resets')->where('phone', $phone)->first();
 
-        //if user already has code
         if ($oldCode)
             return $oldCode->code;
 
@@ -58,7 +58,7 @@ class resetPasswored extends Controller
         return $code;
     }
 
-    public function saveCode($code, $phone){  // this function save new password
+    public function saveCode($code, $phone){
         DB::table('teacher_password_resets')->insert([
             'phone'      => $phone,
             'code'          => $code,
@@ -66,7 +66,7 @@ class resetPasswored extends Controller
         ]);
     }
 
-    public function validatePhone($phone){  //this is a function to get your email from database
+    public function validatePhone($phone){
         return !!DB::table('teachers')->where('phone', $phone)->first();
     }
     ///////////////check if code is valid ////////////

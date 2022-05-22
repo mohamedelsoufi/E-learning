@@ -16,15 +16,14 @@ class firbaseNotifications
 
     public function send_notification($title, $body, $user_token){
         $data = [
-    
-            "registration_ids" => [
+            "to" => [
                 $user_token
             ],
     
             "notification" => [
                 "title"         => $title,
                 "body"          => $body,
-                "sound"         => "default" // required for sound on ios
+                "sound"         => "default"
             ],
         ];
     

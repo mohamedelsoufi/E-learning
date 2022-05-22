@@ -35,13 +35,14 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors()->first(), 403);
         }
         
-        if (!$this->validatePhone($request->phone)) {  // this is validate to fail send mail or true
+        if (!$this->validatePhone($request->phone)) {
             return $this::faild(trans('auth.phone not found'), 404, 'E04');
         }
         
         // code is important in send mail 
         $code = $this->createCode($request->phone);
-        // Mail::to($request->email)->send(new MailVerification($code, $request->email));
+        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+        // $twilio->message('+2001151504348', 'your code is ' . $code);
 
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }

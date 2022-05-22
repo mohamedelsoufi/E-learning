@@ -108,4 +108,12 @@ class Controller extends BaseController
     public function get_price_after_discount($price, $percentage){
         return $price - (($price / 100) * $percentage);
     }
+
+    public function test(){
+        $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+        $twilio->message('+2001151504348', 'ahmed maher');
+
+
+        return 'asdf';
+    }
 }

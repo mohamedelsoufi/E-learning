@@ -49,4 +49,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'guest'], function(){
     Route::get('teacher/profile', 'App\Http\Controllers\site\teacher\authentication\profile@index');
 
     Route::get('/materials', 'App\Http\Controllers\site\guest\home@materials');
+
+    Route::get('/test', 'App\Http\Controllers\Controller@test');
+
 });
