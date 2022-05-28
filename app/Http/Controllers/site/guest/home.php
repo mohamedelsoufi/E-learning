@@ -249,6 +249,22 @@ class home extends Controller
         return $this->Terms_and_Conditions_ar_response();
     }
 
+    public function contact_us(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email'       => 'required|string',
+            'title'       => 'required|string',
+            'content'     => 'required|string',
+        ]);
+
+        if($validator->fails())
+            return response::faild($validator->errors()->first(), 403, 'E03');
+
+        return response()->json([
+            'successful'        => true,
+            'message'           => trans('auth.success'),
+        ], 200); 
+    }
+
     public function Terms_and_Conditions_en_response(){
         return '<div style="margin-left: 15px; margin-right: 15px;">
         <div style="text-align: center;">

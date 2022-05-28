@@ -260,9 +260,8 @@ class home extends Controller
                             ->where('available_class_id', ($available_class->id))
                             ->get();
         
-        if(count($student_classes) == 0){       //check if there are student booking this class
+        if(count($student_classes) == 0)
             return $this->faild(trans('auth.no student booking this class'), 400);
-        }
 
         //creat agora room
         $agora          = $this->AgoraService->generateToken('teacher_' . $teacher->id);
