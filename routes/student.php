@@ -25,6 +25,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'students'], function(
     Route::post('/whiteboard/token', 'App\Http\Controllers\site\student\home@whiteboard');
 
     Route::get('/', 'App\Http\Controllers\Controller@test');
+    
     Route::post('login', 'App\Http\Controllers\site\student\authentication\auth@login');
     Route::post('register', 'App\Http\Controllers\site\student\authentication\auth@register');
 

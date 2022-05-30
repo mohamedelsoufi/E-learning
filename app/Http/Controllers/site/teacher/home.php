@@ -351,11 +351,6 @@ class home extends Controller
     }
 
     public function test(){
-        $date = date_create(date('Y-m-d H:i:s'));
-        date_add($date, date_interval_create_from_date_string('5 minute'));
-        $new_date = date_format($date, 'Y-m-d H:i:s');
-
-        return $new_date;
         // return date_sub(date('Y-m-d H:i:s'), date_interval_create_from_date_string('5 month'));
         // return date("Y-m-d h:i:s",'1650795048');
         return $this->AgoraService->generateToken('teacher_id');
@@ -363,13 +358,6 @@ class home extends Controller
         event(new MyEvent('test'));
 
         // return 'good';
-
-        Teacher::whereHas('Available_classes', function($query){
-            $query->where('teacher_mony', 0)->where('status', 2);
-        })
-        ->chunk(30, function($data){
-            dispatch(new JobsTeacherSalary($data));
-        });
 
         return 'good';
     }
