@@ -63,7 +63,7 @@
                                     <tr>
                                         <td>{{$class->id}}</td>
                                         <td>{{$class->Teacher->username}}</td>
-                                        <td>{{$class->Subject->Main_subject->translate('en')->name}}</td>
+                                        <td>{{$class->Subject->Main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$class->Class_type->long}}</td>
                                         <td>{{count($class->Student_classes)}}</td>
                                         <td>{{$class->from}}</td>

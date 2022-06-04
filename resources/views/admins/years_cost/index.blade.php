@@ -60,7 +60,7 @@
                                 @foreach ($years_cost as $year_cost)
                                     <tr>
                                         <td>{{$year_cost->id}}</td>
-                                        <td>{{$year_cost->Year->Level->Curriculum->translate('en')->name}} => {{$year_cost->Year->Level->translate('en')->name}} => {{$year_cost->Year->translate('en')->name}}</td>
+                                        <td>{{$year_cost->Year->Level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}} => {{$year_cost->Year->Level->translate(LaravelLocalization::getCurrentLocale())->name}} => {{$year_cost->Year->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$year_cost->cost}}</td>
                                         <td>
                                             {{-- edit --}}

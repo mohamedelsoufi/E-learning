@@ -49,7 +49,7 @@
                                 <label>main subject</label>
                                 <select name="main_subject_id" class="form-control">
                                     @foreach ($main_subjects as $main_subject)
-                                        <option value="{{$main_subject->id}}" @if ($subject->main_subject_id == $main_subject->id) selected @endif>{{$main_subject->translate('en')->name}}</option>
+                                        <option value="{{$main_subject->id}}" @if ($subject->main_subject_id == $main_subject->id) selected @endif>{{$main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('main_subject_id')

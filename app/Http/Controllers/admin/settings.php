@@ -33,8 +33,6 @@ class settings extends Controller
                 $settings->cost_country             = $request->cost_country;
                 $settings->cost_company_percentage  = $request->cost_company_percentage;
                 $settings->cost_year                = $request->cost_year;
-                $settings->video_company_percentage = $request->video_company_percentage;
-                $settings->live_company_percentage  = $request->live_company_percentage;
 
                 $settings->save();
 

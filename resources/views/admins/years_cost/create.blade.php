@@ -50,7 +50,7 @@
                                 <label>year</label>
                                 <select name="year_id" class="form-control">
                                     @foreach ($years as $year)
-                                        <option value="{{$year->id}}">{{$year->Level->Curriculum->translate('en')->name}} => {{$year->Level->translate('en')->name}} => {{$year->translate('en')->name}}</option>
+                                        <option value="{{$year->id}}">{{$year->Level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}} => {{$year->Level->translate(LaravelLocalization::getCurrentLocale())->name}} => {{$year->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('year_id')

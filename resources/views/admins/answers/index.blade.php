@@ -9,14 +9,14 @@
 
         <section class="content-header">
 
-            <h1>answers</h1>
+            <h1>{{ trans('admin.answers') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li> <a href="{{url('admins/questions')}}"><i class="fa fa-dashboard"></i>questions</a>
+                <li> <a href="{{url('admins/questions')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.questions') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>answers</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.answers') }}</li>
             </ol>
         </section>
 
@@ -52,10 +52,10 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>student</th>
-                                    <th>type</th>
-                                    <th>answer</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.student') }} </th>
+                                    <th>{{ trans('admin.type') }} </th>
+                                    <th>{{ trans('admin.answer') }} </th>
+                                    <th>{{ trans('admin.action') }} </th>
                                 </tr>
                             </thead>
 
@@ -70,11 +70,11 @@
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-questions'))
                                                 <a href="{{url('admins/answers/delete/' . $answer->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
-                                                    <i class="fa fa-1x fa-trash">delete</i>
+                                                    <i class="fa fa-1x fa-trash">{{ trans('admin.delete') }}</i>
                                                 </a> 
                                             @else
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-trash">delete</i>
+                                                    <i class="fa fa-trash">{{ trans('admin.delete') }}</i>
                                                 </button>
                                             @endif
                                         </td>

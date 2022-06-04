@@ -38,7 +38,7 @@
                                 <label>curriculum</label>
                                 <select name="curriculum_id" class="form-control">
                                     @foreach ($curriculums as $curriculum)
-                                        <option value="{{$curriculum->id}}" @if ($level->curriculum_id == $curriculum->id) selected @endif>{{$curriculum->translate('en')->name}}</option>
+                                        <option value="{{$curriculum->id}}" @if ($level->curriculum_id == $curriculum->id) selected @endif>{{$curriculum->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('role')

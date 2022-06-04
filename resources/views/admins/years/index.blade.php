@@ -66,11 +66,11 @@
                                 @foreach ($years as $year)
                                     <tr>
                                         <td>{{$year->id}}</td>
-                                        <td>{{$year->translate('ar')->name}}</td>
+                                        <td>{{$year->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>
-                                            {{$year->Level->Curriculum->Country->translate('ar')->name}} ->
-                                            {{$year->Level->Curriculum->translate('ar')->name}} ->
-                                            {{$year->Level->translate('ar')->name}}
+                                            {{$year->Level->Curriculum->Country->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$year->Level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$year->Level->translate(LaravelLocalization::getCurrentLocale())->name}}
                                         </td>
                                         <td>{{$year->getStatus()}}</td>
                                         <td><a href="terms?curriculum={{$curriculum_id}}&&level={{$level_id}}&&year={{$year->id}}">{{count($year->Terms->where('status', '!=', -1))}}</a></td>

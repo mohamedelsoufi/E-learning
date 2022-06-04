@@ -38,7 +38,7 @@
                                 <label>year</label>
                                 <select name="year_id" class="form-control">
                                     @foreach ($years as $year)
-                                        <option value="{{$year->id}}" @if ($term->year_id == $year->id) selected @endif>{{$year->translate('en')->name}}</option>
+                                        <option value="{{$year->id}}" @if ($term->year_id == $year->id) selected @endif>{{$year->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('term_id')

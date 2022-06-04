@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>country</h1>
+            <h1>{{ trans('admin.country') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>countries</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.countries') }}</li>
             </ol>
         </section>
 
@@ -31,10 +31,10 @@
                                  
                                 @if (auth('admin')->user()->isAbleTo('create-countries'))
                                     <a href="{{url('admins/countries/create')}}"
-                                    class="btn btn-primary"><i class="fa fa-plus"></i>add
+                                    class="btn btn-primary"><i class="fa fa-plus"></i>{{ trans('admin.add') }}
                                     </a>
                                 @else
-                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>Add </button>
+                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>{{ trans('admin.add') }} </button>
                                 @endif
                             </div>
                         </div>
@@ -48,11 +48,11 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-                                    <th>dialing_code</th>
-                                    <th>image</th>
-                                    <th>status</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.dialing_code') }}</th>
+                                    <th>{{ trans('admin.image') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -60,7 +60,7 @@
                                 @foreach ($countries as $country)
                                     <tr>
                                         <td>{{$country->id}}</td>
-                                        <td>{{$country->translate('en')->name}}</td>
+                                        <td>{{$country->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$country->dialing_code}}</td>
                                         <td><img src="{{$country->getImage()}}" style="width: 150px"></td>
                                         <td>{{$country->getStatus()}}</td>
@@ -71,22 +71,22 @@
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
-                                                        <i class="fa fa-edit">edit</i>
+                                                        <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </a>
                                             @else
                                                 <button class="btn btn-info btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-edit">edit</i>
+                                                    <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </button>
                                             @endif
 
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-countries'))
                                                 <a href="{{url('admins/countries/delete/' . $country->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
-                                                    <i class="fa fa-1x fa-trash">delete</i>
+                                                    <i class="fa fa-1x fa-trash">{{ trans('admin.delete') }}</i>
                                                 </a> 
                                             @else
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-trash">delete</i>
+                                                    <i class="fa fa-trash">{{ trans('admin.delete') }}</i>
                                                 </button>
                                             @endif
                                         </td>

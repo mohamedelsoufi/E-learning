@@ -71,14 +71,14 @@
                                 @foreach ($materials as $material)
                                     <tr>
                                         <td>{{$material->id}}</td>
-                                        <td>{{$material->translate('en')->name}}</td>
+                                        <td>{{$material->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>
-                                            {{$material->Subject->Term->Year->Level->Curriculum->Country->translate('en')->name}} ->
-                                            {{$material->Subject->Term->Year->Level->Curriculum->translate('en')->name}} ->
-                                            {{$material->Subject->Term->Year->Level->translate('en')->name}} ->
-                                            {{$material->Subject->Term->Year->translate('en')->name}} ->
-                                            {{$material->Subject->Term->translate('en')->name}} ->
-                                            {{$material->subject->Main_subject->translate('en')->name}}
+                                            {{$material->Subject->Term->Year->Level->Curriculum->Country->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$material->Subject->Term->Year->Level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$material->Subject->Term->Year->Level->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$material->Subject->Term->Year->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$material->Subject->Term->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$material->subject->Main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}
                                         </td>
                                         <td>{{$material->getStatus()}}</td>
                                         <td>

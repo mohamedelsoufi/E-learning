@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>edit</h1>
+            <h1>{{ trans('admin.edit') }} </h1>
 
             <ol class="breadcrumb">
-                <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>settings</a></li>
-                <li class="active"><i class="fa fa-plus"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>{{ trans('admin.settings') }}</a></li>
+                <li class="active"><i class="fa fa-plus"></i>{{ trans('admin.edit') }}</li>
             </ol>
         </section>
 
@@ -23,7 +23,7 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h1 class="box-title">edit</h1>
+                    <h1 class="box-title">{{ trans('admin.edit') }} </h1>
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
@@ -35,9 +35,9 @@
                         
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>students number cost</label>
+                                <label>{{ trans('admin.students number cost') }}</label>
                                 <input type="number" step="0.01" class="form-control  @error('cost_students_number') is-invalid @enderror" name="cost_students_number"
-                                    placeholder="students number cost" value="{{ $settings->cost_students_number }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.students number cost') }}" value="{{ $settings->cost_students_number }}" required autocomplete="off">
                                 @error('cost_students_number')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -48,9 +48,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>level cost</label>
+                                <label>{{ trans('admin.level cost') }}</label>
                                 <input type="number" step="0.01" class="form-control  @error('cost_level') is-invalid @enderror" name="cost_level"
-                                    placeholder="level cost" value="{{ $settings->cost_level }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.level cost') }}" value="{{ $settings->cost_level }}" required autocomplete="off">
                                 @error('cost_level')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -61,9 +61,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>year cost</label>
+                                <label>{{ trans('admin.year cost') }}</label>
                                 <input type="number" step="0.01" class="form-control  @error('cost_year') is-invalid @enderror" name="cost_year"
-                                    placeholder="year cost" value="{{ $settings->cost_year }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.year cost') }}" value="{{ $settings->cost_year }}" required autocomplete="off">
                                 @error('cost_year')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -74,9 +74,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>country cost</label>
+                                <label>{{ trans('admin.country cost') }}</label>
                                 <input type="number" step="0.01" class="form-control  @error('cost_country') is-invalid @enderror" name="cost_country"
-                                    placeholder="country cost" value="{{ $settings->cost_country }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.country cost') }}" value="{{ $settings->cost_country }}" required autocomplete="off">
                                 @error('cost_country')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -87,9 +87,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>company percentage cost</label>
+                                <label>{{ trans('admin.company percentage cost') }}</label>
                                 <input type="number" class="form-control  @error('cost_company_percentage') is-invalid @enderror" name="cost_company_percentage"
-                                    placeholder="company_percentage cost" value="{{ $settings->cost_company_percentage }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.company percentage cost') }}" value="{{ $settings->cost_company_percentage }}" required autocomplete="off">
                                 @error('cost_company_percentage')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -98,37 +98,13 @@
                             </div>
                         </div>
 
-                        {{-- <div class="col-md-12">
-                            <div class="form-group">
-                                <label>company video percentage</label>
-                                <input type="number" class="form-control  @error('video_company_percentage') is-invalid @enderror" name="video_company_percentage"
-                                    placeholder="company video percentage" value="{{ $settings->video_company_percentage }}" required autocomplete="off">
-                                @error('video_company_percentage')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
-                            </div>
-                        </div> --}}
-
-                        {{-- <div class="col-md-12">
-                            <div class="form-group">
-                                <label>company live percentage</label>
-                                <input type="number" class="form-control  @error('live_company_percentage') is-invalid @enderror" name="live_company_percentage"
-                                    placeholder="company live percentage" value="{{ $settings->live_company_percentage }}" required autocomplete="off">
-                                @error('live_company_percentage')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
-                            </div>
-                        </div> --}}
+                        
 
                         <div class="row" style="margin: 0 !important;">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        {{ trans('admin.save') }}</button>
                                 </div>
                             </div>
                         </div>

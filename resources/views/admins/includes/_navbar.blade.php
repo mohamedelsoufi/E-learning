@@ -3,8 +3,8 @@
     {{--<!-- Logo -->--}}
     <a href="#" class="logo">
         {{--<!-- mini logo for sidebar mini 50x50 pixels -->--}}
-        <span class="logo-mini">Hiring</span>
-        <span class="logo-lg">Hiring</span>
+        <span class="logo-mini">academia in</span>
+        <span class="logo-lg">academia in</span>
     </a>
 
     <nav class="navbar navbar-static-top">
@@ -79,11 +79,15 @@
                     <ul class="dropdown-menu">
                         <li>
                             <ul class="menu">
-                                <li>
-                                    <a rel="alternate" hreflang="" href="#">
-                                        users
-                                    </a>
-                                </li>
+
+                                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                    <li>
+                                        <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                            {{ $properties['native'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </li>
                     </ul>
@@ -97,7 +101,7 @@
                         <span class="hidden-xs">{{auth('admin')->user()->username}}</span>
                     </a>
                     <ul class="dropdown-menu">
-
+                        
                         {{--<!-- User image -->--}}
                         <li class="user-header">
                             <img src="{{auth('admin')->user()->getImage()}}" class="img-circle" alt="User Image">
@@ -110,7 +114,7 @@
                         <li class="user-footer">
 
 
-                            <a href="{{url('admins/logout')}}" class="btn btn-default btn-flat">logout</a>
+                            <a href="{{url('admins/logout')}}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
 
                             <form id="logout-form" action="#" method="POST" style="display: none;">
                                 @csrf

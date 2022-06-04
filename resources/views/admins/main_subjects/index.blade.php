@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>main subject</h1>
+            <h1>{{ trans('admin.subject') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>main subjects</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.subjects') }}</li>
             </ol>
         </section>
 
@@ -33,10 +33,10 @@
                                  
                                 @if (auth('admin')->user()->isAbleTo('create-curriculums'))
                                     <a href="{{url('admins/main_subjects/create')}}"
-                                    class="btn btn-primary"><i class="fa fa-plus"></i>add
+                                    class="btn btn-primary"><i class="fa fa-plus"></i>{{ trans('admin.add') }}
                                     </a>
                                 @else
-                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>Add </button>
+                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>{{ trans('admin.add') }} </button>
                                 @endif
                             </div>
                         </div>
@@ -50,10 +50,10 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-                                    <th>status</th>
-                                    <th>image</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.image') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -61,7 +61,7 @@
                                 @foreach ($main_subjects as $main_subject)
                                     <tr>
                                         <td>{{$main_subject->id}}</td>
-                                        <td>{{$main_subject->translate('ar')->name}}</td>
+                                        <td>{{$main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$main_subject->getStatus()}}</td>
                                         <td><img src="{{$main_subject->getImage()}}" style="width: 150px"></td>
                                         <td>
@@ -71,22 +71,22 @@
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
-                                                        <i class="fa fa-edit">edit</i>
+                                                        <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </a>
                                             @else
                                                 <button class="btn btn-info btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-edit">edit</i>
+                                                    <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </button>
                                             @endif
 
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-curriculums'))
                                                 <a href="{{url('admins/main_subjects/delete/' . $main_subject->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
-                                                    <i class="fa fa-1x fa-trash">delete</i>
+                                                    <i class="fa fa-1x fa-trash">{{ trans('admin.delete') }}</i>
                                                 </a> 
                                             @else
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-trash">delete</i>
+                                                    <i class="fa fa-trash">{{ trans('admin.delete') }}</i>
                                                 </button>
                                             @endif
                                         </td>

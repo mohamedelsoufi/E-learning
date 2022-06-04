@@ -8,10 +8,10 @@
 
         <section class="content-header">
 
-            <h1>dashboard</h1>
+            <h1>{{ trans('admin.dashboard') }}</h1>
 
             <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-dashboard"></i>dashboard</li>
+                <li class="active"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</li>
             </ol>
         </section>
 
@@ -25,7 +25,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Admin::count()}}</h3>
 
-                            <p>admins</p>
+                            <p>{{ trans('admin.admins') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -38,7 +38,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Country::active()->count()}}</h3>
 
-                            <p>Countries</p>
+                            <p>{{ trans('admin.countries') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -51,7 +51,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Student::count()}}</h3>
 
-                            <p>Students</p>
+                            <p>{{ trans('admin.students') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -64,7 +64,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Teacher::count()}}</h3>
 
-                            <p>Teachers</p>
+                            <p>{{ trans('admin.teachers') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -77,7 +77,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Question::count()}}</h3>
 
-                            <p>questions</p>
+                            <p>{{ trans('admin.questions') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -90,7 +90,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Offer::count()}}</h3>
 
-                            <p>offers</p>
+                            <p>{{ trans('admin.offers') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -103,7 +103,7 @@
                         <div class="inner">
                             <h3>{{App\Models\Role::count()}}</h3>
 
-                            <p>Roles</p>
+                            <p>{{ trans('admin.roles') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>

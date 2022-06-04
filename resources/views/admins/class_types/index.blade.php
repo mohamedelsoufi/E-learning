@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>class types</h1>
+            <h1>{{ trans('admin.class types') }} </h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>class types</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.class types') }}</li>
             </ol>
         </section>
 
@@ -50,10 +50,10 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>long</th>
-                                    <th>minutes cost</th>
-                                    <th>status</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.long') }}</th>
+                                    <th>{{ trans('admin.minutes cost') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -71,11 +71,11 @@
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
-                                                        <i class="fa fa-edit">edit</i>
+                                                        <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </a>
                                             @else
                                                 <button class="btn btn-info btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-edit">edit</i>
+                                                    <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </button>
                                             @endif
 

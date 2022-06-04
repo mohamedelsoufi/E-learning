@@ -38,7 +38,7 @@
                                 <label>level</label>
                                 <select name="level_id" class="form-control">
                                     @foreach ($levels as $level)
-                                        <option value="{{$level->id}}" @if ($year->level_id == $level->id) selected @endif>{{$level->translate('en')->name}}</option>
+                                        <option value="{{$level->id}}" @if ($year->level_id == $level->id) selected @endif>{{$level->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('year_id')

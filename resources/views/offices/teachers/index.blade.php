@@ -58,7 +58,7 @@
                                         <td>{{$teacher->id}}</td>
                                         <td>{{$teacher->username}}</td>
                                         <td>{{$teacher->dialing_code}} => {{$teacher->phone}}</td>
-                                        <td>{{$teacher->Country->translate('en')->name}}</td>
+                                        <td>{{$teacher->Country->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$teacher->getGender()}}</td>
                                         <td>{{$teacher->Completed_classes->count()}}</td>
                                         <td>{{$teacher->balance}}</td>

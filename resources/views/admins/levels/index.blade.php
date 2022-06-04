@@ -64,8 +64,8 @@
                                 @foreach ($levels as $level)
                                     <tr>
                                         <td>{{$level->id}}</td>
-                                        <td>{{$level->translate('ar')->name}}</td>
-                                        <td>{{$level->Curriculum->Country->translate('ar')->name}} -> {{$level->Curriculum->translate('ar')->name}}</td>
+                                        <td>{{$level->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
+                                        <td>{{$level->Curriculum->Country->translate(LaravelLocalization::getCurrentLocale())->name}} -> {{$level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$level->getStatus()}}</td>
                                         <td><a href="years?{{$parms}}&&level={{$level->id}}">{{count($level->Years->where('status', '!=', -1))}}</a></td>
                                         <td>

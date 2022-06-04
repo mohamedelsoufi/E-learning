@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>questions</h1>
+            <h1>{{ trans('admin.questions') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/questions')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins/questions')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.') }}dashboard</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>questions</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.questions') }}</li>
             </ol>
         </section>
 
@@ -50,11 +50,11 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>student</th>
-                                    <th>subject</th>
-                                    <th>question</th>
-                                    <th>answer count</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.student') }}</th>
+                                    <th>{{ trans('admin.subject') }}</th>
+                                    <th>{{ trans('admin.question') }}</th>
+                                    <th>{{ trans('admin.answer count') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -63,18 +63,18 @@
                                     <tr>
                                         <td>{{$question->id}}</td>
                                         <td>{{$question->Student->username}}</td>
-                                        <td>{{$question->subject->Main_subject->translate('en')->name}}</td>
+                                        <td>{{$question->subject->Main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$question->question}}</td>
                                         <td><a href="answers?question={{$question->id}}">{{count($question->Answers)}}</a></td>
                                         <td>
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-questions'))
                                                 <a href="{{url('admins/questions/delete/' . $question->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
-                                                    <i class="fa fa-1x fa-trash">delete</i>
+                                                    <i class="fa fa-1x fa-trash">{{ trans('admin.delete') }}</i>
                                                 </a> 
                                             @else
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-trash">delete</i>
+                                                    <i class="fa fa-trash">{{ trans('admin.delete') }}</i>
                                                 </button>
                                             @endif
                                         </td>

@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>students</h1>
+            <h1>{{ trans('admin.students') }} </h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins/students')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins/students')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>students</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.students') }}</li>
             </ol>
         </section>
 
@@ -50,13 +50,13 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>student</th>
-                                    <th>phone</th>
-                                    <th>country</th>
-                                    <th>gender</th>
-                                    <th>balance</th>
-                                    <th>status</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.student') }}</th>
+                                    <th>{{ trans('admin.phone') }}</th>
+                                    <th>{{ trans('admin.country') }}</th>
+                                    <th>{{ trans('admin.gender') }}</th>
+                                    <th>{{ trans('admin.balance') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -66,7 +66,7 @@
                                         <td>{{$student->id}}</td>
                                         <td>{{$student->username}}</td>
                                         <td>{{$student->dialing_code}} => {{$student->phone}}</td>
-                                        <td>{{$student->Country->translate('en')->name}}</td>
+                                        <td>{{$student->Country->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$student->getGender()}}</td>
                                         <td>{{$student->balance}}</td>
                                         <td>{{$student->getStatus()}}</td>

@@ -37,7 +37,7 @@
                                 <label>terms</label>
                                 <select name="term_id" class="form-control">
                                     @foreach ($terms as $term)
-                                        <option value="{{$term->id}}" @if ($term_id == $term->id) selected @endif>{{$term->translate('en')->name}}</option>
+                                        <option value="{{$term->id}}" @if ($term_id == $term->id) selected @endif>{{$term->translate(LaravelLocalization::getCurrentLocale())elLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('terms_id')
@@ -53,7 +53,7 @@
                                 <label>main subject</label>
                                 <select name="main_subject_id" class="form-control">
                                     @foreach ($main_subjects as $main_subject)
-                                        <option value="{{$main_subject->id}}">{{$main_subject->translate('ar')->name}}</option>
+                                        <option value="{{$main_subject->id}}">{{$main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('main_subject_id')

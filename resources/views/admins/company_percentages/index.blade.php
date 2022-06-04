@@ -60,7 +60,7 @@
                                 @foreach ($company_percentages as $company_percentage)
                                     <tr>
                                         <td>{{$company_percentage->id}}</td>
-                                        <td>{{$company_percentage->Country->translate('en')->name}}</td>
+                                        <td>{{$company_percentage->Country->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>%{{$company_percentage->percentage}}</td>
                                         <td>
                                             {{-- edit --}}

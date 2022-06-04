@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>add</h1>
+            <h1>{{ trans('admin.add') }} </h1>
 
             <ol class="breadcrumb">
-                <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>offers</a></li>
-                <li class="active"><i class="fa fa-plus"></i>add</li>
+                <li> <a href="#"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>{{ trans('admin.offers') }}</a></li>
+                <li class="active"><i class="fa fa-plus"></i>{{ trans('admin.add') }}</li>
             </ol>
         </section>
 
@@ -23,7 +23,7 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h1 class="box-title">add</h1>
+                    <h1 class="box-title">{{ trans('admin.add') }}</h1>
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
@@ -35,9 +35,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>price</label>
+                                <label>{{ trans('admin.price') }}</label>
                                 <input type="number" step="0.01" class="form-control  @error('price') is-invalid @enderror" name="price"
-                                    placeholder="price" required autocomplete="off">
+                                    placeholder="{{ trans('admin.price') }}" required autocomplete="off">
                                 @error('price')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -48,9 +48,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>discount</label>
+                                <label>{{ trans('admin.discount') }}</label>
                                 <input type="number" min="0" max="100" class="form-control  @error('discount') is-invalid @enderror" name="discount"
-                                    placeholder="discount" required autocomplete="off">
+                                    placeholder="{{ trans('admin.discount') }}" required autocomplete="off">
                                 @error('discount')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -61,9 +61,9 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>classes_count</label>
+                                <label>{{ trans('admin.classes count') }}</label>
                                 <input type="number" class="form-control  @error('classes_count') is-invalid @enderror" name="classes_count"
-                                    placeholder="classes_count" required autocomplete="off">
+                                    placeholder="{{ trans('admin.classes count') }}" required autocomplete="off">
                                 @error('classes_count')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -76,7 +76,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        add</button>
+                                        {{ trans('admin.add') }}</button>
                                 </div>
                             </div>
                         </div>

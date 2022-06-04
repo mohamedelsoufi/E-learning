@@ -8,12 +8,12 @@
 
         <section class="content-header">
 
-            <h1>user edit</h1>
+            <h1>{{ trans('admin.edit') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>user</a></li>
-                <li class="active"><i class="fa fa-edit"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>{{ trans('admin.role') }}</a></li>
+                <li class="active"><i class="fa fa-edit"></i>{{ trans('admin.edit') }}</li>
             </ol>
         </section>
 
@@ -32,31 +32,31 @@
                         @csrf
                         <div class="row" style="margin: 0 !important;">
                         
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>name</label>
-                                <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name"
-                                    placeholder="name" value="{{ $role->name }}" required autocomplete="off">
-                                @error('name')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{ trans('admin.name') }}</label>
+                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name"
+                                        placeholder="{{ trans('admin.name') }}" value="{{ $role->name }}" required autocomplete="off">
+                                    @error('name')
+                                        <small class=" text text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </small>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>description</label>
-                                <input type="text" class="form-control  @error('description') is-invalid @enderror" name="description"
-                                placeholder="description" value="{{ $role->description }}" required autocomplete="off">
-                                @error('description')
-                                    <small class=" text text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @enderror
+    
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{ trans('admin.description') }}</label>
+                                    <input type="text" class="form-control  @error('description') is-invalid @enderror" name="description"
+                                    placeholder="{{ trans('admin.description') }}" value="{{ $role->description }}" required autocomplete="off">
+                                    @error('description')
+                                        <small class=" text text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </small>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
                         
                         @php
                         $models = [
@@ -96,7 +96,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        {{ trans('admin.save') }}</button>
                                 </div>
                             </div>
                         </div>

@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>edit</h1>
+            <h1>{{ trans('admin.edit') }} </h1>
 
             <ol class="breadcrumb">
-                <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>main subjects</a></li>
-                <li class="active"><i class="fa fa-plus"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>{{ trans('admin.subjects') }}</a></li>
+                <li class="active"><i class="fa fa-plus"></i>{{ trans('admin.edit') }}</li>
             </ol>
         </section>
 
@@ -23,7 +23,7 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h1 class="box-title">edit</h1>
+                    <h1 class="box-title">{{ trans('admin.edit') }}</h1>
                 </div> {{-- end of box header --}}
 
                 <div class="box-body">
@@ -35,7 +35,7 @@
                         
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>image</label>
+                                <label>{{ trans('admin.image') }}</label>
                                 <input type="file" class="form-control"  name="image"
                                     autocomplete="off">
                                 @error('image')
@@ -49,9 +49,9 @@
                         @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>name in {{$properties['native']}}</label>
+                                    <label>{{ trans('admin.name in') }} {{$properties['native']}}</label>
                                     <input type="text" class="form-control  @error('name') is-invalid @enderror" name="main_subjects[{{$localeCode}}][name]"
-                                        placeholder="name" value="{{$main_subject->translate($localeCode)->name}}" required autocomplete="off">
+                                        placeholder="{{ trans('admin.name') }}" value="{{$main_subject->translate($localeCode)->name}}" required autocomplete="off">
                                     @error('name')
                                         <small class=" text text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -65,7 +65,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="checkbox" id="switcherySize" value="1" class="switchery" name="status" data-size="lg" @if ($main_subject->status == 1) checked @endif/>
-                                <label for="switcherySize" class="font-medium-2 text-bold-600 ml-1">status</label>
+                                <label for="switcherySize" class="font-medium-2 text-bold-600 ml-1">{{ trans('admin.status') }}</label>
                             </div>
                         </div>
                         
@@ -73,7 +73,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        {{ trans('admin.save') }}</button>
                                 </div>
                             </div>
                         </div>

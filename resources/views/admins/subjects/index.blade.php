@@ -72,13 +72,13 @@
                                 @foreach ($subjects as $subject)
                                     <tr>
                                         <td>{{$subject->id}}</td>
-                                        <td>{{$subject->Main_subject->translate('ar')->name}}</td>
+                                        <td>{{$subject->Main_subject->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>
-                                            {{$subject->Term->Year->Level->Curriculum->Country->translate('ar')->name}} ->
-                                            {{$subject->Term->Year->Level->Curriculum->translate('ar')->name}} ->
-                                            {{$subject->Term->Year->Level->translate('ar')->name}} ->
-                                            {{$subject->Term->Year->translate('ar')->name}} ->
-                                            {{$subject->Term->translate('ar')->name}}
+                                            {{$subject->Term->Year->Level->Curriculum->Country->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$subject->Term->Year->Level->Curriculum->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$subject->Term->Year->Level->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$subject->Term->Year->translate(LaravelLocalization::getCurrentLocale())->name}} ->
+                                            {{$subject->Term->translate(LaravelLocalization::getCurrentLocale())->name}}
                                         </td>
                                         <td>{{$subject->getStatus()}}</td>
                                         <td><img src='{{$subject->Main_subject->getImage()}}' style="width: 100px"></td>

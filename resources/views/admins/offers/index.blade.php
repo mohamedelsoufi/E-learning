@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>offers</h1>
+            <h1>{{ trans('admin.offers') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>dashboard</a>
+                <li> <a href="{{url('admins')}}"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a>
                 </li>
-                <li class="active"><i class="fa fa-users"></i>offers</li>
+                <li class="active"><i class="fa fa-users"></i>{{ trans('admin.offers') }}</li>
             </ol>
         </section>
 
@@ -33,10 +33,10 @@
                                  
                                 @if (auth('admin')->user()->isAbleTo('create-offers'))
                                     <a href="{{url('admins/offers/create')}}"
-                                    class="btn btn-primary"><i class="fa fa-plus"></i>add
+                                    class="btn btn-primary"><i class="fa fa-plus"></i>{{ trans('admin.add') }}
                                     </a>
                                 @else
-                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>Add </button>
+                                    <button class="btn btn-primary"disabled><i class="fa fa-plus"></i>{{ trans('admin.add') }} </button>
                                 @endif
                             </div>
                         </div>
@@ -50,10 +50,10 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>price</th>
-                                    <th>discount</th>
-                                    <th>classes count</th>
-                                    <th>action</th>
+                                    <th>{{ trans('admin.price') }}</th>
+                                    <th>{{ trans('admin.discount') }}</th>
+                                    <th>{{ trans('admin.classes count') }}</th>
+                                    <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
 
@@ -71,22 +71,22 @@
                                                     background-color: #17a2b8;
                                                     border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
                                                         data-original-title="edit">
-                                                        <i class="fa fa-edit">edit</i>
+                                                        <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </a>
                                             @else
                                                 <button class="btn btn-info btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-edit">edit</i>
+                                                    <i class="fa fa-edit">{{ trans('admin.edit') }}</i>
                                                 </button>
                                             @endif
 
                                             {{-- delete --}}
                                             @if (auth('admin')->user()->isAbleTo('delete-offers'))
                                                 <a href="{{url('admins/offers/delete/' . $offer->id)}}" tyle="color:#fff!important;" rel="tooltip" title="" class="btn btn-danger  btn-sm">
-                                                    <i class="fa fa-1x fa-trash">delete</i>
+                                                    <i class="fa fa-1x fa-trash">{{ trans('admin.delete') }}</i>
                                                 </a> 
                                             @else
                                                 <button class="btn btn-danger btn-sm"type="submit" value="" disabled>
-                                                    <i class="fa fa-trash">delete</i>
+                                                    <i class="fa fa-trash">{{ trans('admin.delete') }}</i>
                                                 </button>
                                             @endif
                                         </td>

@@ -13,11 +13,11 @@
         </div>
 
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="{{request()->is('offices')? 'active':''}}">
+            <li class="{{request()->is('*/offices')? 'active':''}}">
                 <a href="{{url('offices')}}"><i class="fa fa-users"></i><span>dashboard</span></a>
             </li>
 
-            <li class="{{(request()->is('offices/teachers') || request()->is('offices/teachers/*'))? 'active':''}}">
+            <li class="{{(request()->is('*/offices/teachers') || request()->is('*/offices/teachers/*'))? 'active':''}}">
                 <a href="{{url('offices/teachers')}}"><i class="fa fa-users"></i><span>teachers</span></a>
             </li>
 

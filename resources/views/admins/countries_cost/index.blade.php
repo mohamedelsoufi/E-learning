@@ -60,7 +60,7 @@
                                 @foreach ($countries_cost as $country_cost)
                                     <tr>
                                         <td>{{$country_cost->id}}</td>
-                                        <td>{{$country_cost->Country->translate('en')->name}}</td>
+                                        <td>{{$country_cost->Country->translate(LaravelLocalization::getCurrentLocale())->name}}</td>
                                         <td>{{$country_cost->cost}}</td>
                                         <td>
                                             {{-- edit --}}

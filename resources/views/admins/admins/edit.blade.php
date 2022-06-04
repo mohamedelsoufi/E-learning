@@ -9,12 +9,12 @@
 
         <section class="content-header">
 
-            <h1>user edit</h1>
+            <h1>{{ trans('admin.edit') }}</h1>
 
             <ol class="breadcrumb">
-                <li> <a href="#"><i class="fa fa-dashboard"></i>dashboard</a></li>
-                <li> <a href="#"><i class="fa fa-users"></i>user</a></li>
-                <li class="active"><i class="fa fa-edit"></i>edit</li>
+                <li> <a href="#"><i class="fa fa-dashboard"></i>{{ trans('admin.dashboard') }}</a></li>
+                <li> <a href="#"><i class="fa fa-users"></i>{{ trans('admin.admin') }}</a></li>
+                <li class="active"><i class="fa fa-edit"></i>{{ trans('admin.edit') }}</li>
             </ol>
         </section>
 
@@ -34,9 +34,9 @@
                         <div class="row" style="margin: 0 !important;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>username</label>
+                                <label>{{ trans('admin.username') }}</label>
                                 <input type="username" class="form-control  @error('username') is-invalid @enderror" name="username"
-                                    placeholder="username" value="{{ $admin->username }}" required autocomplete="off">
+                                    placeholder="{{ trans('admin.username') }}" value="{{ $admin->username }}" required autocomplete="off">
                                 @error('username')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,8 +47,8 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>password</label>
-                                <input type="password" placeholder="password" class="form-control  @error('password') is-invalid @enderror" name="password" value="">
+                                <label>{{ trans('admin.password') }}</label>
+                                <input type="password" placeholder="{{ trans('admin.password') }}" class="form-control  @error('password') is-invalid @enderror" name="password" value="">
                                 @error('password')
                                     <small class=" text text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>role</label>
+                                <label>{{ trans('admin.role') }}</label>
                                 <select name="role_id" class="form-control">
                                     @foreach ($roles as $role)
                                         <option value="{{$role->id}}" @if ($role->id == $admin->getRoleId()) selected @endif>{{$role->name}}</option>
@@ -77,7 +77,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                        save</button>
+                                        {{ trans('admin.save') }}</button>
                                 </div>
                             </div>
                         </div>
