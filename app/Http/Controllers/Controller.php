@@ -109,9 +109,17 @@ class Controller extends BaseController
         return $price - (($price / 100) * $percentage);
     }
 
+    public function send_message($dialing_code, $phone, $message){
+        try {
+            $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+            $twilio->message($dialing_code . $phone, $message);
+            return 1;
+        } catch (Exception $e) {
+            return 'phone is wrong';
+        }
+    }
+
     public function test(){
-        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
-        // $twilio->message('+2001151504348', 'ahmed maher');
-        return 'asdf';
+        return $this->send_message('+20', '011515043482', 'mmm');
     }
 }

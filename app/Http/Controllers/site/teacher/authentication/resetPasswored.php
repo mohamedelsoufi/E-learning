@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\site\teacher\authentication;
 
+use Aloha\Twilio\Twilio;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\teacher\authentication\verification;
 use App\Http\Resources\teacherResource;
@@ -40,8 +41,10 @@ class resetPasswored extends Controller
         
         // code is important in send mail 
         $code = $this->createCode($request->phone);
-        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
-        // $twilio->message('+2001151504348', 'your code is ' . $code);
+
+        $response =  $this->send_message('+20', $request->phone , 'your code is ' . $code);
+        if($response != 1)
+            return response::faild($response, 400, 'E00');
 
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }

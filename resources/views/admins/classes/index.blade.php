@@ -55,6 +55,7 @@
                                     <th>long</th>
                                     <th>student count</th>
                                     <th>start at</th>
+                                    <th>action</th>
                                 </tr>
                             </thead>
 
@@ -67,6 +68,16 @@
                                         <td>{{$class->Class_type->long}}</td>
                                         <td>{{count($class->Student_classes)}}</td>
                                         <td>{{$class->from}}</td>
+                                        <td>
+                                            @if ($class->join() == True)
+                                                <a href="{{url('admins/agora/join/'. $class->id)}}"  target="_blank" style="color: #fff;
+                                                    background-color: #17a2b8;
+                                                    border-color: #17a2b8;" rel="tooltip" title="" class="btn btn-info btn-sm "
+                                                        data-original-title="edit">
+                                                        {{ trans('admin.join') }}</i>
+                                                </a>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

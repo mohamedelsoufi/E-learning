@@ -18,7 +18,6 @@ class verification extends Controller
 {
     use response;
     ////////sent email /////////////
-
     public function sendCode(Request $request){
         if (! $student = auth('student')->user()) {
             return $this::faild(trans('auth.student not found'), 404, 'E04');
@@ -29,8 +28,10 @@ class verification extends Controller
         
         // code is important in send mail 
         $code = $this->createCode($student->phone);
-        // $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
-        // $twilio->message('+2001151504348', 'your code is ' . $code);
+
+        $response =  $this->send_message('+20', $student->phone , 'your code is ' . $code);
+        if($response != 1)
+            return response::faild($response, 400, 'E00');
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }

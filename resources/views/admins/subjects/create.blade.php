@@ -37,7 +37,7 @@
                                 <label>terms</label>
                                 <select name="term_id" class="form-control">
                                     @foreach ($terms as $term)
-                                        <option value="{{$term->id}}" @if ($term_id == $term->id) selected @endif>{{$term->translate(LaravelLocalization::getCurrentLocale())elLocalization::getCurrentLocale())->name}}</option>
+                                        <option value="{{$term->id}}" @if ($term_id == $term->id) selected @endif>{{$term->translate(LaravelLocalization::getCurrentLocale())->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('terms_id')

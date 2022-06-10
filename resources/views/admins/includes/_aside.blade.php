@@ -124,6 +124,10 @@
                     <a href="{{url('admins/classes')}}"><i class="fa fa-users"></i><span>{{ trans('admin.classes') }}</span></a>
                 </li>
             @endif
+
+            <li class="{{(request()->is('*/admins/contact_us') || request()->is('*/admins/contact_us/*'))? 'active':''}}">
+                <a href="{{url('admins/contact_us')}}"><i class="fa fa-users"></i><span>{{ trans('admin.contact us') }}</span></a>
+            </li>
         </ul>
     </section>
 </aside>

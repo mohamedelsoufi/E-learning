@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\site\teacher\authentication;
 
+use Aloha\Twilio\Twilio;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\site\teacher\authentication\verification;
 use App\Http\Resources\teacherResource;
@@ -144,7 +145,11 @@ class auth extends Controller
         $token = JWTAuth::fromUser($teacher);
 
         //send verification code
-        $this->verification->createCode($request->get('phone'));
+        $code = $this->verification->createCode($request->get('phone'));
+
+        $response =  $this->send_message('+20', $teacher->phone , 'your code is ' . $code);
+        if($response != 1)
+            return response::faild($response, 400, 'E00');
 
         //response
         return response()->json([

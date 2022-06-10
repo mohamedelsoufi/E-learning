@@ -32,6 +32,8 @@ Route::group(
         Route::group(['middleware' => 'auth:admin'], function () {
             Route::get('/', 'App\Http\Controllers\admin\dashbourd@index');
             Route::get('/logout', 'App\Http\Controllers\admin\authentication@logout');
+            Route::get('/agora/join/{id}', 'App\Http\Controllers\admin\classes@join')->middleware('adminPermations:read-classes');
+
             
             Route::group(['prefix' => 'admins'],function(){
                 Route::get('/', 'App\Http\Controllers\admin\admins@index')->middleware('adminPermations:read-admins');
@@ -49,6 +51,11 @@ Route::group(
                 Route::post('/create', 'App\Http\Controllers\admin\roles@create')->middleware('adminPermations:create-roles');
                 Route::get('/edit/{id}', 'App\Http\Controllers\admin\roles@editView')->middleware('adminPermations:update-roles');
                 Route::post('/edit/{id}', 'App\Http\Controllers\admin\roles@edit')->middleware('adminPermations:update-roles');
+            });
+
+            Route::group(['prefix' => 'contact_us'], function(){
+                Route::get('/', 'App\Http\Controllers\admin\contactUs@index');
+                Route::get('/delete/{id}', 'App\Http\Controllers\admin\contactUs@destroy');
             });
 
             Route::group(['prefix' => 'countries'],function(){

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Available_class extends Model
 {
@@ -45,6 +46,34 @@ class Available_class extends Model
 
     public function Video_calls(){
         return $this->hasMany(Video_call::class, 'available_class_id');
+    }
+
+    public function dateCome(){
+        $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->from);
+        $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', now());
+
+        if($this->from > date('Y-m-d H:i:s')){
+            ($to->diffInMinutes($from) <= 5)? $time_now = 1:  $time_now = 0; //if there are less than 5 minutes for class
+        } else {
+            $time_now = 1; //date already come
+        }        
+
+        return $time_now;
+    }
+
+    public function hasBookings(){
+        if(DB::table('student_class')->where('available_class_id', $this->id)->count() == 0)
+            return false;
+
+        return true;
+    }
+
+    public function join(){
+        if($this->agora_token != Null && $this->dateCome() == 1 && $this->hasBookings() == true && ($this->to > date('Y-m-d H:i:s'))){
+            return true;
+        }
+
+        return false;
     }
     //scope
     public function scopeActive($query)

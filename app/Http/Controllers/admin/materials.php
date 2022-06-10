@@ -48,7 +48,7 @@ class materials extends Controller
 
         //delete file
         $file = $material->File->src;
-
+        
         if(file_exists(base_path('public/uploads/materials/') . $file)){
             unlink(base_path('public/uploads/materials/') . $file);
         }
