@@ -14,6 +14,7 @@ use App\Http\Resources\subjectsResource;
 use App\Http\Resources\teacher_classesTypeResourc;
 use App\Models\Answer;
 use App\Models\Class_type;
+use App\Models\Contact_us;
 use App\Models\Country;
 use App\Models\Curriculum;
 use App\Models\Main_subject;
@@ -253,6 +254,12 @@ class home extends Controller
             'email'       => 'required|string',
             'title'       => 'required|string',
             'content'     => 'required|string',
+        ]);
+
+        Contact_us::create([
+            'email' => $request->email,
+            'title' => $request->title,
+            'content' => $request->content,
         ]);
 
         if($validator->fails())

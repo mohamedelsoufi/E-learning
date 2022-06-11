@@ -30,8 +30,6 @@ class verification extends Controller
         $code = $this->createCode($student->phone);
 
         $response =  $this->send_message('+20', $student->phone , 'your code is ' . $code);
-        if($response != 1)
-            return response::faild($response, 400, 'E00');
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }

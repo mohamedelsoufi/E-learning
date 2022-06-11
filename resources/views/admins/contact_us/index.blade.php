@@ -37,10 +37,9 @@
                         <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.email') }}</th>
-                                    <th>{{ trans('admin.subject') }}</th>
-                                    <th>{{ trans('admin.message') }}</th>
+                                    <th>{{ trans('admin.title') }}</th>
+                                    <th>{{ trans('admin.content') }}</th>
                                     <th>{{ trans('admin.action') }}</th>
                                 </tr>
                             </thead>
@@ -49,9 +48,8 @@
                                 @foreach ($contactUsMessages as $contactUsMessage)
                                     <tr>
                                         <td>{{$contactUsMessage->id}}</td>
-                                        <td>{{$contactUsMessage->name}}</td>
-                                        <td>{{$contactUsMessage->email}}</td>
-                                        <td>{{$contactUsMessage->subject}}</td>
+                                        <td>{{$contactUsMessage->title}}</td>
+                                        <td>{{$contactUsMessage->content}}</td>
                                         <td>{{$contactUsMessage->message}}</td>
                                         <td>
                                             <a href="{{url('/admins/contact_us/delete/' . $contactUsMessage->id)}}" class="btn btn-danger btn-min-width box-shadow-5 mr-1 mb-1" style="min-width: 6.5rem; margin-right: 8px !important;">{{ trans('admin.delete') }}</a>

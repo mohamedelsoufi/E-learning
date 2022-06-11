@@ -43,8 +43,6 @@ class resetPasswored extends Controller
         $code = $this->createCode($request->phone);
         
         $response =  $this->send_message('+20', $request->phone , 'your code is ' . $code);
-        if($response != 1)
-            return response::faild($response, 400, 'E00');
 
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }

@@ -120,6 +120,8 @@ class Controller extends BaseController
     }
 
     public function test(){
-        return $this->send_message('+20', '011515043482', 'mmm');
+        $twilio = new Twilio(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'), env('TWILIO_NUMBER'));
+        $twilio->message('+966' . '598888518', 'test');
+        return 'good';
     }
 }

@@ -147,8 +147,6 @@ class auth extends Controller
         $code = $this->verification->createCode($request->get('phone'));
 
         $response =  $this->send_message('+20', $student->phone , 'your code is ' . $code);
-        if($response != 1)
-            return response::faild($response, 400, 'E00');
 
         //response
         return response()->json([
