@@ -21,8 +21,6 @@ return [
     'delete'=>'حذف',
     'password'=>'كلمه المرور',
     'save'=>'حفظ',
-
-
     'female'    => 'انثي',
     'male'      => 'ذكر',
     'block'     => 'حظر',
@@ -109,5 +107,6 @@ return [
     'long'=>'المده',
     'minutes cost'=>'تكلفه الدقيقه',
     'classes count'=>'عدد الحصص',
-
+    'join'=>'دخول',
+    'contact us'=>'تواصل معنا',
 ];

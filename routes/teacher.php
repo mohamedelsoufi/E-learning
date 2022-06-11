@@ -88,7 +88,7 @@ Route::group(['middleware' => ['changeLang'] ,'prefix' => 'teachers'], function(
 
         Route::group(['prefix' => 'notifications'], function(){
             Route::get('/', 'App\Http\Controllers\site\teacher\notificaitons@index');
-            Route::get('/pagination', 'App\Http\Controllers\site\teacher\notificaitons@index_paginate');
+            Route::get('/pagination', 'App\Http\Controllers\site\teacher\notificaitons@index_pagination');
             Route::get('/notifications-count', 'App\Http\Controllers\site\teacher\notificaitons@notification_count');
         });
 

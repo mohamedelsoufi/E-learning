@@ -235,7 +235,7 @@ class home extends Controller
 
     public function booking_notigication($student, $available_class,$request){
         $title = 'تم الحجز';
-        $body = $available_class->from . ' حصه بتاريخ ' . $student->username . ' حجذ';
+        $body = ' حصة ' . $student->username . ' حجذ';
 
         //create notification to teacher
         $teacher_notification = Teacher_notification::create([
