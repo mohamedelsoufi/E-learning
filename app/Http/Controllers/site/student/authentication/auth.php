@@ -146,7 +146,7 @@ class auth extends Controller
         //send verification code
         $code = $this->verification->createCode($request->get('phone'));
 
-        $response =  $this->send_message('+20', $student->phone , 'your code is ' . $code);
+        $response =  $this->send_message($student->dialing_code , $student->phone , 'your code is ' . $code);
 
         //response
         return response()->json([

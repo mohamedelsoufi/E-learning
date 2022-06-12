@@ -29,7 +29,7 @@ class verification extends Controller
         // code is important in send mail 
         $code = $this->createCode($student->phone);
 
-        $response =  $this->send_message('+20', $student->phone , 'your code is ' . $code);
+        $response =  $this->send_message($student->dialing_code , $student->phone , 'your code is ' . $code);
 
         return $this::success(trans('auth.send verify code success, please check your phone.'), 200);
     }

@@ -35,14 +35,15 @@ class resetPasswored extends Controller
             return $this::faild($validator->errors()->first(), 403);
         }
         
-        if (!$this->validatePhone($request->phone)) {
+        if (!$this->validatePhone($request->phone))
             return $this::faild(trans('auth.phone not found'), 404, 'E04');
-        }
-        
+
+        $teacher = Teacher::where('phone', $request->phone)->first();
+
         // code is important in send mail 
         $code = $this->createCode($request->phone);
 
-        $response =  $this->send_message('+20', $request->phone , 'your code is ' . $code);
+        $response =  $this->send_message($teacher->dialing_code, $request->phone , 'your code is ' . $code);
 
         return $this::success(trans('auth.send reset password code success, please check your phone.'), 200);
     }
